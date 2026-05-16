@@ -333,3 +333,85 @@ footer {
 .footer-links a:hover {
   color: var(--color-accent);
 }
+/* --- Blog & Admin Responsive Layouts --- */
+.blog-layout {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 3rem;
+  position: relative;
+}
+
+@media (max-width: 1024px) {
+  .blog-layout {
+    grid-template-columns: 1fr;
+  }
+  
+  .blog-sidebar {
+    order: -1; /* Sidebar moves to top on mobile */
+  }
+}
+
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+  background: #f8fafc;
+  flex-direction: row;
+}
+
+.admin-sidebar {
+  width: 280px;
+  background: var(--color-primary);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition);
+}
+
+.admin-content {
+  flex: 1;
+  padding: 3rem;
+  overflow-y: auto;
+  height: 100vh;
+}
+
+@media (max-width: 768px) {
+  .admin-layout {
+    flex-direction: column;
+  }
+  
+  .admin-sidebar {
+    width: 100%;
+    height: auto;
+  }
+  
+  .admin-sidebar-nav {
+    flex-direction: row !important;
+    overflow-x: auto;
+    padding: 0.5rem !important;
+  }
+  
+  .admin-sidebar-nav button {
+    white-space: nowrap;
+    padding: 0.75rem 1rem !important;
+    font-size: 0.85rem;
+  }
+  
+  .admin-content {
+    padding: 1.5rem;
+    height: auto;
+  }
+  
+  .admin-sidebar-header {
+    padding: 1rem !important;
+    text-align: center;
+  }
+}
+
+/* Glassmorphism Sidebar */
+.glass-sidebar {
+  background: white;
+  padding: 2rem;
+  border-radius: 24px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+  border: 1px solid var(--color-border);
+}
