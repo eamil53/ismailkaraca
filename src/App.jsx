@@ -209,6 +209,7 @@ const BlogPage = () => {
   const [blogs, setBlogs] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("Hepsi");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -219,6 +220,7 @@ const BlogPage = () => {
       
       if (error) console.error('Error fetching blogs:', error);
       else setBlogs(data || []);
+      setLoading(false);
     };
 
     fetchBlogs();
@@ -288,7 +290,12 @@ const BlogPage = () => {
           <div
             style={{ display: "flex", flexDirection: "column", gap: "2rem" }}
           >
-            {filteredBlogs.length === 0 ? (
+            {loading ? (
+              <div style={{ textAlign: "center", padding: "5rem 2rem" }}>
+                <div className="spinner" style={{ margin: "0 auto 1.5rem" }}></div>
+                <p style={{ color: "var(--color-text-muted)" }}>Yazılar yükleniyor...</p>
+              </div>
+            ) : filteredBlogs.length === 0 ? (
               <div
                 style={{
                   textAlign: "center",
@@ -584,9 +591,11 @@ const BlogPage = () => {
 const BlogPostPage = ({ id }) => {
   const [blog, setBlog] = useState(null);
   const [recentBlogs, setRecentBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchPost = async () => {
+      setLoading(true);
       const { data: blogData, error: blogError } = await supabase
         .from('blogs')
         .select('*')
@@ -606,11 +615,28 @@ const BlogPostPage = ({ id }) => {
         
         setRecentBlogs(recentData || []);
       }
+      setLoading(false);
     };
 
     fetchPost();
     window.scrollTo(0, 0);
   }, [id]);
+
+  if (loading)
+    return (
+      <div
+        style={{
+          minHeight: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div className="spinner" style={{ marginBottom: "1rem" }}></div>
+        <p style={{ color: "var(--color-text-muted)" }}>İçerik yükleniyor...</p>
+      </div>
+    );
 
   if (!blog)
     return (
