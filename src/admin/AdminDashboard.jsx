@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
 import { PenTool, Calendar, LogOut, Plus, Trash2 } from 'lucide-react';
+import { supabase } from '../supabaseClient';
 
 const AdminDashboard = ({ onLogout }) => {
   const [activeTab, setActiveTab] = useState('blog');
@@ -47,7 +47,7 @@ const AdminDashboard = ({ onLogout }) => {
 };
 
 const BlogManager = () => {
-  const [posts, setPosts] = useState(() => JSON.parse(localStorage.getItem('karaca_blogs')) || []);
+  const [posts, setPosts] = useState([]);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [category, setCategory] = useState('Genel');
@@ -55,28 +55,50 @@ const BlogManager = () => {
   const categories = ["Genel", "Ceza Hukuku", "Aile Hukuku", "Gayrimenkul Hukuku", "İş Hukuku", "Tazminat Hukuku", "İcra Hukuku"];
 
   useEffect(() => {
-    localStorage.setItem('karaca_blogs', JSON.stringify(posts));
-  }, [posts]);
+    fetchPosts();
+  }, []);
 
-  const handleAddPost = (e) => {
+  const fetchPosts = async () => {
+    const { data, error } = await supabase
+      .from('blogs')
+      .select('*')
+      .order('created_at', { ascending: false });
+    
+    if (error) console.error('Error fetching posts:', error);
+    else setPosts(data || []);
+  };
+
+  const handleAddPost = async (e) => {
     e.preventDefault();
     if (!title || !content) return;
     
-    const newPost = {
-      id: Date.now().toString(),
-      title,
-      content,
-      category,
-      date: new Date().toLocaleDateString('tr-TR')
-    };
-    setPosts([newPost, ...posts]);
-    setTitle('');
-    setContent('');
-    setCategory('Genel');
+    const { error } = await supabase
+      .from('blogs')
+      .insert([{ 
+        title, 
+        content, 
+        category, 
+        date: new Date().toLocaleDateString('tr-TR') 
+      }]);
+
+    if (error) {
+      alert('Ekleme hatası: ' + error.message);
+    } else {
+      setTitle('');
+      setContent('');
+      setCategory('Genel');
+      fetchPosts();
+    }
   };
 
-  const handleDelete = (id) => {
-    setPosts(posts.filter(p => p.id !== id));
+  const handleDelete = async (id) => {
+    const { error } = await supabase
+      .from('blogs')
+      .delete()
+      .eq('id', id);
+    
+    if (error) alert('Silme hatası: ' + error.message);
+    else fetchPosts();
   };
 
   return (
@@ -147,12 +169,30 @@ const BlogManager = () => {
 };
 
 const AppointmentManager = () => {
-  const [appointments, setAppointments] = useState(() => JSON.parse(localStorage.getItem('karaca_appointments')) || []);
+  const [appointments, setAppointments] = useState([]);
 
-  const handleDelete = (id) => {
-    const updated = appointments.filter(a => a.id !== id);
-    setAppointments(updated);
-    localStorage.setItem('karaca_appointments', JSON.stringify(updated));
+  useEffect(() => {
+    fetchAppointments();
+  }, []);
+
+  const fetchAppointments = async () => {
+    const { data, error } = await supabase
+      .from('appointments')
+      .select('*')
+      .order('created_at', { ascending: false });
+    
+    if (error) console.error('Error fetching appointments:', error);
+    else setAppointments(data || []);
+  };
+
+  const handleDelete = async (id) => {
+    const { error } = await supabase
+      .from('appointments')
+      .delete()
+      .eq('id', id);
+    
+    if (error) alert('Silme hatası: ' + error.message);
+    else fetchAppointments();
   };
 
   return (

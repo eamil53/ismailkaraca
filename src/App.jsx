@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import logoImage from "./assets/logo.png";
+import { supabase } from "./supabaseClient";
 import AdminLogin from "./admin/AdminLogin";
 import AdminDashboard from "./admin/AdminDashboard";
 import {
@@ -210,14 +211,23 @@ const BlogPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("Hepsi");
 
   useEffect(() => {
-    const savedBlogs = JSON.parse(localStorage.getItem("karaca_blogs")) || [];
-    setBlogs(savedBlogs);
+    const fetchBlogs = async () => {
+      const { data, error } = await supabase
+        .from('blogs')
+        .select('*')
+        .order('created_at', { ascending: false });
+      
+      if (error) console.error('Error fetching blogs:', error);
+      else setBlogs(data || []);
+    };
+
+    fetchBlogs();
     window.scrollTo(0, 0);
   }, []);
 
   const categories = [
     "Hepsi",
-    ...new Set(blogs.map((b) => b.category || "Genel")),
+    "Ceza Hukuku", "Aile Hukuku", "Gayrimenkul Hukuku", "İş Hukuku", "Tazminat Hukuku", "İcra Hukuku"
   ];
 
   const filteredBlogs = blogs.filter((blog) => {
@@ -576,10 +586,29 @@ const BlogPostPage = ({ id }) => {
   const [recentBlogs, setRecentBlogs] = useState([]);
 
   useEffect(() => {
-    const savedBlogs = JSON.parse(localStorage.getItem("karaca_blogs")) || [];
-    const found = savedBlogs.find((b) => b.id === id);
-    setBlog(found);
-    setRecentBlogs(savedBlogs.filter((b) => b.id !== id).slice(0, 3));
+    const fetchPost = async () => {
+      const { data: blogData, error: blogError } = await supabase
+        .from('blogs')
+        .select('*')
+        .eq('id', id)
+        .single();
+      
+      if (blogError) {
+        console.error('Error fetching blog:', blogError);
+      } else {
+        setBlog(blogData);
+        
+        const { data: recentData } = await supabase
+          .from('blogs')
+          .select('*')
+          .neq('id', id)
+          .limit(3);
+        
+        setRecentBlogs(recentData || []);
+      }
+    };
+
+    fetchPost();
     window.scrollTo(0, 0);
   }, [id]);
 
@@ -1200,25 +1229,25 @@ const AppointmentPage = () => {
 
           {/* Form */}
           <form
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               e.preventDefault();
               const formData = new FormData(e.target);
-              const newApp = {
-                id: Date.now().toString(),
-                name: formData.get("name"),
-                phone: formData.get("phone"),
-                category: formData.get("category"),
-                date: formData.get("date"),
-                type: formData.get("type"),
-                note: formData.get("note"),
-              };
-              const existing =
-                JSON.parse(localStorage.getItem("karaca_appointments")) || [];
-              localStorage.setItem(
-                "karaca_appointments",
-                JSON.stringify([newApp, ...existing]),
-              );
-              setShowSuccess(true);
+              const { error } = await supabase
+                .from('appointments')
+                .insert([{
+                  name: formData.get('name'),
+                  phone: formData.get('phone'),
+                  category: formData.get('category'),
+                  date: formData.get('date'),
+                  type: formData.get('type'),
+                  note: formData.get('note')
+                }]);
+
+              if (error) {
+                alert('Gönderim hatası: ' + error.message);
+              } else {
+                setShowSuccess(true);
+              }
             }}
             style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
           >
