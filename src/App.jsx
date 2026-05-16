@@ -1695,9 +1695,64 @@ const App = () => {
                   Randevu Planla
                 </button>
               </div>
+              <div className="mobile-header-actions" style={{ alignItems: 'center', gap: '0.75rem' }}>
+                <button 
+                  className="btn btn-primary" 
+                  style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem', borderRadius: '6px' }}
+                  onClick={() => { setIsMenuOpen(false); window.location.hash = 'randevu'; }}
+                >
+                  Randevu
+                </button>
+                <button
+                  className="mobile-menu-btn"
+                  onClick={() => setIsMenuOpen(!isMenuOpen)}
+                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                >
+                  {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+                </button>
+              </div>
             </div>
           </nav>
+
+          {/* Mobile Menu Overlay for Blog */}
+          <AnimatePresence>
+            {isMenuOpen && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                style={{
+                  position: 'fixed',
+                  top: '65px',
+                  left: 0,
+                  width: '100%',
+                  background: 'rgba(255, 255, 255, 0.98)',
+                  backdropFilter: 'blur(10px)',
+                  zIndex: 999,
+                  boxShadow: '0 10px 20px rgba(0,0,0,0.05)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  overflow: 'hidden',
+                  borderBottom: '1px solid var(--color-border)'
+                }}
+              >
+                <div style={{ padding: '2rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                  {["Ana Sayfa", "Hakkımızda", "Hizmetlerimiz", "Blog", "İletişim"].map((item) => (
+                    <a
+                      key={item}
+                      href={item === "Ana Sayfa" ? "#" : `#${item.toLowerCase().replace("ı", "i").replace(" ", "")}`}
+                      onClick={() => setIsMenuOpen(false)}
+                      style={{ textDecoration: 'none', color: 'var(--color-primary)', fontSize: '1.1rem', fontWeight: 600, borderBottom: '1px solid var(--color-border)', paddingBottom: '0.75rem' }}
+                    >
+                      {item}
+                    </a>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
           <BlogPage />
+          <WhatsAppWidget />
         </div>
       </>
     );
@@ -1745,9 +1800,64 @@ const App = () => {
                   Randevu Planla
                 </button>
               </div>
+              <div className="mobile-header-actions" style={{ alignItems: 'center', gap: '0.75rem' }}>
+                <button 
+                  className="btn btn-primary" 
+                  style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem', borderRadius: '6px' }}
+                  onClick={() => { setIsMenuOpen(false); window.location.hash = 'randevu'; }}
+                >
+                  Randevu
+                </button>
+                <button
+                  className="mobile-menu-btn"
+                  onClick={() => setIsMenuOpen(!isMenuOpen)}
+                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                >
+                  {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+                </button>
+              </div>
             </div>
           </nav>
+
+          {/* Mobile Menu Overlay for Blog Post */}
+          <AnimatePresence>
+            {isMenuOpen && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                style={{
+                  position: 'fixed',
+                  top: '65px',
+                  left: 0,
+                  width: '100%',
+                  background: 'rgba(255, 255, 255, 0.98)',
+                  backdropFilter: 'blur(10px)',
+                  zIndex: 999,
+                  boxShadow: '0 10px 20px rgba(0,0,0,0.05)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  overflow: 'hidden',
+                  borderBottom: '1px solid var(--color-border)'
+                }}
+              >
+                <div style={{ padding: '2rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                  {["Ana Sayfa", "Hakkımızda", "Hizmetlerimiz", "Blog", "İletişim"].map((item) => (
+                    <a
+                      key={item}
+                      href={item === "Ana Sayfa" ? "#" : `#${item.toLowerCase().replace("ı", "i").replace(" ", "")}`}
+                      onClick={() => setIsMenuOpen(false)}
+                      style={{ textDecoration: 'none', color: 'var(--color-primary)', fontSize: '1.1rem', fontWeight: 600, borderBottom: '1px solid var(--color-border)', paddingBottom: '0.75rem' }}
+                    >
+                      {item}
+                    </a>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
           <BlogPostPage id={postId} />
+          <WhatsAppWidget />
         </div>
       </>
     );
