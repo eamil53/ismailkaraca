@@ -270,15 +270,18 @@ h1, h2, h3, h4, h5, h6 {
 
 /* --- Mobile Specifics --- */
 .mobile-menu-btn {
-  display: none;
   background: none;
   border: none;
   color: var(--color-primary);
   cursor: pointer;
 }
 
+.mobile-header-actions {
+  display: none !important;
+}
+
 @media (max-width: 768px) {
-  .mobile-menu-btn { display: block; }
+  .mobile-header-actions { display: flex !important; }
   .section { padding: 4rem 0; }
   .section-title { font-size: 2rem; }
   .practice-grid { grid-template-columns: 1fr; }
