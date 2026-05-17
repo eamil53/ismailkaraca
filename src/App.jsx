@@ -1,7 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import emailjs from '@emailjs/browser';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
 import logoImage from "./assets/logo.png";
+
+// Custom Leaflet Marker Icon
+const customIcon = new L.DivIcon({
+  className: 'custom-pin',
+  html: `<div style="background-color: var(--color-accent); width: 40px; height: 40px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); display: flex; align-items: center; justify-content: center; border: 3px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
+           <div style="transform: rotate(45deg); color: white; display: flex; align-items: center; justify-content: center;">
+             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+           </div>
+         </div>`,
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+  popupAnchor: [0, -40]
+});
+
 import { supabase } from "./supabaseClient";
 import AdminLogin from "./admin/AdminLogin";
 import AdminDashboard from "./admin/AdminDashboard";
@@ -2475,6 +2492,34 @@ const App = () => {
                       avismailkaraca@gmail.com
                     </p>
                   </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "1.5rem",
+                      alignItems: "flex-start",
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: "50px",
+                        height: "50px",
+                        background: "var(--color-bg-light)",
+                        borderRadius: "50%",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: "var(--color-primary)",
+                        flexShrink: 0
+                      }}
+                    >
+                      <MapPin size={20} />
+                    </div>
+                    <p style={{ fontWeight: "600", lineHeight: "1.6" }}>
+                      Çarşı Mah. Kazım Karabekir Cad.<br/>
+                      Kuyumcular Sk. Kutlu Han Kat:3 No:407<br/>
+                      Merkez/RİZE
+                    </p>
+                  </div>
                 </div>
               </motion.div>
 
@@ -2578,6 +2623,67 @@ const App = () => {
               </motion.div>
             </div>
           </div>
+
+          {/* Custom Interactive Map */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            style={{ 
+              width: "100%", 
+              height: "450px", 
+              marginTop: "5rem",
+              borderRadius: "24px",
+              overflow: "hidden",
+              boxShadow: "0 10px 30px rgba(0,0,0,0.1)",
+              border: "1px solid var(--color-border)",
+              zIndex: 0,
+              position: "relative"
+            }}
+          >
+            <MapContainer 
+              center={[41.02445836843119, 40.518543870827614]} 
+              zoom={16} 
+              scrollWheelZoom={false}
+              style={{ height: "100%", width: "100%", zIndex: 1 }}
+            >
+              <TileLayer
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+              />
+              <Marker position={[41.02445836843119, 40.518543870827614]} icon={customIcon}>
+                <Popup className="custom-popup">
+                  <div style={{ textAlign: "center", padding: "0.5rem" }}>
+                    <h3 style={{ fontFamily: "'Playfair Display', serif", color: "var(--color-primary)", margin: "0 0 0.5rem 0", fontSize: "1.1rem" }}>Karaca Hukuk ve Danışmanlık</h3>
+                    <p style={{ margin: "0 0 1rem 0", color: "var(--color-text-muted)", fontSize: "0.85rem", lineHeight: "1.4" }}>
+                      Çarşı Mah. Kazım Karabekir Cad.<br/>
+                      Kuyumcular Sk. Kutlu Han Kat:3 No:407<br/>
+                      Merkez/RİZE
+                    </p>
+                    <a 
+                      href="https://www.google.com/maps/dir/?api=1&destination=41.02445836843119,40.518543870827614" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      style={{
+                        display: "inline-block",
+                        background: "var(--color-accent)",
+                        color: "white",
+                        padding: "0.5rem 1rem",
+                        borderRadius: "8px",
+                        textDecoration: "none",
+                        fontSize: "0.85rem",
+                        fontWeight: "600",
+                        boxShadow: "0 2px 5px rgba(0,0,0,0.1)"
+                      }}
+                    >
+                      Yol Tarifi Al
+                    </a>
+                  </div>
+                </Popup>
+              </Marker>
+            </MapContainer>
+          </motion.div>
         </section>
 
         {/* Footer */}
