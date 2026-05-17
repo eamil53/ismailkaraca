@@ -946,7 +946,7 @@ const WhatsAppWidget = () => {
   const handleSend = (e) => {
     e.preventDefault();
     if (!message.trim()) return;
-    const url = `https://wa.me/905337308053?text=${encodeURIComponent(message)}`;
+    const url = `https://wa.me/message/HPSVXCJVFBABC1`;
     window.open(url, "_blank");
     setMessage("");
     setIsOpen(false);
@@ -1669,8 +1669,7 @@ const AppointmentPage = () => {
                 {lastAppointment && (
                   <button
                     onClick={() => {
-                      const msg = `Merhaba, ben ${lastAppointment.name}. Web siteniz üzerinden ${lastAppointment.category || 'Hukuki Danışmanlık'} konusu için ${lastAppointment.date ? lastAppointment.date + ' tarihinde' : ''} bir randevu talebi oluşturdum. Detayları görüşmek isterim.`;
-                      window.open(`https://wa.me/905337308053?text=${encodeURIComponent(msg)}`, '_blank');
+                      window.open(`https://wa.me/message/HPSVXCJVFBABC1`, '_blank');
                     }}
                     className="btn btn-primary"
                     style={{
