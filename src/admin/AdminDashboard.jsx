@@ -132,6 +132,7 @@ const BlogManager = () => {
   const [category, setCategory] = useState('Genel');
   const [loading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [editingPostId, setEditingPostId] = useState(null);
   
   // Custom Category States
   const defaultCategories = ["Genel", "Ceza Hukuku", "Aile Hukuku", "Gayrimenkul Hukuku", "İş Hukuku", "Tazminat Hukuku", "İcra Hukuku"];
@@ -163,6 +164,31 @@ const BlogManager = () => {
     setLoading(false);
   };
 
+  const handleEditClick = (post) => {
+    setEditingPostId(post.id);
+    setTitle(post.title);
+    setContent(post.content);
+    
+    if (!defaultCategories.includes(post.category)) {
+      setIsCustomCategory(true);
+      setCustomCategoryText(post.category);
+      setCategory('NEW_CUSTOM_CATEGORY');
+    } else {
+      setIsCustomCategory(false);
+      setCategory(post.category);
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const resetForm = () => {
+    setTitle('');
+    setContent('');
+    setCategory('Genel');
+    setIsCustomCategory(false);
+    setCustomCategoryText('');
+    setEditingPostId(null);
+  };
+
   const handleAddPost = async (e) => {
     e.preventDefault();
     if (!title || !content) return;
@@ -172,24 +198,40 @@ const BlogManager = () => {
 
     setIsSubmitting(true);
     
-    const { error } = await supabase
-      .from('blogs')
-      .insert([{ 
-        title, 
-        content, 
-        category: finalCategory, 
-        date: new Date().toLocaleDateString('tr-TR') 
-      }]);
-
-    if (error) {
-      alert('Ekleme hatası: ' + error.message);
+    if (editingPostId) {
+      // Güncelleme Modu
+      const { error } = await supabase
+        .from('blogs')
+        .update({ 
+          title, 
+          content, 
+          category: finalCategory 
+        })
+        .eq('id', editingPostId);
+        
+      if (error) {
+        alert('Güncelleme hatası: ' + error.message);
+      } else {
+        resetForm();
+        fetchPosts();
+      }
     } else {
-      setTitle('');
-      setContent('');
-      setCategory('Genel');
-      setIsCustomCategory(false);
-      setCustomCategoryText('');
-      fetchPosts();
+      // Yeni Ekleme Modu
+      const { error } = await supabase
+        .from('blogs')
+        .insert([{ 
+          title, 
+          content, 
+          category: finalCategory, 
+          date: new Date().toLocaleDateString('tr-TR') 
+        }]);
+
+      if (error) {
+        alert('Ekleme hatası: ' + error.message);
+      } else {
+        resetForm();
+        fetchPosts();
+      }
     }
     setIsSubmitting(false);
   };
@@ -215,7 +257,7 @@ const BlogManager = () => {
         {/* Form Section */}
         <div style={{ background: 'white', padding: '2.5rem', borderRadius: '24px', boxShadow: '0 4px 20px rgba(0,0,0,0.03)', border: '1px solid var(--color-border)' }}>
           <h3 style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--color-primary)' }}>
-            <PenTool size={20} color="var(--color-accent)"/> Yeni Makale Oluştur
+            <PenTool size={20} color="var(--color-accent)"/> {editingPostId ? 'Makaleyi Düzenle' : 'Yeni Makale Oluştur'}
           </h3>
           <form onSubmit={handleAddPost} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
             <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1.5rem' }}>
@@ -281,11 +323,21 @@ const BlogManager = () => {
                 required
               />
             </div>
-            
-            <button disabled={isSubmitting} type="submit" className="btn btn-primary" style={{ alignSelf: 'flex-end', display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '1rem 2rem', opacity: isSubmitting ? 0.7 : 1 }}>
-              {isSubmitting ? <Loader2 size={18} className="spinner" style={{ width: '18px', height: '18px', borderLeftColor: 'white' }}/> : <Plus size={18} />} 
-              {isSubmitting ? 'Yayımlanıyor...' : 'Hemen Yayımla'}
-            </button>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
+              {editingPostId && (
+                <button 
+                  type="button" 
+                  onClick={resetForm}
+                  style={{ padding: '1rem 2rem', background: '#f1f5f9', color: '#64748b', border: '1px solid var(--color-border)', borderRadius: '12px', cursor: 'pointer', fontWeight: 600 }}
+                >
+                  Vazgeç
+                </button>
+              )}
+              <button disabled={isSubmitting} type="submit" className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '1rem 2rem', opacity: isSubmitting ? 0.7 : 1 }}>
+                {isSubmitting ? <Loader2 size={18} className="spinner" style={{ width: '18px', height: '18px', borderLeftColor: 'white' }}/> : <Plus size={18} />} 
+                {isSubmitting ? 'Kaydediliyor...' : (editingPostId ? 'Değişiklikleri Kaydet' : 'Hemen Yayımla')}
+              </button>
+            </div>
           </form>
         </div>
 
@@ -306,13 +358,22 @@ const BlogManager = () => {
                 <div key={post.id} style={{ background: 'white', padding: '1.5rem', borderRadius: '20px', border: '1px solid var(--color-border)', display: 'flex', flexDirection: 'column', gap: '1rem', transition: '0.3s', boxShadow: '0 4px 15px rgba(0,0,0,0.02)' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                     <span style={{ fontSize: '0.75rem', background: 'rgba(184, 145, 70, 0.1)', color: 'var(--color-accent)', padding: '0.3rem 0.8rem', borderRadius: '20px', fontWeight: 600 }}>{post.category || 'Genel'}</span>
-                    <button 
-                      onClick={() => handleDelete(post.id)}
-                      style={{ background: '#fee2e2', color: '#ef4444', border: 'none', padding: '0.5rem', borderRadius: '8px', cursor: 'pointer', transition: 'background 0.2s' }}
-                      title="Yazıyı Sil"
-                    >
-                      <Trash2 size={16} />
-                    </button>
+                    <div style={{ display: 'flex', gap: '0.5rem' }}>
+                      <button 
+                        onClick={() => handleEditClick(post)}
+                        style={{ background: '#f1f5f9', color: '#3b82f6', border: 'none', padding: '0.5rem', borderRadius: '8px', cursor: 'pointer', transition: 'background 0.2s' }}
+                        title="Yazıyı Düzenle"
+                      >
+                        <PenTool size={16} />
+                      </button>
+                      <button 
+                        onClick={() => handleDelete(post.id)}
+                        style={{ background: '#fee2e2', color: '#ef4444', border: 'none', padding: '0.5rem', borderRadius: '8px', cursor: 'pointer', transition: 'background 0.2s' }}
+                        title="Yazıyı Sil"
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
                   </div>
                   <h4 style={{ fontSize: '1.1rem', margin: 0, color: 'var(--color-primary)', lineHeight: '1.4' }}>{post.title}</h4>
                   <div style={{ marginTop: 'auto', paddingTop: '1rem', borderTop: '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

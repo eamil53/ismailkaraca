@@ -245,9 +245,10 @@ const BlogPage = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  const defaultCategories = ["Ceza Hukuku", "Aile Hukuku", "Gayrimenkul Hukuku", "İş Hukuku", "Tazminat Hukuku", "İcra Hukuku"];
   const categories = [
     "Hepsi",
-    "Ceza Hukuku", "Aile Hukuku", "Gayrimenkul Hukuku", "İş Hukuku", "Tazminat Hukuku", "İcra Hukuku"
+    ...new Set([...defaultCategories, ...blogs.map(b => b.category).filter(Boolean)])
   ];
 
   const filteredBlogs = blogs.filter((blog) => {
