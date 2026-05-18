@@ -1319,11 +1319,22 @@ const WhatsAppWidget = () => {
     e.preventDefault();
     if (!message.trim()) return;
     
-    // Kısa linkler (wa.me/message/...) statik birer yönlendirme olduğu için dinamik mesaj aktarımını desteklemez.
-    // Kullanıcının yazdığı mesajı WhatsApp sohbetine aktarmak için resmi telefon numaranızı ve mesaj parametresini kullanıyoruz:
     const encodedText = encodeURIComponent(message);
-    const url = `https://wa.me/905337308053?text=${encodedText}`;
-    window.open(url, "_blank");
+    // Mobil derin yönlendirme (deep-link) kayıplarını önlemek için doğrudan 'api.whatsapp.com' genel API'sini kullanıyoruz.
+    // 'wa.me' adresleri mobil cihazlarda 302 yönlendirmesi yaptığı için telefonlardaki WhatsApp uygulaması açılırken
+    // mesaj parametresi (text) işletim sistemi tarafından yolda kırpılabiliyor/yutulabiliyordu.
+    const url = `https://api.whatsapp.com/send?phone=905337308053&text=${encodedText}`;
+    
+    // Mobil Safari, Chrome ve diğer tarayıcılardaki 'Popup Engelleyici' (Popup Blocker) kısıtlamalarını aşmak
+    // ve WhatsApp uygulamasını güvenle tetiklemek için dinamik bir görünmez link oluşturup tetikliyoruz:
+    const link = document.createElement("a");
+    link.href = url;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
     setMessage("");
     setIsOpen(false);
   };
