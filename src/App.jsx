@@ -178,7 +178,7 @@ const Preloader = ({ onFinish }) => {
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.3 }}
         >
-          KARACA HUKUK VE DANIŞMANLIK
+          KARACA HUKUK <span style={{ fontFamily: "sans-serif", color: "var(--color-accent)", fontWeight: "normal" }}>&</span> DANIŞMANLIK
         </motion.h1>
       </motion.div>
       <motion.div
@@ -239,7 +239,7 @@ const AboutPage = () => {
       style={{
         background: "#fcfcfc",
         minHeight: "100vh",
-        paddingTop: "120px",
+        paddingTop: "85px",
         paddingBottom: "100px",
         position: "relative",
       }}
@@ -317,7 +317,72 @@ const AboutPage = () => {
         drift={true}
       />
 
-      <div className="container" style={{ paddingTop: "2rem" }}>
+      <div className="container" style={{ paddingTop: "0", paddingBottom: "1.5rem" }}>
+        {/* Premium Header Title */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          style={{
+            textAlign: "center",
+            marginBottom: "3rem",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <h1
+            style={{
+              fontSize: "clamp(2.2rem, 5vw, 3.2rem)",
+              fontFamily: "'Playfair Display', serif",
+              color: "var(--color-primary)",
+              margin: 0,
+              fontWeight: 700,
+              letterSpacing: "1px",
+              lineHeight: "1.2",
+            }}
+          >
+            Hakkımızda
+          </h1>
+          
+          {/* Premium Gradient Divider */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "100%",
+              maxWidth: "240px",
+              marginTop: "1.2rem",
+              gap: "12px",
+            }}
+          >
+            <div
+              style={{
+                flex: 1,
+                height: "1px",
+                background: "linear-gradient(to right, transparent, var(--color-accent))",
+              }}
+            ></div>
+            <div
+              style={{
+                width: "6px",
+                height: "6px",
+                borderRadius: "50%",
+                background: "var(--color-accent)",
+                boxShadow: "0 0 8px var(--color-accent)",
+              }}
+            ></div>
+            <div
+              style={{
+                flex: 1,
+                height: "1px",
+                background: "linear-gradient(to left, transparent, var(--color-accent))",
+              }}
+            ></div>
+          </div>
+        </motion.div>
+
         {/* Content Grid */}
         <div className="about-wrapper">
           {/* Left Column: Premium Image Wrapper */}
@@ -2277,7 +2342,7 @@ const App = () => {
                   fontSize: "0.85rem",
                 }}
               >
-                © 2026 Karaca Hukuk ve Danışmanlık | Tüm Hakları Saklıdır.
+                © 2026 Karaca Hukuk & Danışmanlık | Tüm Hakları Saklıdır.
               </div>
             </div>
           </footer>
@@ -2782,7 +2847,7 @@ const App = () => {
                   .
                 </h1>
                 <p>
-                  Karaca Hukuk ve Danışmanlık olarak müvekkillerimize şeffaf
+                  Karaca Hukuk & Danışmanlık olarak müvekkillerimize şeffaf
                   iletişim ve başarı odaklı hizmet sunuyoruz.
                 </p>
                 <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
@@ -3262,7 +3327,7 @@ const App = () => {
                         fontSize: "1.1rem",
                       }}
                     >
-                      Karaca Hukuk ve Danışmanlık
+                      Karaca Hukuk <span style={{ fontFamily: "sans-serif", color: "var(--color-accent)" }}>&</span> Danışmanlık
                     </h3>
                     <p
                       style={{
@@ -3320,7 +3385,7 @@ const App = () => {
                 fontSize: "0.85rem",
               }}
             >
-              © 2026 Karaca Hukuk ve Danışmanlık | Tüm Hakları Saklıdır.
+              © 2026 Karaca Hukuk & Danışmanlık | Tüm Hakları Saklıdır.
             </div>
           </div>
         </footer>
