@@ -178,7 +178,17 @@ const Preloader = ({ onFinish }) => {
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.3 }}
         >
-          KARACA HUKUK <span style={{ fontFamily: "sans-serif", color: "var(--color-accent)", fontWeight: "normal" }}>&</span> DANIŞMANLIK
+          KARACA HUKUK{" "}
+          <span
+            style={{
+              fontFamily: "sans-serif",
+              color: "var(--color-accent)",
+              fontWeight: "normal",
+            }}
+          >
+            &
+          </span>{" "}
+          DANIŞMANLIK
         </motion.h1>
       </motion.div>
       <motion.div
@@ -317,7 +327,10 @@ const AboutPage = () => {
         drift={true}
       />
 
-      <div className="container" style={{ paddingTop: "0", paddingBottom: "1.5rem" }}>
+      <div
+        className="container"
+        style={{ paddingTop: "0", paddingBottom: "1.5rem" }}
+      >
         {/* Premium Header Title */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -344,7 +357,7 @@ const AboutPage = () => {
           >
             Hakkımızda
           </h1>
-          
+
           {/* Premium Gradient Divider */}
           <div
             style={{
@@ -361,7 +374,8 @@ const AboutPage = () => {
               style={{
                 flex: 1,
                 height: "1px",
-                background: "linear-gradient(to right, transparent, var(--color-accent))",
+                background:
+                  "linear-gradient(to right, transparent, var(--color-accent))",
               }}
             ></div>
             <div
@@ -377,7 +391,8 @@ const AboutPage = () => {
               style={{
                 flex: 1,
                 height: "1px",
-                background: "linear-gradient(to left, transparent, var(--color-accent))",
+                background:
+                  "linear-gradient(to left, transparent, var(--color-accent))",
               }}
             ></div>
           </div>
@@ -398,7 +413,8 @@ const AboutPage = () => {
                 borderRadius: "24px",
                 overflow: "hidden",
                 border: "1px solid rgba(184, 145, 70, 0.2)",
-                boxShadow: "0 20px 40px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.02)",
+                boxShadow:
+                  "0 20px 40px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.02)",
                 background: "white",
                 padding: "12px",
               }}
@@ -504,7 +520,10 @@ const AboutPage = () => {
                 paddingLeft: "1.2rem",
               }}
             >
-              Rize Barosu’na 588 sicil numarası ile kayıtlı bulunan Avukat İsmail Karaca, dört yıllık hukuk fakültesi eğitiminin ardından avukatlık stajını başarıyla tamamlamış ve akabinde Karaca Hukuk & Danışmanlık’ı kurarak mesleki faaliyetlerine başlamıştır.
+              Rize Barosu’na 588 sicil numarası ile kayıtlı bulunan Avukat
+              İsmail Karaca, dört yıllık hukuk fakültesi eğitiminin ardından
+              avukatlık stajını başarıyla tamamlamış ve akabinde Karaca Hukuk &
+              Danışmanlık’ı kurarak mesleki faaliyetlerine başlamıştır.
             </p>
 
             <p
@@ -515,7 +534,12 @@ const AboutPage = () => {
                 margin: 0,
               }}
             >
-              Karaca Hukuk & Danışmanlık bünyesinde; ceza, aile, miras, gayrimenkul, iş, idare, icra ve sair hukukun çeşitli alanlarında bireysel ve kurumsal müvekkillere yönelik danışmanlık ve avukatlık hizmeti sunulmaktadır. Hukuki uyuşmazlıkların her aşamasında müvekkillerin hak ve menfaatlerini en üst düzeyde koruyan, hızlı, etkin ve sürdürülebilir çözümler üretmek temel yaklaşımımızdır.
+              Karaca Hukuk & Danışmanlık bünyesinde; ceza, aile, miras,
+              gayrimenkul, iş, idare, icra ve sair hukukun çeşitli alanlarında
+              bireysel ve kurumsal müvekkillere yönelik danışmanlık ve avukatlık
+              hizmeti sunulmaktadır. Hukuki uyuşmazlıkların her aşamasında
+              müvekkillerin hak ve menfaatlerini en üst düzeyde koruyan, hızlı,
+              etkin ve sürdürülebilir çözümler üretmek temel yaklaşımımızdır.
             </p>
 
             <p
@@ -526,7 +550,13 @@ const AboutPage = () => {
                 margin: 0,
               }}
             >
-              Bu kapsamda, dava öncesi süreçlerin sağlıklı şekilde yönetilmesi, uyuşmazlıkların mümkün olan en kısa sürede ve en az maliyetle çözüme kavuşturulması; dava ve takip süreçlerinin ise titizlikle yürütülmesi esas alınmaktadır. Her bir dosya, somut olayın özellikleri dikkate alınarak analitik bir yaklaşımla değerlendirilmekte; müvekkillere sürecin her aşamasında açık ve anlaşılır şekilde bilgilendirme yapılmaktadır.
+              Bu kapsamda, dava öncesi süreçlerin sağlıklı şekilde yönetilmesi,
+              uyuşmazlıkların mümkün olan en kısa sürede ve en az maliyetle
+              çözüme kavuşturulması; dava ve takip süreçlerinin ise titizlikle
+              yürütülmesi esas alınmaktadır. Her bir dosya, somut olayın
+              özellikleri dikkate alınarak analitik bir yaklaşımla
+              değerlendirilmekte; müvekkillere sürecin her aşamasında açık ve
+              anlaşılır şekilde bilgilendirme yapılmaktadır.
             </p>
 
             <p
@@ -537,7 +567,13 @@ const AboutPage = () => {
                 margin: 0,
               }}
             >
-              Karaca Hukuk & Danışmanlık, müvekkilleri ile ilişkilerinde karşılıklı güven ve şeffaflık ilkesini benimsemekte; üçüncü kişilere karşı gizlilik yükümlülüğünü titizlikle gözetmekte ve mesleki etik ile ahlak kurallarına sıkı sıkıya bağlı kalarak faaliyet göstermektedir. Müvekkil memnuniyetini esas alan hizmet anlayışı doğrultusunda, hukuki süreçlerin etkin bir şekilde yönetilmesi ve en uygun sonucun elde edilmesi hedeflenmektedir.
+              Karaca Hukuk & Danışmanlık, müvekkilleri ile ilişkilerinde
+              karşılıklı güven ve şeffaflık ilkesini benimsemekte; üçüncü
+              kişilere karşı gizlilik yükümlülüğünü titizlikle gözetmekte ve
+              mesleki etik ile ahlak kurallarına sıkı sıkıya bağlı kalarak
+              faaliyet göstermektedir. Müvekkil memnuniyetini esas alan hizmet
+              anlayışı doğrultusunda, hukuki süreçlerin etkin bir şekilde
+              yönetilmesi ve en uygun sonucun elde edilmesi hedeflenmektedir.
             </p>
 
             {/* Principles Cards */}
@@ -550,9 +586,21 @@ const AboutPage = () => {
               }}
             >
               {[
-                { title: "Gizlilik", desc: "Müvekkil bilgileri üçüncü kişilere karşı en üst düzeyde korunur.", icon: <ShieldCheck size={20} /> },
-                { title: "Şeffaflık", desc: "Her aşamada açık ve net bilgilendirme yapılır.", icon: <CheckCircle2 size={20} /> },
-                { title: "Güven", desc: "Karşılıklı dürüstlük ve mesleki ahlak esas alınır.", icon: <Award size={20} /> }
+                {
+                  title: "Gizlilik",
+                  desc: "Müvekkil bilgileri üçüncü kişilere karşı en üst düzeyde korunur.",
+                  icon: <ShieldCheck size={20} />,
+                },
+                {
+                  title: "Şeffaflık",
+                  desc: "Her aşamada açık ve net bilgilendirme yapılır.",
+                  icon: <CheckCircle2 size={20} />,
+                },
+                {
+                  title: "Güven",
+                  desc: "Karşılıklı dürüstlük ve mesleki ahlak esas alınır.",
+                  icon: <Award size={20} />,
+                },
               ].map((item, idx) => (
                 <div
                   key={idx}
@@ -567,9 +615,28 @@ const AboutPage = () => {
                     gap: "0.5rem",
                   }}
                 >
-                  <div style={{ color: "var(--color-accent)" }}>{item.icon}</div>
-                  <h4 style={{ margin: 0, color: "var(--color-primary)", fontSize: "1.05rem" }}>{item.title}</h4>
-                  <p style={{ margin: 0, color: "var(--color-text-muted)", fontSize: "0.85rem", lineHeight: "1.4" }}>{item.desc}</p>
+                  <div style={{ color: "var(--color-accent)" }}>
+                    {item.icon}
+                  </div>
+                  <h4
+                    style={{
+                      margin: 0,
+                      color: "var(--color-primary)",
+                      fontSize: "1.05rem",
+                    }}
+                  >
+                    {item.title}
+                  </h4>
+                  <p
+                    style={{
+                      margin: 0,
+                      color: "var(--color-text-muted)",
+                      fontSize: "0.85rem",
+                      lineHeight: "1.4",
+                    }}
+                  >
+                    {item.desc}
+                  </p>
                 </div>
               ))}
             </div>
@@ -1318,13 +1385,13 @@ const WhatsAppWidget = () => {
   const handleSend = (e) => {
     e.preventDefault();
     if (!message.trim()) return;
-    
+
     const encodedText = encodeURIComponent(message);
     // Mobil derin yönlendirme (deep-link) kayıplarını önlemek için doğrudan 'api.whatsapp.com' genel API'sini kullanıyoruz.
     // 'wa.me' adresleri mobil cihazlarda 302 yönlendirmesi yaptığı için telefonlardaki WhatsApp uygulaması açılırken
     // mesaj parametresi (text) işletim sistemi tarafından yolda kırpılabiliyor/yutulabiliyordu.
     const url = `https://api.whatsapp.com/send?phone=905337308053&text=${encodedText}`;
-    
+
     // Mobil Safari, Chrome ve diğer tarayıcılardaki 'Popup Engelleyici' (Popup Blocker) kısıtlamalarını aşmak
     // ve WhatsApp uygulamasını güvenle tetiklemek için dinamik bir görünmez link oluşturup tetikliyoruz:
     const link = document.createElement("a");
@@ -2133,15 +2200,15 @@ const App = () => {
 
   useEffect(() => {
     if (!currentHash) return;
-    
+
     // Hash to Section ID mapping for homepage scrolling
     const hashToId = {
       "#hizmetlerimiz": "services",
       "#iletisim": "contact",
       "#about": "about",
-      "#home": "home"
+      "#home": "home",
     };
-    
+
     const targetId = hashToId[currentHash];
     if (targetId) {
       setTimeout(() => {
@@ -2549,7 +2616,9 @@ const App = () => {
                 <a href="#home">Ana Sayfa</a>
                 <a href="#hakkimizda">Hakkımızda</a>
                 <a href="#hizmetlerimiz">Hizmetlerimiz</a>
-                <a href="#blog" style={{ color: "var(--color-accent)" }}>Blog</a>
+                <a href="#blog" style={{ color: "var(--color-accent)" }}>
+                  Blog
+                </a>
                 <a href="#iletisim">İletişim</a>
                 <button
                   className="btn btn-primary"
@@ -2920,7 +2989,7 @@ const App = () => {
                     }}
                   />
                 </div>
-                <motion.div
+                {/* <motion.div
                   initial={{ scale: 0.8, opacity: 0 }}
                   whileInView={{ scale: 1, opacity: 1 }}
                   transition={{ delay: 0.5 }}
@@ -2954,7 +3023,7 @@ const App = () => {
                   >
                     Yıllık Tecrübe
                   </p>
-                </motion.div>
+                </motion.div> */}
               </motion.div>
               <motion.div {...fadeInUp} transition={{ delay: 0.2 }}>
                 <span className="section-tag">Kurumsal Kimliğimiz</span>
@@ -3342,7 +3411,16 @@ const App = () => {
                         fontSize: "1.1rem",
                       }}
                     >
-                      Karaca Hukuk <span style={{ fontFamily: "sans-serif", color: "var(--color-accent)" }}>&</span> Danışmanlık
+                      Karaca Hukuk{" "}
+                      <span
+                        style={{
+                          fontFamily: "sans-serif",
+                          color: "var(--color-accent)",
+                        }}
+                      >
+                        &
+                      </span>{" "}
+                      Danışmanlık
                     </h3>
                     <p
                       style={{
