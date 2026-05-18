@@ -165,9 +165,14 @@ const Preloader = ({ onFinish }) => {
         <motion.h1
           style={{
             color: "white",
-            marginTop: "-1.5rem",
-            letterSpacing: "4px",
-            fontSize: "1.5rem",
+            marginTop: "-1rem",
+            letterSpacing: "clamp(2px, 0.8vw, 5px)",
+            fontSize: "clamp(0.95rem, 4.2vw, 1.6rem)",
+            textAlign: "center",
+            padding: "0 1.5rem",
+            whiteSpace: "nowrap",
+            fontFamily: "'Playfair Display', serif",
+            fontWeight: 500,
           }}
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
