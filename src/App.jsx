@@ -1318,7 +1318,11 @@ const WhatsAppWidget = () => {
   const handleSend = (e) => {
     e.preventDefault();
     if (!message.trim()) return;
-    const url = `https://wa.me/message/HPSVXCJVFBABC1`;
+    
+    // Kısa linkler (wa.me/message/...) statik birer yönlendirme olduğu için dinamik mesaj aktarımını desteklemez.
+    // Kullanıcının yazdığı mesajı WhatsApp sohbetine aktarmak için resmi telefon numaranızı ve mesaj parametresini kullanıyoruz:
+    const encodedText = encodeURIComponent(message);
+    const url = `https://wa.me/905337308053?text=${encodedText}`;
     window.open(url, "_blank");
     setMessage("");
     setIsOpen(false);
@@ -2952,7 +2956,7 @@ const App = () => {
                     color: "var(--color-text-muted)",
                   }}
                 >
-                  Avukat İsmail Karaca tarafından kurulan Karaca Hukuk ve
+                  Avukat İsmail Karaca tarafından kurulan Karaca Hukuk &
                   Danışmanlık; ceza, aile, miras ve gayrimenkul başta olmak
                   üzere hukukun çeşitli alanlarında profesyonel hizmet
                   sunmaktadır.
