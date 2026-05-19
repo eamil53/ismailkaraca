@@ -42,8 +42,44 @@ const getGeoLocation = async () => {
     } catch (e) {}
   }
 
+  // 1. Try ipwho.is (Excellent regional POP mapping for Turkish ISPs, HTTPS free, up to 10k/day)
   try {
-    // ipapi.co is HTTPS free and gives full location
+    const res = await fetch('https://ipwho.is/');
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.success) {
+        const geo = {
+          ip: data.ip || 'Unknown',
+          country: data.country || 'Türkiye',
+          city: data.city || 'Rize'
+        };
+        sessionStorage.setItem('visitor_geo_location', JSON.stringify(geo));
+        return geo;
+      }
+    }
+  } catch (err) {
+    console.warn("ipwho.is failed, trying next provider...", err.message);
+  }
+
+  // 2. Try ipinfo.io (Excellent fallback, HTTPS free, up to 50k/month)
+  try {
+    const res = await fetch('https://ipinfo.io/json');
+    if (res.ok) {
+      const data = await res.json();
+      const geo = {
+        ip: data.ip || 'Unknown',
+        country: data.country === 'TR' ? 'Türkiye' : (data.country || 'Türkiye'),
+        city: data.city || 'Rize'
+      };
+      sessionStorage.setItem('visitor_geo_location', JSON.stringify(geo));
+      return geo;
+    }
+  } catch (err) {
+    console.warn("ipinfo.io failed, trying next provider...", err.message);
+  }
+
+  // 3. Try ipapi.co (Third fallback)
+  try {
     const res = await fetch('https://ipapi.co/json/');
     if (res.ok) {
       const data = await res.json();
@@ -56,7 +92,7 @@ const getGeoLocation = async () => {
       return geo;
     }
   } catch (err) {
-    console.error("Geo fetch error:", err);
+    console.error("All geo IP providers failed:", err);
   }
 
   return { ip: 'Bilinmeyen', country: 'Türkiye', city: 'Rize' };
