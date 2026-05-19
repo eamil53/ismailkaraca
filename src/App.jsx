@@ -23,6 +23,7 @@ const customIcon = new L.DivIcon({
 import { supabase } from "./supabaseClient";
 import AdminLogin from "./admin/AdminLogin";
 import AdminDashboard from "./admin/AdminDashboard";
+import { trackPageView } from "./utils/analytics";
 import {
   Scale,
   ShieldCheck,
@@ -2176,6 +2177,11 @@ const App = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Record page view on load and whenever hash changes
+    trackPageView(currentHash);
+  }, [currentHash]);
 
   useEffect(() => {
     const handleHashChange = () => setCurrentHash(window.location.hash);

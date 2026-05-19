@@ -1,6 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { PenTool, Calendar, LogOut, Plus, Trash2, LayoutDashboard, FileText, Users, Phone, Loader2, ArrowRight } from 'lucide-react';
+import { 
+  PenTool, 
+  Calendar, 
+  LogOut, 
+  Plus, 
+  Trash2, 
+  LayoutDashboard, 
+  FileText, 
+  Users, 
+  Phone, 
+  Loader2, 
+  ArrowRight,
+  Activity,
+  TrendingUp,
+  Clock,
+  Globe,
+  Laptop,
+  MapPin,
+  Eye,
+  RefreshCw
+} from 'lucide-react';
 import { supabase } from '../supabaseClient';
+import { fetchAnalyticsStats } from '../utils/analytics';
 
 const AdminDashboard = ({ onLogout }) => {
   const [activeTab, setActiveTab] = useState('overview');
@@ -38,6 +59,12 @@ const AdminDashboard = ({ onLogout }) => {
           >
             <Calendar size={20} /> Randevular
           </button>
+          <button 
+            onClick={() => setActiveTab('analytics')}
+            style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '1rem 1.2rem', background: activeTab === 'analytics' ? 'var(--color-accent)' : 'transparent', border: 'none', color: activeTab === 'analytics' ? 'white' : '#cbd5e1', borderRadius: '12px', cursor: 'pointer', textAlign: 'left', transition: '0.3s', fontWeight: activeTab === 'analytics' ? '600' : '400' }}
+          >
+            <Activity size={20} /> Ziyaretçi Analizi
+          </button>
         </div>
         
         <div style={{ padding: '1.5rem', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
@@ -61,24 +88,52 @@ const AdminDashboard = ({ onLogout }) => {
       
       {/* Content */}
       <div className="admin-content" style={{ background: '#f8fafc' }}>
-        {activeTab === 'overview' && <Overview />}
+        {activeTab === 'overview' && <Overview setActiveTab={setActiveTab} />}
         {activeTab === 'blog' && <BlogManager />}
         {activeTab === 'appointments' && <AppointmentManager />}
+        {activeTab === 'analytics' && <AnalyticsManager />}
       </div>
     </div>
   );
 };
 
-const Overview = () => {
-  const [stats, setStats] = useState({ blogs: 0, appointments: 0 });
+const Overview = ({ setActiveTab }) => {
+  const [stats, setStats] = useState({ blogs: 0, appointments: 0, online: 0, todayViews: 0 });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchStats = async () => {
-      const { count: blogCount } = await supabase.from('blogs').select('*', { count: 'exact', head: true });
-      const { count: appCount } = await supabase.from('appointments').select('*', { count: 'exact', head: true });
-      setStats({ blogs: blogCount || 0, appointments: appCount || 0 });
-      setLoading(false);
+      try {
+        const { count: blogCount } = await supabase.from('blogs').select('*', { count: 'exact', head: true });
+        const { count: appCount } = await supabase.from('appointments').select('*', { count: 'exact', head: true });
+        
+        // Fetch online users (last 5 minutes) and today's views
+        const fiveMinsAgo = new Date(Date.now() - 5 * 60 * 1000).toISOString();
+        const startOfToday = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).toISOString();
+        
+        const { data: onlineData } = await supabase
+          .from('visitor_logs')
+          .select('session_id')
+          .gte('created_at', fiveMinsAgo);
+          
+        const { count: todayCount } = await supabase
+          .from('visitor_logs')
+          .select('*', { count: 'exact', head: true })
+          .gte('created_at', startOfToday);
+          
+        const onlineCount = onlineData ? new Set(onlineData.map(d => d.session_id)).size : 0;
+        
+        setStats({ 
+          blogs: blogCount || 0, 
+          appointments: appCount || 0,
+          online: onlineCount || 0,
+          todayViews: todayCount || 0
+        });
+      } catch (err) {
+        console.error("Error loading overview stats:", err);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchStats();
   }, []);
@@ -90,7 +145,7 @@ const Overview = () => {
       <h1 style={{ color: 'var(--color-primary)', marginBottom: '0.5rem', fontSize: '2rem' }}>Hoş Geldiniz, İsmail Bey</h1>
       <p style={{ color: 'var(--color-text-muted)', marginBottom: '3rem' }}>İşte sisteminizin güncel durumu.</p>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '2rem', marginBottom: '3rem' }}>
         {/* Stat Card 1 */}
         <div style={{ background: 'white', padding: '2rem', borderRadius: '24px', border: '1px solid var(--color-border)', boxShadow: '0 10px 30px rgba(0,0,0,0.02)', position: 'relative', overflow: 'hidden' }}>
           <div style={{ position: 'absolute', top: '-20px', right: '-20px', background: 'rgba(184, 145, 70, 0.05)', width: '150px', height: '150px', borderRadius: '50%' }}></div>
@@ -119,6 +174,66 @@ const Overview = () => {
             <h3 style={{ fontSize: '3rem', color: 'var(--color-primary)', marginBottom: '0.5rem', lineHeight: 1 }}>{stats.appointments}</h3>
             <p style={{ color: 'var(--color-text-muted)', fontSize: '1.1rem', margin: 0 }}>Randevu Talebi</p>
           </div>
+        </div>
+
+        {/* Stat Card 3: Online Users */}
+        <div style={{ background: 'white', padding: '2rem', borderRadius: '24px', border: '1px solid var(--color-border)', boxShadow: '0 10px 30px rgba(0,0,0,0.02)', position: 'relative', overflow: 'hidden' }}>
+          <div style={{ position: 'absolute', top: '-20px', right: '-20px', background: 'rgba(16, 185, 129, 0.05)', width: '150px', height: '150px', borderRadius: '50%' }}></div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '2rem' }}>
+            <div style={{ background: 'rgba(16, 185, 129, 0.1)', padding: '1rem', borderRadius: '16px', color: '#10b981', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Activity size={32} />
+            </div>
+            <span style={{ background: '#ecfdf5', padding: '0.4rem 0.8rem', borderRadius: '20px', fontSize: '0.8rem', fontWeight: 700, color: '#10b981', display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <span style={{ display: 'inline-block', width: '6px', height: '6px', background: '#10b981', borderRadius: '50%' }}></span>
+              Canlı
+            </span>
+          </div>
+          <div>
+            <h3 style={{ fontSize: '3rem', color: 'var(--color-primary)', marginBottom: '0.5rem', lineHeight: 1 }}>{stats.online}</h3>
+            <p style={{ color: 'var(--color-text-muted)', fontSize: '1.1rem', margin: 0 }}>Aktif Ziyaretçi</p>
+          </div>
+        </div>
+
+        {/* Stat Card 4: Today's views */}
+        <div style={{ background: 'white', padding: '2rem', borderRadius: '24px', border: '1px solid var(--color-border)', boxShadow: '0 10px 30px rgba(0,0,0,0.02)', position: 'relative', overflow: 'hidden' }}>
+          <div style={{ position: 'absolute', top: '-20px', right: '-20px', background: 'rgba(184, 145, 70, 0.05)', width: '150px', height: '150px', borderRadius: '50%' }}></div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '2rem' }}>
+            <div style={{ background: 'rgba(184, 145, 70, 0.1)', padding: '1rem', borderRadius: '16px', color: 'var(--color-accent)' }}>
+              <Eye size={32} />
+            </div>
+            <span style={{ background: '#f8fafc', padding: '0.4rem 0.8rem', borderRadius: '20px', fontSize: '0.8rem', fontWeight: 600, color: 'var(--color-text-muted)' }}>Sayfa</span>
+          </div>
+          <div>
+            <h3 style={{ fontSize: '3rem', color: 'var(--color-primary)', marginBottom: '0.5rem', lineHeight: 1 }}>{stats.todayViews}</h3>
+            <p style={{ color: 'var(--color-text-muted)', fontSize: '1.1rem', margin: 0 }}>Bugünkü Ziyaret</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Advanced Quick Analytics Access */}
+      <div 
+        onClick={() => setActiveTab('analytics')}
+        style={{ 
+          background: 'linear-gradient(135deg, var(--color-primary), #1e293b)', 
+          padding: '2.5rem', 
+          borderRadius: '24px', 
+          color: 'white', 
+          cursor: 'pointer', 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center',
+          transition: '0.3s ease',
+          boxShadow: '0 10px 30px rgba(15,23,42,0.15)',
+        }}
+        onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-3px)'}
+        onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+      >
+        <div>
+          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.6rem', margin: '0 0 0.5rem 0', fontWeight: 600 }}>Detaylı Ziyaretçi Analiz Paneli</h2>
+          <p style={{ color: '#94a3b8', margin: 0, fontSize: '0.95rem' }}>Anlık, saatlik, günlük, haftalık ve yıllık gösterim grafiklerini, coğrafi şehir dağılümlarını ve tarayıcı/cihaz istatistiklerini görüntüleyin.</p>
+        </div>
+        <div style={{ background: 'rgba(255,255,255,0.1)', padding: '1rem', borderRadius: '50%', color: 'var(--color-accent)' }}>
+          <ArrowRight size={28} />
         </div>
       </div>
     </div>
@@ -500,6 +615,596 @@ const AppointmentManager = () => {
           ))}
         </div>
       )}
+    </div>
+  );
+};
+
+const AnalyticsManager = () => {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [activeChartTab, setActiveChartTab] = useState('daily');
+  const [refreshing, setRefreshing] = useState(false);
+
+  const loadData = async (isSilent = false) => {
+    if (!isSilent) setLoading(true);
+    else setRefreshing(true);
+    
+    const stats = await fetchAnalyticsStats();
+    if (stats.success) {
+      setData(stats);
+    }
+    
+    setLoading(false);
+    setRefreshing(false);
+  };
+
+  useEffect(() => {
+    loadData();
+    // Auto-refresh stats every 30 seconds for REAL-TIME live tracking!
+    const interval = setInterval(() => loadData(true), 30000);
+    return () => clearInterval(interval);
+  }, []);
+
+  if (loading) {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '10rem 2rem' }}>
+        <Loader2 className="spinner" size={40} color="var(--color-accent)"/>
+        <p style={{ color: 'var(--color-text-muted)', marginTop: '1rem', fontSize: '0.95rem' }}>Ziyaretçi verileri ve grafikler yükleniyor...</p>
+      </div>
+    );
+  }
+
+  if (!data) {
+    return (
+      <div style={{ padding: '2rem', textAlign: 'center' }}>
+        <p style={{ color: '#ef4444' }}>Veriler yüklenirken bir hata oluştu. Lütfen database tablosunun oluşturulup oluşturulmadığını kontrol ediniz.</p>
+        <button onClick={() => loadData()} className="btn btn-primary" style={{ marginTop: '1rem' }}>Yeniden Dene</button>
+      </div>
+    );
+  }
+
+  const { stats, charts, breakdowns, recentLogs } = data;
+
+  // Find max value in current chart data to calculate height percentages
+  const currentChartData = charts[activeChartTab] || [];
+  const maxChartVal = Math.max(...currentChartData.map(d => d.value), 1);
+
+  return (
+    <div style={{ maxWidth: '1100px', width: '100%', margin: '0 auto', paddingBottom: '4rem' }}>
+      <style>{`
+        /* pulse animation for online tracking */
+        .pulse-online {
+          display: inline-block;
+          width: 10px;
+          height: 10px;
+          background-color: #10b981;
+          border-radius: 50%;
+          box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+          animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+          0% {
+            transform: scale(0.95);
+            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+          }
+          70% {
+            transform: scale(1);
+            box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+          }
+          100% {
+            transform: scale(0.95);
+            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+          }
+        }
+
+        /* Chart tooltip */
+        .chart-bar-container {
+          flex: 1;
+          display: flex;
+          align-items: flex-end;
+          width: 100%;
+          position: relative;
+          cursor: pointer;
+        }
+        .chart-bar {
+          width: 65%;
+          margin: 0 auto;
+          background: linear-gradient(to top, var(--color-accent), #f59e0b);
+          border-radius: 6px 6px 0 0;
+          transition: height 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+          box-shadow: 0 2px 5px rgba(184, 145, 70, 0.15);
+        }
+        .chart-bar-container:hover .chart-bar {
+          filter: brightness(1.1);
+          box-shadow: 0 4px 12px rgba(184, 145, 70, 0.35);
+        }
+        .chart-tooltip {
+          position: absolute;
+          bottom: 100%;
+          left: 50%;
+          transform: translateX(-50%) translateY(-8px);
+          background: #1e293b;
+          color: white;
+          padding: 0.4rem 0.8rem;
+          border-radius: 8px;
+          font-size: 0.75rem;
+          font-weight: 600;
+          opacity: 0;
+          visibility: hidden;
+          transition: all 0.2s ease;
+          pointer-events: none;
+          white-space: nowrap;
+          z-index: 10;
+          box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+        .chart-tooltip::after {
+          content: '';
+          position: absolute;
+          top: 100%;
+          left: 50%;
+          transform: translateX(-50%);
+          border: 5px solid transparent;
+          border-top-color: #1e293b;
+        }
+        .chart-bar-container:hover .chart-tooltip {
+          opacity: 1;
+          visibility: visible;
+          transform: translateX(-50%) translateY(-4px);
+        }
+
+        /* Tabs and Cards */
+        .tab-btn {
+          padding: 0.7rem 1.2rem;
+          border-radius: 10px;
+          border: 1px solid var(--color-border);
+          background: white;
+          cursor: pointer;
+          font-weight: 600;
+          font-family: inherit;
+          color: var(--color-text-muted);
+          transition: 0.2s ease;
+        }
+        .tab-btn.active {
+          background: var(--color-accent);
+          color: white;
+          border-color: var(--color-accent);
+          box-shadow: 0 4px 10px rgba(184, 145, 70, 0.2);
+        }
+        .tab-btn:hover:not(.active) {
+          background: #f1f5f9;
+          color: var(--color-primary);
+        }
+        
+        .analytics-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+          gap: 1.5rem;
+          margin-bottom: 2rem;
+        }
+        .analytics-card {
+          background: white;
+          padding: 1.5rem;
+          border-radius: 20px;
+          border: 1px solid var(--color-border);
+          box-shadow: 0 4px 15px rgba(0,0,0,0.01);
+          position: relative;
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+        }
+
+        .distribution-list {
+          display: flex;
+          flex-direction: column;
+          gap: 1.2rem;
+        }
+        .distribution-item {
+          display: flex;
+          flex-direction: column;
+        }
+        .distribution-label {
+          display: flex;
+          justify-content: space-between;
+          font-size: 0.85rem;
+          margin-bottom: 0.35rem;
+        }
+        .progress-bar-bg {
+          width: 100%;
+          height: 6px;
+          background: #f1f5f9;
+          border-radius: 3px;
+          overflow: hidden;
+        }
+        .progress-bar-fill {
+          height: 100%;
+          background: var(--color-accent);
+          border-radius: 3px;
+          transition: width 1s ease-out;
+        }
+
+        .table-responsive {
+          overflow-x: auto;
+          background: white;
+          border-radius: 20px;
+          border: 1px solid var(--color-border);
+          box-shadow: 0 4px 15px rgba(0,0,0,0.01);
+        }
+        .log-table {
+          width: 100%;
+          border-collapse: collapse;
+          font-size: 0.9rem;
+        }
+        .log-table th {
+          background: #f8fafc;
+          padding: 1rem;
+          text-align: left;
+          font-weight: 600;
+          color: var(--color-primary);
+          border-bottom: 1.5px solid var(--color-border);
+          white-space: nowrap;
+        }
+        .log-table td {
+          padding: 1rem;
+          border-bottom: 1px solid #f1f5f9;
+          color: var(--color-text);
+          white-space: nowrap;
+        }
+        .log-table tr:hover td {
+          background: #f8fafc;
+        }
+      `}</style>
+
+      {/* Header */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem' }}>
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', marginBottom: '0.3rem' }}>
+            <h1 style={{ color: 'var(--color-primary)', margin: 0, fontSize: '2rem' }}>Ziyaretçi Analizi</h1>
+            <div style={{ background: 'rgba(16, 185, 129, 0.1)', padding: '0.3rem 0.8rem', borderRadius: '20px', display: 'flex', alignItems: 'center', gap: '0.4rem', border: '1px solid rgba(16, 185, 129, 0.2)' }}>
+              <span className="pulse-online"></span>
+              <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#10b981' }}>{stats.realtime} Çevrimiçi</span>
+            </div>
+          </div>
+          <p style={{ color: 'var(--color-text-muted)', margin: 0 }}>Web sitenizin ziyaretçi istatistikleri ve anlık trafik analizleri.</p>
+        </div>
+        
+        <button 
+          onClick={() => loadData(true)} 
+          disabled={refreshing}
+          style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.8rem 1.2rem', background: 'white', border: '1px solid var(--color-border)', borderRadius: '12px', cursor: 'pointer', fontWeight: 600, color: 'var(--color-primary)', transition: '0.3s', boxShadow: '0 2px 5px rgba(0,0,0,0.02)' }}
+        >
+          <RefreshCw size={16} className={refreshing ? 'spinner' : ''} /> {refreshing ? 'Güncelleniyor...' : 'Verileri Yenile'}
+        </button>
+      </div>
+
+      {/* Summary Cards */}
+      <div className="analytics-grid">
+        {/* Card 1: Today Views */}
+        <div className="analytics-card">
+          <div style={{ position: 'absolute', top: '-15px', right: '-15px', background: 'rgba(184, 145, 70, 0.03)', width: '90px', height: '90px', borderRadius: '50%' }}></div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.2rem' }}>
+            <div style={{ background: 'rgba(184, 145, 70, 0.1)', padding: '0.6rem', borderRadius: '12px', color: 'var(--color-accent)' }}>
+              <Eye size={22} />
+            </div>
+            <span style={{ fontSize: '0.75rem', fontWeight: 600, color: '#10b981', background: 'rgba(16,185,129,0.1)', padding: '0.2rem 0.5rem', borderRadius: '10px' }}>Bugün</span>
+          </div>
+          <div>
+            <h3 style={{ fontSize: '2.2rem', color: 'var(--color-primary)', margin: '0 0 0.2rem 0', lineHeight: 1 }}>{stats.today.views}</h3>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem' }}>Sayfa Gösterimi</span>
+              <span style={{ color: 'var(--color-primary)', fontSize: '0.8rem', fontWeight: 600 }}>{stats.today.uniques} Tekil Ziyaretçi</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 2: Weekly Views */}
+        <div className="analytics-card">
+          <div style={{ position: 'absolute', top: '-15px', right: '-15px', background: 'rgba(59, 130, 246, 0.03)', width: '90px', height: '90px', borderRadius: '50%' }}></div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.2rem' }}>
+            <div style={{ background: 'rgba(59, 130, 246, 0.1)', padding: '0.6rem', borderRadius: '12px', color: '#3b82f6' }}>
+              <TrendingUp size={22} />
+            </div>
+            <span style={{ fontSize: '0.75rem', fontWeight: 600, color: '#3b82f6', background: 'rgba(59,130,246,0.1)', padding: '0.2rem 0.5rem', borderRadius: '10px' }}>7 Gün</span>
+          </div>
+          <div>
+            <h3 style={{ fontSize: '2.2rem', color: 'var(--color-primary)', margin: '0 0 0.2rem 0', lineHeight: 1 }}>{stats.weekly.views}</h3>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem' }}>Sayfa Gösterimi</span>
+              <span style={{ color: 'var(--color-primary)', fontSize: '0.8rem', fontWeight: 600 }}>{stats.weekly.uniques} Tekil Ziyaretçi</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 3: Monthly Views */}
+        <div className="analytics-card">
+          <div style={{ position: 'absolute', top: '-15px', right: '-15px', background: 'rgba(16, 185, 129, 0.03)', width: '90px', height: '90px', borderRadius: '50%' }}></div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.2rem' }}>
+            <div style={{ background: 'rgba(16, 185, 129, 0.1)', padding: '0.6rem', borderRadius: '12px', color: '#10b981' }}>
+              <Activity size={22} />
+            </div>
+            <span style={{ fontSize: '0.75rem', fontWeight: 600, color: '#10b981', background: 'rgba(16,185,129,0.1)', padding: '0.2rem 0.5rem', borderRadius: '10px' }}>30 Gün</span>
+          </div>
+          <div>
+            <h3 style={{ fontSize: '2.2rem', color: 'var(--color-primary)', margin: '0 0 0.2rem 0', lineHeight: 1 }}>{stats.monthly.views}</h3>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem' }}>Sayfa Gösterimi</span>
+              <span style={{ color: 'var(--color-primary)', fontSize: '0.8rem', fontWeight: 600 }}>{stats.monthly.uniques} Tekil Ziyaretçi</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 4: All-Time Views */}
+        <div className="analytics-card">
+          <div style={{ position: 'absolute', top: '-15px', right: '-15px', background: 'rgba(139, 92, 246, 0.03)', width: '90px', height: '90px', borderRadius: '50%' }}></div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.2rem' }}>
+            <div style={{ background: 'rgba(139, 92, 246, 0.1)', padding: '0.6rem', borderRadius: '12px', color: '#8b5cf6' }}>
+              <Clock size={22} />
+            </div>
+            <span style={{ fontSize: '0.75rem', fontWeight: 600, color: '#8b5cf6', background: 'rgba(139,92,246,0.1)', padding: '0.2rem 0.5rem', borderRadius: '10px' }}>Tüm Zamanlar</span>
+          </div>
+          <div>
+            <h3 style={{ fontSize: '2.2rem', color: 'var(--color-primary)', margin: '0 0 0.2rem 0', lineHeight: 1 }}>{stats.total}</h3>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem' }}>Toplam Gösterim</span>
+              <span style={{ color: '#8b5cf6', fontSize: '0.8rem', fontWeight: 600 }}>Yıllık: {stats.yearly.views}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Chart Section */}
+      <div className="chart-container">
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem' }}>
+          <div>
+            <h3 style={{ margin: '0 0 0.2rem 0', color: 'var(--color-primary)', fontSize: '1.25rem' }}>Trafik Grafiği</h3>
+            <p style={{ margin: 0, color: 'var(--color-text-muted)', fontSize: '0.85rem' }}>Seçilen zaman aralığına göre sayfa ziyaret oranları.</p>
+          </div>
+          
+          <div style={{ display: 'flex', gap: '0.5rem' }}>
+            <button onClick={() => setActiveChartTab('hourly')} className={`tab-btn ${activeChartTab === 'hourly' ? 'active' : ''}`}>Saatlik</button>
+            <button onClick={() => setActiveChartTab('daily')} className={`tab-btn ${activeChartTab === 'daily' ? 'active' : ''}`}>Günlük</button>
+            <button onClick={() => setActiveChartTab('weekly')} className={`tab-btn ${activeChartTab === 'weekly' ? 'active' : ''}`}>Haftalık</button>
+            <button onClick={() => setActiveChartTab('monthly')} className={`tab-btn ${activeChartTab === 'monthly' ? 'active' : ''}`}>Aylık (1Y)</button>
+          </div>
+        </div>
+
+        {/* Visual Chart Bars */}
+        {currentChartData.length === 0 ? (
+          <div style={{ textAlign: 'center', padding: '4rem 0', color: 'var(--color-text-muted)' }}>Bu dönem için ziyaretçi datası bulunmuyor.</div>
+        ) : (
+          <div style={{ display: 'flex', alignItems: 'flex-end', height: '260px', gap: '0.6rem', padding: '1.5rem 0 0.5rem 0', borderBottom: '1px solid var(--color-border)' }}>
+            {currentChartData.map((item, idx) => {
+              const heightPercent = maxChartVal > 0 ? (item.value / maxChartVal) * 90 + 5 : 5; // offset at least 5% so it's always visible
+              return (
+                <div key={idx} className="chart-bar-wrapper">
+                  <div className="chart-bar-container">
+                    <div className="chart-tooltip">
+                      <div style={{ fontSize: '0.7rem', color: '#94a3b8', marginBottom: '2px' }}>{item.name}</div>
+                      <div style={{ fontSize: '0.9rem', color: 'white', fontWeight: 'bold' }}>{item.value} Gösterim</div>
+                    </div>
+                    <div className="chart-bar" style={{ height: `${heightPercent}%` }}></div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+        
+        {/* Chart X Labels */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.8rem 0.2rem 0 0.2rem', overflowX: 'auto', gap: '0.5rem' }}>
+          {currentChartData.map((item, idx) => (
+            <div key={idx} style={{ flex: 1, textAlign: 'center', fontSize: '0.75rem', color: 'var(--color-text-muted)', whiteSpace: 'nowrap' }}>
+              {item.name}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Distribution grids */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(450px, 1fr))', gap: '2rem', marginBottom: '3rem' }}>
+        {/* Left: Top Pages & Referrers */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+          {/* Top Pages */}
+          <div style={{ background: 'white', padding: '2rem', borderRadius: '24px', border: '1px solid var(--color-border)', boxShadow: '0 4px 15px rgba(0,0,0,0.01)' }}>
+            <h3 style={{ margin: '0 0 1.5rem 0', color: 'var(--color-primary)', fontSize: '1.15rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <Eye size={18} color="var(--color-accent)" /> En Çok Ziyaret Edilen Sayfalar
+            </h3>
+            
+            {breakdowns.pages.length === 0 ? (
+              <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', margin: 0 }}>Henüz data toplanmadı.</p>
+            ) : (
+              <div className="distribution-list">
+                {breakdowns.pages.map((item, idx) => {
+                  const percent = Math.round((item.value / stats.monthly.views) * 100) || 0;
+                  return (
+                    <div key={idx} className="distribution-item">
+                      <div className="distribution-label">
+                        <span style={{ fontWeight: 600, color: 'var(--color-primary)' }}>{item.name}</span>
+                        <span style={{ color: 'var(--color-text-muted)' }}>{item.value} Gösterim ({percent}%)</span>
+                      </div>
+                      <div className="progress-bar-bg">
+                        <div className="progress-bar-fill" style={{ width: `${percent}%` }}></div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
+          {/* Referrers */}
+          <div style={{ background: 'white', padding: '2rem', borderRadius: '24px', border: '1px solid var(--color-border)', boxShadow: '0 4px 15px rgba(0,0,0,0.01)' }}>
+            <h3 style={{ margin: '0 0 1.5rem 0', color: 'var(--color-primary)', fontSize: '1.15rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <TrendingUp size={18} color="#3b82f6" /> Ziyaretçi Kaynakları
+            </h3>
+            
+            {breakdowns.referrers.length === 0 ? (
+              <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', margin: 0 }}>Henüz data toplanmadı.</p>
+            ) : (
+              <div className="distribution-list">
+                {breakdowns.referrers.map((item, idx) => {
+                  const percent = Math.round((item.value / stats.monthly.views) * 100) || 0;
+                  return (
+                    <div key={idx} className="distribution-item">
+                      <div className="distribution-label">
+                        <span style={{ fontWeight: 600, color: 'var(--color-primary)' }}>{item.name}</span>
+                        <span style={{ color: 'var(--color-text-muted)' }}>{item.value} Ziyaret ({percent}%)</span>
+                      </div>
+                      <div className="progress-bar-bg">
+                        <div className="progress-bar-fill" style={{ width: `${percent}%`, background: '#3b82f6' }}></div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Right: Device/Browser Breakdown & Locations */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+          {/* Geolocation Cities */}
+          <div style={{ background: 'white', padding: '2rem', borderRadius: '24px', border: '1px solid var(--color-border)', boxShadow: '0 4px 15px rgba(0,0,0,0.01)' }}>
+            <h3 style={{ margin: '0 0 1.5rem 0', color: 'var(--color-primary)', fontSize: '1.15rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <Globe size={18} color="#10b981" /> Coğrafi Dağılım (Şehirler)
+            </h3>
+            
+            {breakdowns.cities.length === 0 ? (
+              <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', margin: 0 }}>Henüz data toplanmadı.</p>
+            ) : (
+              <div className="distribution-list">
+                {breakdowns.cities.map((item, idx) => {
+                  const percent = Math.round((item.value / stats.monthly.views) * 100) || 0;
+                  return (
+                    <div key={idx} className="distribution-item">
+                      <div className="distribution-label">
+                        <span style={{ fontWeight: 600, color: 'var(--color-primary)', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+                          <MapPin size={14} color="var(--color-accent)" /> {item.name}
+                        </span>
+                        <span style={{ color: 'var(--color-text-muted)' }}>{item.value} Ziyaret ({percent}%)</span>
+                      </div>
+                      <div className="progress-bar-bg">
+                        <div className="progress-bar-fill" style={{ width: `${percent}%`, background: '#10b981' }}></div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
+          {/* Browser / Devices split */}
+          <div style={{ background: 'white', padding: '2rem', borderRadius: '24px', border: '1px solid var(--color-border)', boxShadow: '0 4px 15px rgba(0,0,0,0.01)' }}>
+            <h3 style={{ margin: '0 0 1.5rem 0', color: 'var(--color-primary)', fontSize: '1.15rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <Laptop size={18} color="#8b5cf6" /> Sistem Dağılımı (Tarayıcı & Cihaz)
+            </h3>
+            
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
+              <div>
+                <h4 style={{ margin: '0 0 1rem 0', fontSize: '0.9rem', color: 'var(--color-primary)' }}>Cihaz Tipi</h4>
+                {breakdowns.devices.map((item, idx) => {
+                  const percent = Math.round((item.value / stats.monthly.views) * 100) || 0;
+                  return (
+                    <div key={idx} style={{ marginBottom: '1rem' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', marginBottom: '0.2rem' }}>
+                        <span style={{ fontWeight: 600 }}>{item.name}</span>
+                        <span>{percent}%</span>
+                      </div>
+                      <div className="progress-bar-bg">
+                        <div className="progress-bar-fill" style={{ width: `${percent}%`, background: '#8b5cf6' }}></div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+              
+              <div>
+                <h4 style={{ margin: '0 0 1rem 0', fontSize: '0.9rem', color: 'var(--color-primary)' }}>Tarayıcı</h4>
+                {breakdowns.browsers.map((item, idx) => {
+                  const percent = Math.round((item.value / stats.monthly.views) * 100) || 0;
+                  return (
+                    <div key={idx} style={{ marginBottom: '1rem' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', marginBottom: '0.2rem' }}>
+                        <span style={{ fontWeight: 600 }}>{item.name}</span>
+                        <span>{percent}%</span>
+                      </div>
+                      <div className="progress-bar-bg">
+                        <div className="progress-bar-fill" style={{ width: `${percent}%`, background: '#ec4899' }}></div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Log Feed Table */}
+      <div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+          <div>
+            <h3 style={{ margin: 0, color: 'var(--color-primary)', fontSize: '1.25rem' }}>Canlı Akış & Ziyaret Günlüğü</h3>
+            <p style={{ margin: 0, color: 'var(--color-text-muted)', fontSize: '0.85rem' }}>Sitenizi ziyaret eden son 30 kullanıcının tüm detayları.</p>
+          </div>
+        </div>
+        
+        <div className="table-responsive">
+          {recentLogs.length === 0 ? (
+            <div style={{ padding: '3rem', textAlign: 'center', color: 'var(--color-text-muted)' }}>Henüz log bulunmuyor.</div>
+          ) : (
+            <table className="log-table">
+              <thead>
+                <tr>
+                  <th>Tarih / Saat</th>
+                  <th>IP Adresi</th>
+                  <th>Konum</th>
+                  <th>Ziyaret Edilen Sayfa</th>
+                  <th>Kaynak</th>
+                  <th>Cihaz</th>
+                  <th>Sistem (OS / Tarayıcı)</th>
+                </tr>
+              </thead>
+              <tbody>
+                {recentLogs.map((log) => {
+                  const dateObj = new Date(log.created_at);
+                  const formattedDate = dateObj.toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                  const formattedTime = dateObj.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                  
+                  return (
+                    <tr key={log.id}>
+                      <td style={{ fontWeight: 600, color: 'var(--color-primary)' }}>
+                        {formattedDate} <span style={{ color: 'var(--color-text-muted)', fontWeight: 'normal', marginLeft: '4px' }}>{formattedTime}</span>
+                      </td>
+                      <td style={{ fontFamily: 'monospace', fontSize: '0.85rem' }}>{log.ip_address}</td>
+                      <td>
+                        <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <MapPin size={12} color="var(--color-accent)" />
+                          {log.city && log.city !== 'Unknown' && log.city !== 'Bilinmeyen' ? `${log.city}, ` : ''}{log.country || 'Türkiye'}
+                        </span>
+                      </td>
+                      <td>
+                        <span style={{ fontSize: '0.8rem', background: 'rgba(184, 145, 70, 0.08)', color: 'var(--color-accent)', padding: '0.2rem 0.6rem', borderRadius: '8px', fontWeight: 600 }}>
+                          {log.pathname}
+                        </span>
+                      </td>
+                      <td style={{ fontSize: '0.85rem' }}>{log.referrer}</td>
+                      <td style={{ fontSize: '0.85rem' }}>
+                        <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          {log.device_type === 'Mobil' ? '📱 Mobil' : '💻 Masaüstü'}
+                        </span>
+                      </td>
+                      <td style={{ fontSize: '0.85rem' }}>
+                        {log.os} / <span style={{ fontWeight: 600, color: 'var(--color-primary)' }}>{log.browser}</span>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          )}
+        </div>
+      </div>
     </div>
   );
 };
