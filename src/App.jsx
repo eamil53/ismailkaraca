@@ -3253,7 +3253,7 @@ const App = () => {
                         background: "var(--color-bg-light)",
                         borderRadius: "50%",
                         display: "flex",
-                        alignItems: "center",
+                        alignItems: "flex-start",
                         justifyContent: "center",
                         color: "var(--color-primary)",
                         flexShrink: 0,
