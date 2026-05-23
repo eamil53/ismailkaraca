@@ -3253,7 +3253,7 @@ const App = () => {
                         background: "var(--color-bg-light)",
                         borderRadius: "50%",
                         display: "flex",
-                        alignItems: "flex-start",
+                        alignItems: "center",
                         justifyContent: "center",
                         color: "var(--color-primary)",
                         flexShrink: 0,
@@ -3261,7 +3261,13 @@ const App = () => {
                     >
                       <MapPin size={20} />
                     </div>
-                    <p style={{ fontWeight: "600", lineHeight: "1.6" }}>
+                    <p
+                      style={{
+                        fontWeight: "600",
+                        lineHeight: "1.6",
+                        margin: "0",
+                      }}
+                    >
                       Çarşı Mah. Kazım Karabekir Cad.
                       <br />
                       Kuyumcular Sk. Kutlu Han Kat:3 No:407
@@ -3430,7 +3436,7 @@ const App = () => {
                     </h3>
                     <p
                       style={{
-                        margin: "0 0 1rem 0",
+                        margin: "0",
                         color: "var(--color-text-muted)",
                         fontSize: "0.85rem",
                         lineHeight: "1.4",
