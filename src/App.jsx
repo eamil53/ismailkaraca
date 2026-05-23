@@ -3050,7 +3050,7 @@ const App = () => {
                 <div
                   style={{
                     display: "grid",
-                    gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+                    gridTemplateColumns: "repeat(2, 1fr)",
                     gap: "1.5rem",
                   }}
                 >
