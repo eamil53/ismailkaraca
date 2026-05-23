@@ -3167,12 +3167,17 @@ const App = () => {
                 Uzman ekibimizle görüşmek için randevu planlayın.
               </p>
             </div>
-            <button
+            <a
+              href="tel:+905337308053"
               className="btn"
-              style={{ background: "var(--color-primary)", color: "white" }}
+              style={{
+                background: "var(--color-primary)",
+                color: "white",
+                textDecoration: "none",
+              }}
             >
               <Phone size={18} /> +90 (533) 730 80 53
-            </button>
+            </a>
           </div>
         </motion.section>
 
@@ -3263,9 +3268,9 @@ const App = () => {
                     </div>
                     <p
                       style={{
-                        fontWeight: "600",
+                        fontWeight: "700",
                         lineHeight: "1.6",
-                        margin: "0",
+                        textAlign: "left",
                       }}
                     >
                       Çarşı Mah. Kazım Karabekir Cad.
