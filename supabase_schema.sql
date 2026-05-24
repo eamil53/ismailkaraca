@@ -48,6 +48,62 @@ create policy "Veri okuma politikası" on public.visitor_logs
     using (true);
 
 -- ====================================================================
+-- BLOGS TABLOSU İÇİN RLS POLİTİKALARI
+-- ====================================================================
+-- ÖNEMLİ: Eğer "blogs" tablosunda RLS (Row Level Security) aktifse,
+-- aşağıdaki politikaları da Supabase SQL Editor'da çalıştırmanız GEREKİYOR.
+-- Aksi takdirde admin panelinden kaydetme/güncelleme/silme işlemleri
+-- sessizce başarısız olur (hata mesajı göstermeden eski hali kalır).
+-- ====================================================================
+
+-- blogs tablosunda RLS'yi etkinleştir (zaten aktifse hata vermez)
+alter table public.blogs enable row level security;
+
+-- Politika 1: Herkese (anonim ziyaretçiler dahil) blog okuma izni
+create policy "Blogs okuma politikası" on public.blogs
+    for select to anon, authenticated
+    using (true);
+
+-- Politika 2: Admin panelinin yeni blog ekleyebilmesi için INSERT izni
+create policy "Blogs ekleme politikası" on public.blogs
+    for insert to anon, authenticated
+    with check (true);
+
+-- Politika 3: Admin panelinin blog GÜNCELLEYEBİLMESİ için UPDATE izni
+-- (Bu politika eksik olduğunda düzenleme kaydedilmiyor!)
+create policy "Blogs güncelleme politikası" on public.blogs
+    for update to anon, authenticated
+    using (true)
+    with check (true);
+
+-- Politika 4: Admin panelinin blog SİLEBİLMESİ için DELETE izni
+create policy "Blogs silme politikası" on public.blogs
+    for delete to anon, authenticated
+    using (true);
+
+-- ====================================================================
+-- APPOINTMENTS TABLOSU İÇİN RLS POLİTİKALARI
+-- ====================================================================
+
+-- appointments tablosunda RLS'yi etkinleştir
+alter table public.appointments enable row level security;
+
+-- Politika 1: Herkese randevu görüntüleme izni (admin panel için)
+create policy "Appointments okuma politikası" on public.appointments
+    for select to anon, authenticated
+    using (true);
+
+-- Politika 2: Ziyaretçilerin randevu talebi oluşturabilmesi için INSERT izni
+create policy "Appointments ekleme politikası" on public.appointments
+    for insert to anon, authenticated
+    with check (true);
+
+-- Politika 3: Admin panelinin randevu SİLEBİLMESİ için DELETE izni
+create policy "Appointments silme politikası" on public.appointments
+    for delete to anon, authenticated
+    using (true);
+
+-- ====================================================================
 -- SİSTEMİN ÇALIŞMA MANTIĞI (AR-GE):
 -- 1. Kullanıcı siteye girdiğinde `sessionStorage` üzerinden tekil bir `session_id` atanır.
 -- 2. IP ve Coğrafi Konum (Ülke, Şehir) bilgileri `ipapi.co` üzerinden HTTPS ile 

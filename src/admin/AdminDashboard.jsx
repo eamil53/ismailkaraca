@@ -315,17 +315,25 @@ const BlogManager = () => {
     
     if (editingPostId) {
       // Güncelleme Modu
-      const { error } = await supabase
+      const { data: updatedData, error } = await supabase
         .from('blogs')
         .update({ 
           title, 
           content, 
           category: finalCategory 
         })
-        .eq('id', editingPostId);
+        .eq('id', editingPostId)
+        .select();
         
       if (error) {
         alert('Güncelleme hatası: ' + error.message);
+      } else if (!updatedData || updatedData.length === 0) {
+        alert(
+          'Güncelleme veritabanına kaydedilemedi.\n\n' +
+          'Supabase panelinde "blogs" tablosuna UPDATE politikası eklemeniz gerekiyor.\n' +
+          'Aşağıdaki SQL\'i Supabase SQL Editor\'da çalıştırın:\n\n' +
+          'CREATE POLICY "Anon update blogs" ON public.blogs FOR UPDATE TO anon USING (true) WITH CHECK (true);'
+        );
       } else {
         resetForm();
         fetchPosts();
@@ -698,11 +706,19 @@ const AnalyticsManager = () => {
         }
 
         /* Chart tooltip */
+        .chart-bar-wrapper {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: stretch;
+          height: 100%;
+          min-width: 0;
+        }
         .chart-bar-container {
           flex: 1;
           display: flex;
           align-items: flex-end;
-          width: 100%;
+          height: 100%;
           position: relative;
           cursor: pointer;
         }
@@ -972,32 +988,44 @@ const AnalyticsManager = () => {
         {currentChartData.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '4rem 0', color: 'var(--color-text-muted)' }}>Bu dönem için ziyaretçi datası bulunmuyor.</div>
         ) : (
-          <div style={{ display: 'flex', alignItems: 'flex-end', height: '260px', gap: '0.6rem', padding: '1.5rem 0 0.5rem 0', borderBottom: '1px solid var(--color-border)' }}>
-            {currentChartData.map((item, idx) => {
-              const heightPercent = maxChartVal > 0 ? (item.value / maxChartVal) * 90 + 5 : 5; // offset at least 5% so it's always visible
-              return (
-                <div key={idx} className="chart-bar-wrapper">
-                  <div className="chart-bar-container">
-                    <div className="chart-tooltip">
-                      <div style={{ fontSize: '0.7rem', color: '#94a3b8', marginBottom: '2px' }}>{item.name}</div>
-                      <div style={{ fontSize: '0.9rem', color: 'white', fontWeight: 'bold' }}>{item.value} Gösterim</div>
+          <>
+            <div style={{ display: 'flex', alignItems: 'flex-end', height: '240px', gap: '4px', borderBottom: '2px solid var(--color-border)', position: 'relative', overflow: 'visible' }}>
+              {currentChartData.map((item, idx) => {
+                const heightPx = maxChartVal > 0 ? Math.max((item.value / maxChartVal) * 220, item.value > 0 ? 8 : 2) : 2;
+                return (
+                  <div
+                    key={idx}
+                    className="chart-bar-wrapper"
+                    title={`${item.name}: ${item.value} Gösterim`}
+                  >
+                    <div className="chart-bar-container">
+                      <div className="chart-tooltip">
+                        <div style={{ fontSize: '0.7rem', color: '#94a3b8', marginBottom: '2px' }}>{item.name}</div>
+                        <div style={{ fontSize: '0.9rem', color: 'white', fontWeight: 'bold' }}>{item.value} Gösterim</div>
+                      </div>
+                      <div
+                        className="chart-bar"
+                        style={{ height: `${heightPx}px`, minHeight: item.value > 0 ? '4px' : '2px' }}
+                      />
                     </div>
-                    <div className="chart-bar" style={{ height: `${heightPercent}%` }}></div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
-        
-        {/* Chart X Labels */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.8rem 0.2rem 0 0.2rem', overflowX: 'auto', gap: '0.5rem' }}>
-          {currentChartData.map((item, idx) => (
-            <div key={idx} style={{ flex: 1, textAlign: 'center', fontSize: '0.75rem', color: 'var(--color-text-muted)', whiteSpace: 'nowrap' }}>
-              {item.name}
+                );
+              })}
             </div>
-          ))}
-        </div>
+            {/* Chart X Labels */}
+            <div style={{ display: 'flex', gap: '4px', padding: '0.6rem 0 0 0', overflowX: 'hidden' }}>
+              {currentChartData.map((item, idx) => (
+                <div
+                  key={idx}
+                  style={{ flex: 1, textAlign: 'center', fontSize: '0.7rem', color: 'var(--color-text-muted)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', minWidth: 0 }}
+                  title={item.name}
+                >
+                  {activeChartTab === 'hourly' ? item.name : item.name.split(' ')[0]}
+                </div>
+              ))}
+            </div>
+          </>
+        )}
       </div>
 
       {/* Distribution grids */}

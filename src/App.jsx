@@ -3043,9 +3043,8 @@ const App = () => {
                   }}
                 >
                   Avukat İsmail Karaca tarafından kurulan Karaca Hukuk &
-                  Danışmanlık; ceza, aile, miras ve gayrimenkul başta olmak
-                  üzere hukukun çeşitli alanlarında profesyonel hizmet
-                  sunmaktadır.
+                  Danışmanlık, hukukun çeşitli alanlarında profesyonel avukatlık
+                  ve danışmanlık hizmeti sunmaktadır.
                 </p>
                 <div
                   style={{

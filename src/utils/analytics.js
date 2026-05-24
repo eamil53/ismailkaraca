@@ -243,21 +243,28 @@ export const fetchAnalyticsStats = async () => {
       }
     });
 
-    // B. Daily page views (last 7 days)
+    // B. Daily page views (last 7 days) — tarih bazlı key kullan
     const dailyViews = {};
     const daysTurkish = ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'];
+    const dailyDateToName = {}; // dateStr -> display name
     for (let i = 6; i >= 0; i--) {
-      const d = new Date(now.getTime() - i * 24 * 60 * 60 * 1000);
-      const dayName = daysTurkish[d.getDay()];
-      dailyViews[dayName] = 0;
+      const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i);
+      const dateStr = d.toISOString().split('T')[0]; // "2025-05-18"
+      const dayName = i === 0 ? 'Bugün' : i === 1 ? 'Dün' : daysTurkish[d.getDay()];
+      dailyViews[dateStr] = 0;
+      dailyDateToName[dateStr] = dayName;
     }
     sevenDaysLogs.forEach(l => {
-      const d = new Date(l.created_at);
-      const dayName = daysTurkish[d.getDay()];
-      if (dailyViews[dayName] !== undefined) {
-        dailyViews[dayName]++;
+      const dateStr = new Date(l.created_at).toISOString().split('T')[0];
+      if (dailyViews[dateStr] !== undefined) {
+        dailyViews[dateStr]++;
       }
     });
+    // Convert to array with display names
+    const dailyChartData = Object.entries(dailyViews).map(([dateStr, value]) => ({
+      name: dailyDateToName[dateStr] || dateStr,
+      value
+    }));
 
     // C. Weekly page views (last 4 weeks / 30 days)
     const weeklyViews = { '3 Hafta Önce': 0, '2 Hafta Önce': 0, 'Geçen Hafta': 0, 'Bu Hafta': 0 };
@@ -333,7 +340,7 @@ export const fetchAnalyticsStats = async () => {
       stats: cardStats,
       charts: {
         hourly: Object.entries(hourlyViews).map(([name, value]) => ({ name, value })),
-        daily: Object.entries(dailyViews).map(([name, value]) => ({ name, value })),
+        daily: dailyChartData,
         weekly: Object.entries(weeklyViews).map(([name, value]) => ({ name, value })),
         monthly: Object.entries(monthlyViews).map(([name, value]) => ({ name, value })),
       },
