@@ -2188,81 +2188,93 @@ const ServicesPage = () => {
   const allServices = [
     {
       title: "Ceza Hukuku",
-      group: "Kamu Hukuku",
+      group: "Özel Hukuk",
       icon: <Gavel size={32} />,
       desc: "Soruşturma ve kovuşturma aşamalarında, sanık ve mağdur haklarının temsili.",
-      detail: "Ceza hukuku, bireylerin özgürlük ve hak kısıtlamalarıyla en doğrudan karşılaştığı son derece hassas bir alandır. Karaca Hukuk, soruşturma aşamasından (ifade alım, kolluk ve savcılık işlemleri, sorgu hakimliğindeki tutuklama ve adli kontrol incelemeleri) kovuşturma aşamasına (Ağır Ceza Mahkemeleri, Asliye Ceza Mahkemeleri ve İcra Ceza Mahkemeleri) kadar müvekkillerine savunma haklarını en üst düzeyde kullanabilmeleri için etkin bir temsil sunar. Ayrıca istinaf ve temyiz (Yargıtay) başvuru süreçlerinde de titizlikle dosya takibi yaparak hak kayıplarını engellemektedir."
+      detail:
+        "Ceza hukuku, bireylerin özgürlük ve hak kısıtlamalarıyla en doğrudan karşılaştığı son derece hassas bir alandır. Karaca Hukuk, soruşturma aşamasından (ifade alım, kolluk ve savcılık işlemleri, sorgu hakimliğindeki tutuklama ve adli kontrol incelemeleri) kovuşturma aşamasına (Ağır Ceza Mahkemeleri, Asliye Ceza Mahkemeleri ve İcra Ceza Mahkemeleri) kadar müvekkillerine savunma haklarını en üst düzeyde kullanabilmeleri için etkin bir temsil sunar. Ayrıca istinaf ve temyiz (Yargıtay) başvuru süreçlerinde de titizlikle dosya takibi yaparak hak kayıplarını engellemektedir.",
     },
     {
       title: "Aile Hukuku",
       group: "Özel Hukuk",
       icon: <Users size={32} />,
       desc: "Boşanma, velayet, nafaka ve mal rejimi uyuşmazlıklarında çözüm odaklı yaklaşım.",
-      detail: "Aile ve şahsın hukuku uyuşmazlıkları, taraflar açısından duygusal boyutu yüksek ve hassas süreçlerdir. Bu sebeple çalışmalarımız yüksek gizlilik, empati ve mesleki profesyonellik çerçevesinde yürütülmektedir. Anlaşmalı boşanma protokollerinin hazırlığı, çekişmeli boşanma davaları, velayet, nafaka talepleri, mal paylaşımı davaları, soybağının kurulması ve vesayet işlemleri gibi konularda yasal haklarınızı tam anlamıyla koruyacak etkin çözümler sunmaktayız."
+      detail:
+        "Aile ve şahsın hukuku uyuşmazlıkları, taraflar açısından duygusal boyutu yüksek ve hassas süreçlerdir. Bu sebeple çalışmalarımız yüksek gizlilik, empati ve mesleki profesyonellik çerçevesinde yürütülmektedir. Anlaşmalı boşanma protokollerinin hazırlığı, çekişmeli boşanma davaları, velayet, nafaka talepleri, mal paylaşımı davaları, soybağının kurulması ve vesayet işlemleri gibi konularda yasal haklarınızı tam anlamıyla koruyacak etkin çözümler sunmaktayız.",
     },
     {
       title: "Gayrimenkul ve Kira Hukuku",
       group: "Özel Hukuk",
       icon: <MapPin size={32} />,
       desc: "Tapu iptal, tescil, ortaklığın giderilmesi ve kira uyuşmazlıkları danışmanlığı.",
-      detail: "Gayrimenkul ve kira hukuku, taşınmazların mülkiyeti, yönetimi ve bunlardan doğan uyuşmazlıkları kapsar. Özellikle Tapu İptal ve Tescil davaları, ortaklığın giderilmesi (izale-i şuyu) davaları, kira bedeli tespiti ve tahliye davaları, kat karşılığı inşaat sözleşmeleri, kamulaştırma davalarında taşınmaz sahiplerine ve kiracılara profesyonel danışmanlık ve dava takibi sağlamaktayız."
+      detail:
+        "Gayrimenkul ve kira hukuku, taşınmazların mülkiyeti, yönetimi ve bunlardan doğan uyuşmazlıkları kapsar. Özellikle Tapu İptal ve Tescil davaları, ortaklığın giderilmesi (izale-i şuyu) davaları, kira bedeli tespiti ve tahliye davaları, kat karşılığı inşaat sözleşmeleri, kamulaştırma davalarında taşınmaz sahiplerine ve kiracılara profesyonel danışmanlık ve dava takibi sağlamaktayız.",
     },
     {
       title: "İş ve Sosyal Güvenlik Hukuku",
       group: "Özel Hukuk",
       icon: <Briefcase size={32} />,
       desc: "İşe iade, kıdem/ihbar tazminatları ve iş kazalarından doğan alacak davaları takibi.",
-      detail: "İşçi ve işveren arasındaki ilişkilerin düzenlenmesi, hakların korunması ve uyuşmazlıkların çözümü temel uzmanlık alanlarımızdandır. İhbar ve kıdem tazminatı alacakları, fazla mesai, yıllık izin ücret alacakları, iş kazalarından kaynaklanan maddi ve manevi tazminat davaları ile SGK nezdinde hizmet tespiti davalarında müvekkillerimizi en iyi şekilde temsil ediyoruz. Ayrıca zorunlu iş arabuluculuğu süreçlerinde de aktif danışmanlık hizmeti sunmaktayız."
+      detail:
+        "İşçi ve işveren arasındaki ilişkilerin düzenlenmesi, hakların korunması ve uyuşmazlıkların çözümü temel uzmanlık alanlarımızdandır. İhbar ve kıdem tazminatı alacakları, fazla mesai, yıllık izin ücret alacakları, iş kazalarından kaynaklanan maddi ve manevi tazminat davaları ile SGK nezdinde hizmet tespiti davalarında müvekkillerimizi en iyi şekilde temsil ediyoruz. Ayrıca zorunlu iş arabuluculuğu süreçlerinde de aktif danışmanlık hizmeti sunmaktayız.",
     },
     {
       title: "Tazminat Hukuku",
       group: "Özel Hukuk",
       icon: <Scale size={32} />,
       desc: "Maddi ve manevi tazminat davalarında hak kayıplarını önleyen profesyonel süreç yönetimi.",
-      detail: "Tazminat hukuku, haksız fiil, sözleşmeye aykırılık veya başka bir hukuka aykırı eylem sebebiyle uğranılan maddi ve manevi zararların tazmin edilmesini amaçlar. Trafik kazalarından doğan tazminat davaları, tıbbi uygulama hataları (malpraktis) davaları, iş kazalarından doğan tazminat talepleri, kişilik haklarına saldırı gibi nedenlerle açılan maddi ve manevi tazminat davalarında müvekkillerimizin kayıplarının telafisi için süreci büyük bir titizlikle yürütmekteyiz."
+      detail:
+        "Tazminat hukuku, haksız fiil, sözleşmeye aykırılık veya başka bir hukuka aykırı eylem sebebiyle uğranılan maddi ve manevi zararların tazmin edilmesini amaçlar. Trafik kazalarından doğan tazminat davaları, tıbbi uygulama hataları (malpraktis) davaları, iş kazalarından doğan tazminat talepleri, kişilik haklarına saldırı gibi nedenlerle açılan maddi ve manevi tazminat davalarında müvekkillerimizin kayıplarının telafisi için süreci büyük bir titizlikle yürütmekteyiz.",
     },
     {
       title: "İcra ve İflas Hukuku",
       group: "Özel Hukuk",
       icon: <ShieldCheck size={32} />,
       desc: "Alacak tahsili, icra takipleri ve borç ilişkilerinin hukuki zeminde yönetilmesi.",
-      detail: "Alacakların hızlı, etkin ve hukuka uygun şekilde tahsili için icra-iflas mekanizmasının profesyonelce yönetilmesi gerekir. İlamsız, ilamlı ve kambiyo senedine dayalı icra takipleri, ihtiyati haciz kararlarının alınarak uygulanması, istihkak davaları, borca/imzaya itiraz davaları ile alacaklı veya borçlu konumdaki müvekkiller için borç tasfiyesi ve yapılandırma süreçlerinde hukuki destek sağlamaktayız."
+      detail:
+        "Alacakların hızlı, etkin ve hukuka uygun şekilde tahsili için icra-iflas mekanizmasının profesyonelce yönetilmesi gerekir. İlamsız, ilamlı ve kambiyo senedine dayalı icra takipleri, ihtiyati haciz kararlarının alınarak uygulanması, istihkak davaları, borca/imzaya itiraz davaları ile alacaklı veya borçlu konumdaki müvekkiller için borç tasfiyesi ve yapılandırma süreçlerinde hukuki destek sağlamaktayız.",
     },
     {
       title: "Miras Hukuku",
       group: "Özel Hukuk",
       icon: <Scroll size={32} />,
       desc: "Mirasçılık belgesi alınması, vasiyetname düzenleme ve ortaklık paylaşımları.",
-      detail: "Miras hukuku, vefat eden bir kimsenin mal varlığının yasal ve atanmış mirasçılar arasında nasıl paylaştırılacağını düzenler. Veraset ilamı (mirasçılık belgesi) alınması, miras paylaşımları ve miras taksim sözleşmelerinin hazırlanması, vasiyetname ve mirasçı atama sözleşmelerinin yasal usullere uygun düzenlenmesi, tenkis ve muris muvazaası (mirastan mal kaçırma) davaları ile mirası reddetme (reddi miras) davalarında kapsamlı ve güvenilir danışmanlık hizmeti sunmaktayız."
+      detail:
+        "Miras hukuku, vefat eden bir kimsenin mal varlığının yasal ve atanmış mirasçılar arasında nasıl paylaştırılacağını düzenler. Veraset ilamı (mirasçılık belgesi) alınması, miras paylaşımları ve miras taksim sözleşmelerinin hazırlanması, vasiyetname ve mirasçı atama sözleşmelerinin yasal usullere uygun düzenlenmesi, tenkis ve muris muvazaası (mirastan mal kaçırma) davaları ile mirası reddetme (reddi miras) davalarında kapsamlı ve güvenilir danışmanlık hizmeti sunmaktayız.",
     },
     {
       title: "İdare ve Vergi Hukuku",
       group: "Kamu Hukuku",
       icon: <Globe size={32} />,
       desc: "İdari işlemlerin iptali, tam yargı davaları ve vergi cezaları uyuşmazlıkları.",
-      detail: "Kamu kurumlarının yasalara aykırı eylem ve işlemlerine karşı bireylerin ve şirketlerin haklarını korumak hukuk devletinin gereğidir. İdari işlemlerin iptali davaları, idari para cezalarına karşı iptal başvuruları, tam yargı (tazminat) davaları, devlet memurları disiplin ve atama davaları ile haksız vergi tarhiyatı ve cezalarına karşı açılacak davalarda profesyonel dava takip hizmeti vermekteyiz."
+      detail:
+        "Kamu kurumlarının yasalara aykırı eylem ve işlemlerine karşı bireylerin ve şirketlerin haklarını korumak hukuk devletinin gereğidir. İdari işlemlerin iptali davaları, idari para cezalarına karşı iptal başvuruları, tam yargı (tazminat) davaları, devlet memurları disiplin ve atama davaları ile haksız vergi tarhiyatı ve cezalarına karşı açılacak davalarda profesyonel dava takip hizmeti vermekteyiz.",
     },
     {
       title: "Ticaret ve Şirketler Hukuku",
       group: "Özel Hukuk",
       icon: <Building2 size={32} />,
       desc: "Şirket kuruluşu, ticari sözleşmeler, birleşmeler ve ticari alacak davaları.",
-      detail: "Şirketlerin ticari faaliyetlerini güvenli bir hukuki zeminde sürdürebilmeleri için koruyucu hukuk ve danışmanlık hizmeti sunmaktayız. Şirket kuruluş işlemleri, genel kurul kararlarının hukuki denetimi, ticari sözleşmelerin hazırlanması ve analizi, şirket birleşme ve devralmaları, haksız rekabet davaları ve ticari alacak/tazminat davalarında profesyonel danışmanlık ve avukatlık hizmeti sağlamaktayız."
+      detail:
+        "Şirketlerin ticari faaliyetlerini güvenli bir hukuki zeminde sürdürebilmeleri için koruyucu hukuk ve danışmanlık hizmeti sunmaktayız. Şirket kuruluş işlemleri, genel kurul kararlarının hukuki denetimi, ticari sözleşmelerin hazırlanması ve analizi, şirket birleşme ve devralmaları, haksız rekabet davaları ve ticari alacak/tazminat davalarında profesyonel danışmanlık ve avukatlık hizmeti sağlamaktayız.",
     },
     {
       title: "Tüketici Hukuku",
       group: "Özel Hukuk",
       icon: <ShieldAlert size={32} />,
       desc: "Ayıplı mal ve hizmet uyuşmazlıkları, Tüketici Hakem Heyeti başvuruları.",
-      detail: "Tüketicilerin ve satıcıların haklarının korunması, tüketici uyuşmazlıklarının çözümü için Tüketici Hakem Heyetleri ve Tüketici Mahkemeleri nezdinde temsil sağlıyoruz. Satın alınan ayıplı mal ve hizmetlerden doğan hak talepleri, tüketici sözleşmelerindeki haksız şartlar, konut ve tatil paketlerine dair tüketici davaları gibi konularda yasal haklarınızı koruyoruz."
-    }
+      detail:
+        "Tüketicilerin ve satıcıların haklarının korunması, tüketici uyuşmazlıklarının çözümü için Tüketici Hakem Heyetleri ve Tüketici Mahkemeleri nezdinde temsil sağlıyoruz. Satın alınan ayıplı mal ve hizmetlerden doğan hak talepleri, tüketici sözleşmelerindeki haksız şartlar, konut ve tatil paketlerine dair tüketici davaları gibi konularda yasal haklarınızı koruyoruz.",
+    },
   ];
 
-  const filteredServices = allServices.filter(service => {
-    const matchesSearch = service.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          service.desc.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          service.detail.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesGroup = selectedGroup === "Tümü" || service.group === selectedGroup;
+  const filteredServices = allServices.filter((service) => {
+    const matchesSearch =
+      service.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      service.desc.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      service.detail.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesGroup =
+      selectedGroup === "Tümü" || service.group === selectedGroup;
     return matchesSearch && matchesGroup;
   });
 
@@ -2273,7 +2285,7 @@ const ServicesPage = () => {
         minHeight: "100vh",
         paddingTop: "120px",
         paddingBottom: "100px",
-        position: "relative"
+        position: "relative",
       }}
     >
       <StarryBackground
@@ -2292,7 +2304,7 @@ const ServicesPage = () => {
             marginBottom: "3.5rem",
             display: "flex",
             flexDirection: "column",
-            alignItems: "center"
+            alignItems: "center",
           }}
         >
           <span className="section-tag">Hizmetlerimiz</span>
@@ -2304,7 +2316,7 @@ const ServicesPage = () => {
               margin: 0,
               fontWeight: 700,
               letterSpacing: "1px",
-              lineHeight: "1.2"
+              lineHeight: "1.2",
             }}
           >
             Çalışma Alanlarımız
@@ -2315,10 +2327,12 @@ const ServicesPage = () => {
               marginTop: "1rem",
               maxWidth: "650px",
               fontSize: "1.05rem",
-              lineHeight: "1.6"
+              lineHeight: "1.6",
             }}
           >
-            Karaca Hukuk & Danışmanlık olarak hukukun farklı disiplinlerinde uzmanlaşmış yaklaşımlarla güvenilir ve çözüm odaklı avukatlık hizmeti sunuyoruz.
+            Karaca Hukuk & Danışmanlık olarak hukukun farklı disiplinlerinde
+            uzmanlaşmış yaklaşımlarla güvenilir ve çözüm odaklı avukatlık
+            hizmeti sunuyoruz.
           </p>
 
           <div
@@ -2329,14 +2343,15 @@ const ServicesPage = () => {
               width: "100%",
               maxWidth: "240px",
               marginTop: "1.5rem",
-              gap: "12px"
+              gap: "12px",
             }}
           >
             <div
               style={{
                 flex: 1,
                 height: "1px",
-                background: "linear-gradient(to right, transparent, var(--color-accent))"
+                background:
+                  "linear-gradient(to right, transparent, var(--color-accent))",
               }}
             ></div>
             <div
@@ -2345,14 +2360,15 @@ const ServicesPage = () => {
                 height: "6px",
                 borderRadius: "50%",
                 background: "var(--color-accent)",
-                boxShadow: "0 0 8px var(--color-accent)"
+                boxShadow: "0 0 8px var(--color-accent)",
               }}
             ></div>
             <div
               style={{
                 flex: 1,
                 height: "1px",
-                background: "linear-gradient(to left, transparent, var(--color-accent))"
+                background:
+                  "linear-gradient(to left, transparent, var(--color-accent))",
               }}
             ></div>
           </div>
@@ -2373,13 +2389,22 @@ const ServicesPage = () => {
                   padding: "0.6rem 1.5rem",
                   borderRadius: "30px",
                   border: "1px solid",
-                  borderColor: selectedGroup === group ? "var(--color-accent)" : "var(--color-border)",
-                  background: selectedGroup === group ? "rgba(184, 145, 70, 0.08)" : "transparent",
-                  color: selectedGroup === group ? "var(--color-accent)" : "var(--color-text-muted)",
+                  borderColor:
+                    selectedGroup === group
+                      ? "var(--color-accent)"
+                      : "var(--color-border)",
+                  background:
+                    selectedGroup === group
+                      ? "rgba(184, 145, 70, 0.08)"
+                      : "transparent",
+                  color:
+                    selectedGroup === group
+                      ? "var(--color-accent)"
+                      : "var(--color-text-muted)",
                   fontWeight: selectedGroup === group ? "700" : "500",
                   cursor: "pointer",
                   fontSize: "0.85rem",
-                  transition: "all 0.3s ease"
+                  transition: "all 0.3s ease",
                 }}
               >
                 {group}
@@ -2396,7 +2421,7 @@ const ServicesPage = () => {
                 transform: "translateY(-50%)",
                 color: "var(--color-text-muted)",
                 display: "flex",
-                alignItems: "center"
+                alignItems: "center",
               }}
             >
               <Search size={18} />
@@ -2415,7 +2440,7 @@ const ServicesPage = () => {
                 fontSize: "0.9rem",
                 fontFamily: "inherit",
                 background: "#fafafa",
-                transition: "all 0.3s ease"
+                transition: "all 0.3s ease",
               }}
               onFocus={(e) => {
                 e.target.style.borderColor = "var(--color-accent)";
@@ -2440,15 +2465,31 @@ const ServicesPage = () => {
               borderRadius: "24px",
               border: "1px dashed var(--color-border)",
               maxWidth: "600px",
-              margin: "2rem auto"
+              margin: "2rem auto",
             }}
           >
-            <Search size={40} style={{ color: "var(--color-accent)", opacity: 0.5, marginBottom: "1rem" }} />
-            <h3 style={{ fontSize: "1.3rem", color: "var(--color-primary)", marginBottom: "0.5rem" }}>
+            <Search
+              size={40}
+              style={{
+                color: "var(--color-accent)",
+                opacity: 0.5,
+                marginBottom: "1rem",
+              }}
+            />
+            <h3
+              style={{
+                fontSize: "1.3rem",
+                color: "var(--color-primary)",
+                marginBottom: "0.5rem",
+              }}
+            >
               Sonuç Bulunamadı
             </h3>
-            <p style={{ color: "var(--color-text-muted)", fontSize: "0.95rem" }}>
-              Arama kriterlerinize uygun çalışma alanı bulunamadı. Lütfen kelimeyi değiştirmeyi deneyin.
+            <p
+              style={{ color: "var(--color-text-muted)", fontSize: "0.95rem" }}
+            >
+              Arama kriterlerinize uygun çalışma alanı bulunamadı. Lütfen
+              kelimeyi değiştirmeyi deneyin.
             </p>
             <button
               onClick={() => {
@@ -2456,7 +2497,12 @@ const ServicesPage = () => {
                 setSelectedGroup("Tümü");
               }}
               className="btn btn-primary"
-              style={{ marginTop: "1.5rem", padding: "0.6rem 1.5rem", borderRadius: "30px", fontSize: "0.85rem" }}
+              style={{
+                marginTop: "1.5rem",
+                padding: "0.6rem 1.5rem",
+                borderRadius: "30px",
+                fontSize: "0.85rem",
+              }}
             >
               Filtreleri Temizle
             </button>
@@ -2480,7 +2526,7 @@ const ServicesPage = () => {
                     height: "100%",
                     background: "white",
                     position: "relative",
-                    overflow: "hidden"
+                    overflow: "hidden",
                   }}
                 >
                   <span
@@ -2494,16 +2540,31 @@ const ServicesPage = () => {
                       color: "var(--color-accent)",
                       background: "rgba(184, 145, 70, 0.08)",
                       padding: "0.2rem 0.6rem",
-                      borderRadius: "10px"
+                      borderRadius: "10px",
                     }}
                   >
                     {service.group}
                   </span>
 
                   <div>
-                    <div className="card-icon" style={{ marginTop: "0.5rem" }}>{service.icon}</div>
-                    <h3 style={{ fontSize: "1.4rem", color: "var(--color-primary)" }}>{service.title}</h3>
-                    <p style={{ fontSize: "0.9rem", lineHeight: "1.6", color: "var(--color-text-muted)" }}>
+                    <div className="card-icon" style={{ marginTop: "0.5rem" }}>
+                      {service.icon}
+                    </div>
+                    <h3
+                      style={{
+                        fontSize: "1.4rem",
+                        color: "var(--color-primary)",
+                      }}
+                    >
+                      {service.title}
+                    </h3>
+                    <p
+                      style={{
+                        fontSize: "0.9rem",
+                        lineHeight: "1.6",
+                        color: "var(--color-text-muted)",
+                      }}
+                    >
                       {service.desc}
                     </p>
                   </div>
@@ -2524,7 +2585,7 @@ const ServicesPage = () => {
                       cursor: "pointer",
                       padding: "0",
                       fontFamily: "inherit",
-                      transition: "all 0.3s ease"
+                      transition: "all 0.3s ease",
                     }}
                   >
                     DETAYLI BİLGİ <ArrowUpRight size={16} />
@@ -2542,7 +2603,8 @@ const ServicesPage = () => {
           transition={{ duration: 0.8 }}
           style={{
             marginTop: "6rem",
-            background: "linear-gradient(135deg, var(--color-primary) 0%, #153866 100%)",
+            background:
+              "linear-gradient(135deg, var(--color-primary) 0%, #153866 100%)",
             padding: "4rem 2rem",
             borderRadius: "32px",
             color: "white",
@@ -2550,7 +2612,7 @@ const ServicesPage = () => {
             position: "relative",
             overflow: "hidden",
             border: "1px solid rgba(184, 145, 70, 0.2)",
-            boxShadow: "0 20px 50px rgba(10, 46, 92, 0.15)"
+            boxShadow: "0 20px 50px rgba(10, 46, 92, 0.15)",
           }}
         >
           <div
@@ -2562,7 +2624,7 @@ const ServicesPage = () => {
               height: "150px",
               borderRadius: "50%",
               background: "rgba(184, 145, 70, 0.05)",
-              pointerEvents: "none"
+              pointerEvents: "none",
             }}
           />
           <div
@@ -2574,11 +2636,13 @@ const ServicesPage = () => {
               height: "150px",
               borderRadius: "50%",
               background: "rgba(255, 255, 255, 0.02)",
-              pointerEvents: "none"
+              pointerEvents: "none",
             }}
           />
 
-          <h2 style={{ color: "white", fontSize: "2rem", marginBottom: "1rem" }}>
+          <h2
+            style={{ color: "white", fontSize: "2rem", marginBottom: "1rem" }}
+          >
             Hukuki Danışmanlık ve Destek Alın
           </h2>
           <p
@@ -2587,10 +2651,12 @@ const ServicesPage = () => {
               maxWidth: "600px",
               margin: "0 auto 2.5rem",
               fontSize: "1rem",
-              lineHeight: "1.6"
+              lineHeight: "1.6",
             }}
           >
-            Çalışma alanlarımızla ilgili daha fazla bilgi edinmek ya da uyuşmazlığınızın çözümü için hemen randevu talebi oluşturabilirsiniz.
+            Çalışma alanlarımızla ilgili daha fazla bilgi edinmek ya da
+            uyuşmazlığınızın çözümü için hemen randevu talebi
+            oluşturabilirsiniz.
           </p>
 
           <div className="services-cta-actions">
@@ -2600,14 +2666,17 @@ const ServicesPage = () => {
               style={{
                 padding: "1rem 2.5rem",
                 borderRadius: "30px",
-                fontWeight: "700"
+                fontWeight: "700",
               }}
             >
               Hemen Randevu Al
             </button>
             <button
               onClick={() => {
-                window.open("https://api.whatsapp.com/send?phone=905337308053", "_blank");
+                window.open(
+                  "https://api.whatsapp.com/send?phone=905337308053",
+                  "_blank",
+                );
               }}
               className="btn"
               style={{
@@ -2616,7 +2685,7 @@ const ServicesPage = () => {
                 color: "white",
                 padding: "1rem 2.5rem",
                 borderRadius: "30px",
-                fontWeight: "700"
+                fontWeight: "700",
               }}
             >
               WhatsApp ile Sor
@@ -2643,7 +2712,7 @@ const ServicesPage = () => {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              padding: "1.5rem"
+              padding: "1.5rem",
             }}
             onClick={() => setSelectedService(null)}
           >
@@ -2671,7 +2740,7 @@ const ServicesPage = () => {
                   width: "36px",
                   height: "36px",
                   borderRadius: "50%",
-                  backgroundColor: "#f5f7fa"
+                  backgroundColor: "#f5f7fa",
                 }}
               >
                 <X size={20} />
@@ -2688,7 +2757,7 @@ const ServicesPage = () => {
                     alignItems: "center",
                     justifyContent: "center",
                     color: "var(--color-accent)",
-                    flexShrink: 0
+                    flexShrink: 0,
                   }}
                 >
                   {selectedService.icon}
@@ -2700,7 +2769,7 @@ const ServicesPage = () => {
                       fontWeight: 700,
                       textTransform: "uppercase",
                       color: "var(--color-accent)",
-                      letterSpacing: "1px"
+                      letterSpacing: "1px",
                     }}
                   >
                     {selectedService.group}
@@ -2710,7 +2779,7 @@ const ServicesPage = () => {
                       margin: "2px 0 0 0",
                       fontSize: "1.6rem",
                       color: "var(--color-primary)",
-                      fontFamily: "'Playfair Display', serif"
+                      fontFamily: "'Playfair Display', serif",
                     }}
                   >
                     {selectedService.title}
@@ -2723,7 +2792,7 @@ const ServicesPage = () => {
                   borderTop: "1px solid var(--color-border)",
                   borderBottom: "1px solid var(--color-border)",
                   padding: "1.5rem 0",
-                  marginBottom: "2rem"
+                  marginBottom: "2rem",
                 }}
               >
                 <p
@@ -2731,7 +2800,7 @@ const ServicesPage = () => {
                     fontSize: "1rem",
                     lineHeight: "1.8",
                     color: "#334155",
-                    margin: 0
+                    margin: 0,
                   }}
                 >
                   {selectedService.detail}
@@ -2749,15 +2818,20 @@ const ServicesPage = () => {
                     padding: "0.75rem 1.8rem",
                     fontSize: "0.9rem",
                     borderRadius: "30px",
-                    fontWeight: "600"
+                    fontWeight: "600",
                   }}
                 >
                   Randevu Planla
                 </button>
                 <button
                   onClick={() => {
-                    const waText = encodeURIComponent(`Merhaba, ${selectedService.title} konusuyla ilgili bilgi almak istiyorum.`);
-                    window.open(`https://api.whatsapp.com/send?phone=905337308053&text=${waText}`, "_blank");
+                    const waText = encodeURIComponent(
+                      `Merhaba, ${selectedService.title} konusuyla ilgili bilgi almak istiyorum.`,
+                    );
+                    window.open(
+                      `https://api.whatsapp.com/send?phone=905337308053&text=${waText}`,
+                      "_blank",
+                    );
                   }}
                   className="btn"
                   style={{
@@ -2767,7 +2841,7 @@ const ServicesPage = () => {
                     padding: "0.75rem 1.8rem",
                     fontSize: "0.9rem",
                     borderRadius: "30px",
-                    fontWeight: "600"
+                    fontWeight: "600",
                   }}
                 >
                   WhatsApp'tan Yazın
@@ -2913,7 +2987,10 @@ const App = () => {
               <div className="nav-links">
                 <a href="#home">Ana Sayfa</a>
                 <a href="#hakkimizda">Hakkımızda</a>
-                <a href="#calisma-alanlarimiz" style={{ color: "var(--color-accent)" }}>
+                <a
+                  href="#calisma-alanlarimiz"
+                  style={{ color: "var(--color-accent)" }}
+                >
                   Hizmetlerimiz
                 </a>
                 <a href="#blog">Blog</a>
@@ -3002,13 +3079,16 @@ const App = () => {
                         item === "Ana Sayfa"
                           ? "#"
                           : item === "Hizmetlerimiz"
-                          ? "#calisma-alanlarimiz"
-                          : `#${item.toLowerCase().replace(/ı/g, "i").replace(" ", "")}`
+                            ? "#calisma-alanlarimiz"
+                            : `#${item.toLowerCase().replace(/ı/g, "i").replace(" ", "")}`
                       }
                       onClick={() => setIsMenuOpen(false)}
                       style={{
                         textDecoration: "none",
-                        color: item === "Hizmetlerimiz" ? "var(--color-accent)" : "var(--color-primary)",
+                        color:
+                          item === "Hizmetlerimiz"
+                            ? "var(--color-accent)"
+                            : "var(--color-primary)",
                         fontSize: "1.1rem",
                         fontWeight: 600,
                         borderBottom: "1px solid var(--color-border)",
@@ -3175,8 +3255,8 @@ const App = () => {
                         item === "Ana Sayfa"
                           ? "#"
                           : item === "Hizmetlerimiz"
-                          ? "#calisma-alanlarimiz"
-                          : `#${item.toLowerCase().replace(/ı/g, "i").replace(" ", "")}`
+                            ? "#calisma-alanlarimiz"
+                            : `#${item.toLowerCase().replace(/ı/g, "i").replace(" ", "")}`
                       }
                       onClick={() => setIsMenuOpen(false)}
                       style={{
@@ -3346,8 +3426,8 @@ const App = () => {
                         item === "Ana Sayfa"
                           ? "#"
                           : item === "Hizmetlerimiz"
-                          ? "#calisma-alanlarimiz"
-                          : `#${item.toLowerCase().replace(/ı/g, "i").replace(" ", "")}`
+                            ? "#calisma-alanlarimiz"
+                            : `#${item.toLowerCase().replace(/ı/g, "i").replace(" ", "")}`
                       }
                       onClick={() => setIsMenuOpen(false)}
                       style={{
@@ -3496,8 +3576,8 @@ const App = () => {
                         item === "Ana Sayfa"
                           ? "#"
                           : item === "Hizmetlerimiz"
-                          ? "#calisma-alanlarimiz"
-                          : `#${item.toLowerCase().replace(/ı/g, "i").replace(" ", "")}`
+                            ? "#calisma-alanlarimiz"
+                            : `#${item.toLowerCase().replace(/ı/g, "i").replace(" ", "")}`
                       }
                       onClick={() => setIsMenuOpen(false)}
                       style={{
@@ -3940,7 +4020,8 @@ const App = () => {
                 onClick={() => (window.location.hash = "calisma-alanlarimiz")}
                 className="btn btn-primary"
                 style={{
-                  background: "linear-gradient(135deg, var(--color-primary) 0%, #173d73 100%)",
+                  background:
+                    "linear-gradient(135deg, var(--color-primary) 0%, #173d73 100%)",
                   borderColor: "var(--color-accent)",
                   borderWidth: "1px",
                   borderStyle: "solid",
@@ -3956,7 +4037,11 @@ const App = () => {
                   cursor: "pointer",
                 }}
               >
-                Tüm Çalışma Alanlarımız <ArrowUpRight size={18} style={{ color: "var(--color-accent)" }} />
+                Tüm Çalışma Alanlarımız{" "}
+                <ArrowUpRight
+                  size={18}
+                  style={{ color: "var(--color-accent)" }}
+                />
               </motion.button>
             </div>
           </div>
