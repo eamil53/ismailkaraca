@@ -47,7 +47,30 @@ import {
   Building2,
   Scroll,
   ShieldAlert,
+  Shield,
+  Home,
 } from "lucide-react";
+
+// Icon Helper for Dynamic Services
+const getIcon = (iconName, size = 28) => {
+  const iconMap = {
+    Gavel,
+    Briefcase,
+    Users,
+    MapPin,
+    Scale,
+    ShieldCheck,
+    Scroll,
+    Globe,
+    Building2,
+    ShieldAlert,
+    Shield,
+    Home,
+    FileText
+  };
+  const IconComponent = iconMap[iconName] || Briefcase;
+  return <IconComponent size={size} />;
+};
 
 const StarryBackground = ({
   color = "rgba(255, 255, 255, 0.8)",
@@ -2176,7 +2199,7 @@ const AppointmentPage = () => {
   );
 };
 
-const ServicesPage = () => {
+const ServicesPage = ({ dynamicServices = [] }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedGroup, setSelectedGroup] = useState("Tümü");
   const [selectedService, setSelectedService] = useState(null);
@@ -2185,7 +2208,7 @@ const ServicesPage = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  const allServices = [
+  const staticFallbackServices = [
     {
       title: "Ceza Hukuku",
       group: "Özel Hukuk",
@@ -2267,6 +2290,13 @@ const ServicesPage = () => {
         "Tüketicilerin ve satıcıların haklarının korunması, tüketici uyuşmazlıklarının çözümü için Tüketici Hakem Heyetleri ve Tüketici Mahkemeleri nezdinde temsil sağlıyoruz. Satın alınan ayıplı mal ve hizmetlerden doğan hak talepleri, tüketici sözleşmelerindeki haksız şartlar, konut ve tatil paketlerine dair tüketici davaları gibi konularda yasal haklarınızı koruyoruz.",
     },
   ];
+
+  const allServices = dynamicServices.length > 0
+    ? dynamicServices.map(svc => ({
+        ...svc,
+        icon: getIcon(svc.icon, 32)
+      }))
+    : staticFallbackServices;
 
   const filteredServices = allServices.filter((service) => {
     const matchesSearch =
@@ -2909,7 +2939,33 @@ const App = () => {
     }
   }, [currentHash]);
 
-  const services = [
+  const [dynamicServices, setDynamicServices] = useState([]);
+  const [servicesLoading, setServicesLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchDynamicServices = async () => {
+      try {
+        setServicesLoading(true);
+        const { data, error } = await supabase
+          .from("services")
+          .select("*")
+          .order("order", { ascending: true });
+        
+        if (error) {
+          console.error("Error fetching services:", error);
+        } else if (data && data.length > 0) {
+          setDynamicServices(data);
+        }
+      } catch (err) {
+        console.error("Failed to load services:", err);
+      } finally {
+        setServicesLoading(false);
+      }
+    };
+    fetchDynamicServices();
+  }, []);
+
+  const staticFallbackServices = [
     {
       title: "Ceza Hukuku",
       icon: <Gavel size={28} />,
@@ -2941,6 +2997,13 @@ const App = () => {
       desc: "Alacak tahsili ve borç ilişkilerinin hukuki zeminde etkin yönetilmesi.",
     },
   ];
+
+  const services = dynamicServices.length > 0
+    ? dynamicServices.slice(0, 6).map(svc => ({
+        ...svc,
+        icon: getIcon(svc.icon, 28)
+      }))
+    : staticFallbackServices;
 
   const fadeInUp = {
     initial: { opacity: 0, y: 60 },
@@ -3103,7 +3166,7 @@ const App = () => {
             )}
           </AnimatePresence>
 
-          <ServicesPage />
+          <ServicesPage dynamicServices={dynamicServices} />
 
           {/* Footer */}
           <footer
