@@ -66,7 +66,7 @@ const getIcon = (iconName, size = 28) => {
     ShieldAlert,
     Shield,
     Home,
-    FileText
+    FileText,
   };
   const IconComponent = iconMap[iconName] || Briefcase;
   return <IconComponent size={size} />;
@@ -2291,12 +2291,13 @@ const ServicesPage = ({ dynamicServices = [] }) => {
     },
   ];
 
-  const allServices = dynamicServices.length > 0
-    ? dynamicServices.map(svc => ({
-        ...svc,
-        icon: getIcon(svc.icon, 32)
-      }))
-    : staticFallbackServices;
+  const allServices =
+    dynamicServices.length > 0
+      ? dynamicServices.map((svc) => ({
+          ...svc,
+          icon: getIcon(svc.icon, 32),
+        }))
+      : staticFallbackServices;
 
   const filteredServices = allServices.filter((service) => {
     const matchesSearch =
@@ -2950,7 +2951,7 @@ const App = () => {
           .from("services")
           .select("*")
           .order("order", { ascending: true });
-        
+
         if (error) {
           console.error("Error fetching services:", error);
         } else if (data && data.length > 0) {
@@ -2998,12 +2999,13 @@ const App = () => {
     },
   ];
 
-  const services = dynamicServices.length > 0
-    ? dynamicServices.slice(0, 6).map(svc => ({
-        ...svc,
-        icon: getIcon(svc.icon, 28)
-      }))
-    : staticFallbackServices;
+  const services =
+    dynamicServices.length > 0
+      ? dynamicServices.slice(0, 6).map((svc) => ({
+          ...svc,
+          icon: getIcon(svc.icon, 28),
+        }))
+      : staticFallbackServices;
 
   const fadeInUp = {
     initial: { opacity: 0, y: 60 },
@@ -3731,7 +3733,9 @@ const App = () => {
                   href={
                     item === "Ana Sayfa"
                       ? "#"
-                      : `#${item.toLowerCase().replace(/ı/g, "i").replace(" ", "")}`
+                      : item === "Hizmetlerimiz"
+                        ? "#calisma-alanlarimiz"
+                        : `#${item.toLowerCase().replace(/ı/g, "i").replace(" ", "")}`
                   }
                 >
                   {item}
@@ -3825,7 +3829,9 @@ const App = () => {
                     href={
                       item === "Ana Sayfa"
                         ? "#"
-                        : `#${item.toLowerCase().replace(/ı/g, "i").replace(" ", "")}`
+                        : item === "Hizmetlerimiz"
+                          ? "#calisma-alanlarimiz"
+                          : `#${item.toLowerCase().replace(/ı/g, "i").replace(" ", "")}`
                     }
                     onClick={() => setIsMenuOpen(false)}
                     style={{
@@ -3885,6 +3891,9 @@ const App = () => {
                       border: "1px solid var(--color-border)",
                       color: "var(--color-primary)",
                     }}
+                    onClick={() =>
+                      (window.location.hash = "calisma-alanlarimiz")
+                    }
                   >
                     Hizmetlerimiz
                   </button>
