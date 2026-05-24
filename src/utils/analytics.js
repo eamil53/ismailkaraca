@@ -103,6 +103,7 @@ const getPageName = (hash) => {
   if (!hash || hash === '#' || hash === '#home') return 'Ana Sayfa';
   if (hash === '#hakkimizda' || hash === '#about') return 'Hakkımızda';
   if (hash === '#hizmetlerimiz') return 'Hizmetlerimiz';
+  if (hash === '#calisma-alanlarimiz') return 'Çalışma Alanlarımız';
   if (hash === '#blog') return 'Blog';
   if (hash.startsWith('#blog/')) return 'Blog Detay';
   if (hash === '#randevu') return 'Randevu Planlama';

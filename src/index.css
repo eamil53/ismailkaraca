@@ -428,3 +428,124 @@ footer {
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+
+/* --- Services Page & Modal Responsive Styles --- */
+.services-filter-bar {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+  border: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.services-filter-tabs {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.services-search-box {
+  position: relative;
+  flex: 1 1 300px;
+  max-width: 450px;
+}
+
+.services-modal-body {
+  background: white;
+  border-radius: 24px;
+  padding: 2.5rem 2rem;
+  width: 100%;
+  max-width: 680px;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.25);
+  border: 1px solid var(--color-border);
+  position: relative;
+}
+
+.services-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding-right: 2.5rem; /* space for absolute close button */
+}
+
+.services-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.services-cta-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .services-filter-bar {
+    padding: 1.25rem;
+    gap: 1rem;
+  }
+  .services-filter-tabs {
+    width: 100%;
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+  .services-filter-tabs button {
+    flex-shrink: 0;
+  }
+  .services-search-box {
+    width: 100%;
+    max-width: 100%;
+    flex: 1 1 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .services-modal-body {
+    padding: 1.75rem 1.25rem;
+    border-radius: 20px;
+    margin: 1rem;
+    max-height: 90vh;
+  }
+  .services-modal-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  .services-modal-header h2 {
+    font-size: 1.35rem !important;
+  }
+  .services-modal-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .services-modal-actions button {
+    width: 100%;
+    justify-content: center;
+  }
+  .services-cta-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: stretch;
+  }
+  .services-cta-actions button, .services-cta-actions a {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
