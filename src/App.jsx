@@ -2886,6 +2886,369 @@ const ServicesPage = ({ dynamicServices = [] }) => {
   );
 };
 
+const ContactPage = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  return (
+    <div
+      style={{
+        background: "#fcfcfc",
+        minHeight: "100vh",
+        paddingTop: "120px",
+        paddingBottom: "100px",
+        position: "relative",
+      }}
+    >
+      <StarryBackground
+        count={45}
+        color="rgba(184, 145, 70, 0.08)"
+        drift={true}
+      />
+
+      <div className="container">
+        {/* Başlık */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          style={{ textAlign: "center", marginBottom: "3.5rem" }}
+        >
+          <h1
+            style={{
+              fontSize: "clamp(2.2rem, 5vw, 3.2rem)",
+              fontFamily: "'Playfair Display', serif",
+              color: "var(--color-primary)",
+              fontWeight: 700,
+            }}
+          >
+            İletişim
+          </h1>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "100%",
+              maxWidth: "240px",
+              // DEĞİŞEN KISIM BURASI: Üstten 1.5rem, sağ/soldan otomatik ortalama, alttan 0
+              margin: "1.5rem auto 0",
+              gap: "12px",
+            }}
+          >
+            <div
+              style={{
+                flex: 1,
+                height: "1px",
+                background:
+                  "linear-gradient(to right, transparent, var(--color-accent))",
+              }}
+            ></div>
+            <div
+              style={{
+                width: "6px",
+                height: "6px",
+                borderRadius: "50%",
+                background: "var(--color-accent)",
+                boxShadow: "0 0 8px var(--color-accent)",
+              }}
+            ></div>
+            <div
+              style={{
+                flex: 1,
+                height: "1px",
+                background:
+                  "linear-gradient(to left, transparent, var(--color-accent))",
+              }}
+            ></div>
+          </div>
+        </motion.div>
+
+        {/* İletişim Bilgileri ve Form Grid Yapısı */}
+        <div className="hero-grid">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <span className="section-tag">Bizimle İletişime Geçin</span>
+            <h2
+              className="section-title"
+              style={{ marginTop: "1rem", letterSpacing: "1.5px" }}
+            >
+              Rize Merkez Ofisimiz
+            </h2>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "2rem",
+                marginTop: "2rem",
+              }}
+            >
+              <div
+                style={{ display: "flex", gap: "1.5rem", alignItems: "center" }}
+              >
+                <div
+                  style={{
+                    width: "50px",
+                    height: "50px",
+                    background: "var(--color-bg-light)",
+                    borderRadius: "50%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "var(--color-primary)",
+                  }}
+                >
+                  <Phone size={20} />
+                </div>
+                <p style={{ fontWeight: "700", margin: 0 }}>
+                  +90 (533) 730 80 53
+                </p>
+              </div>
+
+              <div
+                style={{ display: "flex", gap: "1.5rem", alignItems: "center" }}
+              >
+                <div
+                  style={{
+                    width: "50px",
+                    height: "50px",
+                    background: "var(--color-bg-light)",
+                    borderRadius: "50%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "var(--color-primary)",
+                  }}
+                >
+                  <Mail size={20} />
+                </div>
+                <p style={{ fontWeight: "700", margin: 0 }}>
+                  avismailkaraca@gmail.com
+                </p>
+              </div>
+
+              <div
+                style={{
+                  display: "flex",
+                  gap: "1.5rem",
+                  alignItems: "flex-start",
+                }}
+              >
+                <div
+                  style={{
+                    width: "50px",
+                    height: "50px",
+                    background: "var(--color-bg-light)",
+                    borderRadius: "50%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "var(--color-primary)",
+                    flexShrink: 0,
+                  }}
+                >
+                  <MapPin size={20} />
+                </div>
+                <p style={{ fontWeight: "700", lineHeight: "1.6", margin: 0 }}>
+                  Çarşı Mah. Kazım Karabekir Cad.
+                  <br />
+                  Kuyumcular Sk. Kutlu Han Kat:3 No:407
+                  <br />
+                  Merkez/RİZE
+                </p>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Form */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            style={{
+              background: "white",
+              padding: "3rem",
+              borderRadius: "20px",
+              border: "1px solid var(--color-border)",
+              boxShadow: "var(--shadow-soft)",
+            }}
+          >
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                const btn = e.target.querySelector("button");
+                const originalText = btn.innerText;
+                btn.innerText = "Gönderiliyor...";
+                btn.disabled = true;
+
+                const emailParams = {
+                  from_name: formData.get("user_name"),
+                  email: formData.get("user_email"),
+                  message: formData.get("message"),
+                  to_email: "avismailkaraca@gmail.com",
+                };
+
+                try {
+                  await emailjs.send(
+                    "service_dk86hrf",
+                    "template_38c07ft",
+                    emailParams,
+                    "7er87R9bTKtUt82Sb",
+                  );
+                  alert(
+                    "Mesajınız başarıyla iletildi. En kısa sürede dönüş yapılacaktır.",
+                  );
+                  e.target.reset();
+                } catch (err) {
+                  alert("Bir hata oluştu: " + err.message);
+                } finally {
+                  btn.innerText = originalText;
+                  btn.disabled = false;
+                }
+              }}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "1.5rem",
+              }}
+            >
+              <input
+                type="text"
+                name="user_name"
+                placeholder="Ad Soyad"
+                required
+                style={{
+                  padding: "1rem",
+                  borderRadius: "8px",
+                  border: "1px solid var(--color-border)",
+                  outline: "none",
+                  fontFamily: "inherit",
+                }}
+              />
+              <input
+                type="email"
+                name="user_email"
+                placeholder="E-Posta"
+                required
+                style={{
+                  padding: "1rem",
+                  borderRadius: "8px",
+                  border: "1px solid var(--color-border)",
+                  outline: "none",
+                  fontFamily: "inherit",
+                }}
+              />
+              <textarea
+                name="message"
+                placeholder="Mesajınız"
+                required
+                rows={5}
+                style={{
+                  padding: "1rem",
+                  borderRadius: "8px",
+                  border: "1px solid var(--color-border)",
+                  outline: "none",
+                  fontFamily: "inherit",
+                  resize: "none",
+                }}
+              ></textarea>
+              <button
+                type="submit"
+                className="btn btn-primary"
+                style={{ justifyContent: "center" }}
+              >
+                Gönder
+              </button>
+            </form>
+          </motion.div>
+        </div>
+
+        {/* Harita */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          style={{
+            width: "100%",
+            height: "450px",
+            marginTop: "5rem",
+            borderRadius: "24px",
+            overflow: "hidden",
+            boxShadow: "0 10px 30px rgba(0,0,0,0.1)",
+            border: "1px solid var(--color-border)",
+            position: "relative",
+            zIndex: 0,
+          }}
+        >
+          <MapContainer
+            center={[41.02445836843119, 40.518543870827614]}
+            zoom={16}
+            scrollWheelZoom={false}
+            style={{ height: "100%", width: "100%", zIndex: 1 }}
+          >
+            <TileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+              url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+            />
+            <Marker
+              position={[41.02445836843119, 40.518543870827614]}
+              icon={customIcon}
+            >
+              <Popup>
+                <div style={{ textAlign: "center", padding: "0.5rem" }}>
+                  <h3
+                    style={{
+                      fontFamily: "'Playfair Display', serif",
+                      color: "var(--color-primary)",
+                      margin: "0 0 0.5rem 0",
+                      fontSize: "1.1rem",
+                    }}
+                  >
+                    Karaca Hukuk & Danışmanlık
+                  </h3>
+                  <p
+                    style={{
+                      margin: "0 0 0.5rem 0",
+                      color: "var(--color-text-muted)",
+                      fontSize: "0.85rem",
+                      lineHeight: "1.4",
+                    }}
+                  >
+                    Çarşı Mah. Kazım Karabekir Cad. Kutlu Han K:3 N:407
+                    Merkez/RİZE
+                  </p>
+                  <a
+                    href="https://www.google.com/maps/dir/?api=1&destination=41.02445836843119,40.518543870827614"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: "inline-block",
+                      background: "var(--color-accent)",
+                      color: "white",
+                      padding: "0.5rem 1rem",
+                      borderRadius: "8px",
+                      textDecoration: "none",
+                      fontSize: "0.85rem",
+                      fontWeight: "600",
+                    }}
+                  >
+                    Yol Tarifi Al
+                  </a>
+                </div>
+              </Popup>
+            </Marker>
+          </MapContainer>
+        </motion.div>
+      </div>
+    </div>
+  );
+};
+
 const App = () => {
   const [currentHash, setCurrentHash] = useState(window.location.hash);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -2924,7 +3287,7 @@ const App = () => {
     // Hash to Section ID mapping for homepage scrolling
     const hashToId = {
       "#hizmetlerimiz": "services",
-      "#iletisim": "contact",
+      //"#iletisim": "contact",
       "#about": "about",
       "#home": "home",
     };
@@ -3145,7 +3508,9 @@ const App = () => {
                           ? "#"
                           : item === "Hizmetlerimiz"
                             ? "#calisma-alanlarimiz"
-                            : `#${item.toLowerCase().replace(/ı/g, "i").replace(" ", "")}`
+                            : item === "İletişim"
+                              ? "#iletisim"
+                              : `#${item.toLowerCase().replace(/ı/g, "i").replace(" ", "")}`
                       }
                       onClick={() => setIsMenuOpen(false)}
                       style={{
@@ -3321,7 +3686,9 @@ const App = () => {
                           ? "#"
                           : item === "Hizmetlerimiz"
                             ? "#calisma-alanlarimiz"
-                            : `#${item.toLowerCase().replace(/ı/g, "i").replace(" ", "")}`
+                            : item === "İletişim"
+                              ? "#iletisim"
+                              : `#${item.toLowerCase().replace(/ı/g, "i").replace(" ", "")}`
                       }
                       onClick={() => setIsMenuOpen(false)}
                       style={{
@@ -3492,7 +3859,9 @@ const App = () => {
                           ? "#"
                           : item === "Hizmetlerimiz"
                             ? "#calisma-alanlarimiz"
-                            : `#${item.toLowerCase().replace(/ı/g, "i").replace(" ", "")}`
+                            : item === "İletişim"
+                              ? "#iletisim"
+                              : `#${item.toLowerCase().replace(/ı/g, "i").replace(" ", "")}`
                       }
                       onClick={() => setIsMenuOpen(false)}
                       style={{
@@ -3642,7 +4011,9 @@ const App = () => {
                           ? "#"
                           : item === "Hizmetlerimiz"
                             ? "#calisma-alanlarimiz"
-                            : `#${item.toLowerCase().replace(/ı/g, "i").replace(" ", "")}`
+                            : item === "İletişim"
+                              ? "#iletisim"
+                              : `#${item.toLowerCase().replace(/ı/g, "i").replace(" ", "")}`
                       }
                       onClick={() => setIsMenuOpen(false)}
                       style={{
@@ -3670,6 +4041,214 @@ const App = () => {
 
   if (currentHash === "#admin") {
     return <AdminApp />;
+  }
+
+  if (currentHash === "#iletisim") {
+    return (
+      <>
+        <div className="app-container">
+          <nav className="navbar scrolled">
+            <div className="container nav-content">
+              <a
+                href="#home"
+                className="logo-container"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  textDecoration: "none",
+                }}
+              >
+                <div className="logo" style={{ lineHeight: "1" }}>
+                  KARACA <span>HUKUK</span>
+                </div>
+                <div
+                  style={{
+                    fontSize: "0.85rem",
+                    fontFamily: "'Playfair Display', serif",
+                    fontStyle: "italic",
+                    color: "var(--color-text-muted)",
+                    letterSpacing: "1.5px",
+                    marginTop: "5px",
+                  }}
+                >
+                  Av. İsmail Karaca
+                </div>
+              </a>
+              <div className="nav-links">
+                <a href="#">Ana Sayfa</a>
+                <a href="#hakkimizda">Hakkımızda</a>
+                <a href="#calisma-alanlarimiz">Hizmetlerimiz</a>
+                <a href="#blog">Blog</a>
+                <a href="#iletisim" style={{ color: "var(--color-accent)" }}>
+                  İletişim
+                </a>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => (window.location.hash = "randevu")}
+                >
+                  Randevu Planla
+                </button>
+              </div>
+              {/* Mobil Menü Buton Alanı */}
+              <div
+                className="mobile-header-actions"
+                style={{ alignItems: "center", gap: "0.75rem" }}
+              >
+                <button
+                  className="btn btn-primary"
+                  style={{
+                    padding: "0.4rem 0.8rem",
+                    fontSize: "0.8rem",
+                    borderRadius: "6px",
+                  }}
+                  onClick={() => (window.location.hash = "randevu")}
+                >
+                  Randevu
+                </button>
+                <button
+                  className="mobile-menu-btn"
+                  onClick={() => setIsMenuOpen(!isMenuOpen)}
+                >
+                  {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+                </button>
+              </div>
+            </div>
+          </nav>
+
+          {/* Mobil Menü Açılır Penceresi */}
+          <AnimatePresence>
+            {isMenuOpen && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                style={{
+                  position: "fixed",
+                  top: "65px",
+                  left: 0,
+                  width: "100%",
+                  background: "rgba(255, 255, 255, 0.98)",
+                  backdropFilter: "blur(10px)",
+                  zIndex: 999,
+                  boxShadow: "0 10px 20px rgba(0,0,0,0.05)",
+                  display: "flex",
+                  flexDirection: "column",
+                  overflow: "hidden",
+                  borderBottom: "1px solid var(--color-border)",
+                }}
+              >
+                <div
+                  style={{
+                    padding: "2rem 1.5rem",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "1.5rem",
+                  }}
+                >
+                  <a
+                    href="#"
+                    onClick={() => setIsMenuOpen(false)}
+                    style={{
+                      textDecoration: "none",
+                      color: "var(--color-primary)",
+                      fontSize: "1.1rem",
+                      fontWeight: 600,
+                      borderBottom: "1px solid var(--color-border)",
+                      paddingBottom: "0.75rem",
+                    }}
+                  >
+                    Ana Sayfa
+                  </a>
+                  <a
+                    href="#hakkimizda"
+                    onClick={() => setIsMenuOpen(false)}
+                    style={{
+                      textDecoration: "none",
+                      color: "var(--color-primary)",
+                      fontSize: "1.1rem",
+                      fontWeight: 600,
+                      borderBottom: "1px solid var(--color-border)",
+                      paddingBottom: "0.75rem",
+                    }}
+                  >
+                    Hakkımızda
+                  </a>
+                  <a
+                    href="#calisma-alanlarimiz"
+                    onClick={() => setIsMenuOpen(false)}
+                    style={{
+                      textDecoration: "none",
+                      color: "var(--color-primary)",
+                      fontSize: "1.1rem",
+                      fontWeight: 600,
+                      borderBottom: "1px solid var(--color-border)",
+                      paddingBottom: "0.75rem",
+                    }}
+                  >
+                    Hizmetlerimiz
+                  </a>
+                  <a
+                    href="#blog"
+                    onClick={() => setIsMenuOpen(false)}
+                    style={{
+                      textDecoration: "none",
+                      color: "var(--color-primary)",
+                      fontSize: "1.1rem",
+                      fontWeight: 600,
+                      borderBottom: "1px solid var(--color-border)",
+                      paddingBottom: "0.75rem",
+                    }}
+                  >
+                    Blog
+                  </a>
+                  <a
+                    href="#iletisim"
+                    onClick={() => setIsMenuOpen(false)}
+                    style={{
+                      textDecoration: "none",
+                      color: "var(--color-accent)",
+                      fontSize: "1.1rem",
+                      fontWeight: 600,
+                      borderBottom: "1px solid var(--color-border)",
+                      paddingBottom: "0.75rem",
+                    }}
+                  >
+                    İletişim
+                  </a>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Yeni Sayfa Bileşeni */}
+          <ContactPage />
+
+          {/* Footer */}
+          <footer
+            style={{
+              background: "var(--color-primary)",
+              color: "white",
+              padding: "4rem 0 2rem",
+            }}
+          >
+            <div className="container">
+              <div
+                style={{
+                  borderTop: "1px solid rgba(255,255,255,0.1)",
+                  paddingTop: "2rem",
+                  textAlign: "center",
+                  fontSize: "0.85rem",
+                }}
+              >
+                © 2026 Karaca Hukuk & Danışmanlık | Tüm Hakları Saklıdır.
+              </div>
+            </div>
+          </footer>
+
+          <WhatsAppWidget />
+        </div>
+      </>
+    );
   }
 
   return (
@@ -3735,7 +4314,9 @@ const App = () => {
                       ? "#"
                       : item === "Hizmetlerimiz"
                         ? "#calisma-alanlarimiz"
-                        : `#${item.toLowerCase().replace(/ı/g, "i").replace(" ", "")}`
+                        : item === "İletişim"
+                          ? "#iletisim"
+                          : `#${item.toLowerCase().replace(/ı/g, "i").replace(" ", "")}`
                   }
                 >
                   {item}
@@ -3831,7 +4412,9 @@ const App = () => {
                         ? "#"
                         : item === "Hizmetlerimiz"
                           ? "#calisma-alanlarimiz"
-                          : `#${item.toLowerCase().replace(/ı/g, "i").replace(" ", "")}`
+                          : item === "İletişim"
+                            ? "#iletisim"
+                            : `#${item.toLowerCase().replace(/ı/g, "i").replace(" ", "")}`
                     }
                     onClick={() => setIsMenuOpen(false)}
                     style={{
