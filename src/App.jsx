@@ -2979,14 +2979,7 @@ const ContactPage = () => {
             >
               Rize Merkez Ofisimiz
             </h2>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "2rem",
-                marginTop: "2rem",
-              }}
-            >
+            <div className="contact-info-container">
               <div
                 style={{ display: "flex", gap: "1.5rem", alignItems: "center" }}
               >
@@ -3000,11 +2993,12 @@ const ContactPage = () => {
                     alignItems: "center",
                     justifyContent: "center",
                     color: "var(--color-primary)",
+                    flexShrink: 0,
                   }}
                 >
                   <Phone size={20} />
                 </div>
-                <p style={{ fontWeight: "700", margin: 0 }}>
+                <p style={{ fontWeight: "700", margin: 0, textAlign: "left" }}>
                   +90 (533) 730 80 53
                 </p>
               </div>
@@ -3022,11 +3016,12 @@ const ContactPage = () => {
                     alignItems: "center",
                     justifyContent: "center",
                     color: "var(--color-primary)",
+                    flexShrink: 0,
                   }}
                 >
                   <Mail size={20} />
                 </div>
-                <p style={{ fontWeight: "700", margin: 0 }}>
+                <p style={{ fontWeight: "700", margin: 0, textAlign: "left", wordBreak: "break-all" }}>
                   avismailkaraca@gmail.com
                 </p>
               </div>
@@ -3049,11 +3044,12 @@ const ContactPage = () => {
                     justifyContent: "center",
                     color: "var(--color-primary)",
                     flexShrink: 0,
+                    marginTop: "3px",
                   }}
                 >
                   <MapPin size={20} />
                 </div>
-                <p style={{ fontWeight: "700", lineHeight: "1.6", margin: 0 }}>
+                <p style={{ fontWeight: "700", lineHeight: "1.6", margin: 0, textAlign: "left", wordBreak: "break-word" }}>
                   Çarşı Mah. Kazım Karabekir Cad.
                   <br />
                   Kuyumcular Sk. Kutlu Han Kat:3 No:407
@@ -4749,14 +4745,7 @@ const App = () => {
               <motion.div {...fadeInUp}>
                 <span className="section-tag">İletişime Geçin</span>
                 <h2 className="section-title">Biz Buradayız</h2>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "2rem",
-                    marginTop: "2rem",
-                  }}
-                >
+                <div className="contact-info-container">
                   <div
                     style={{
                       display: "flex",
@@ -4774,11 +4763,14 @@ const App = () => {
                         alignItems: "center",
                         justifyContent: "center",
                         color: "var(--color-primary)",
+                        flexShrink: 0,
                       }}
                     >
                       <Phone size={20} />
                     </div>
-                    <p style={{ fontWeight: "700" }}>+90 (533) 730 80 53</p>
+                    <p style={{ fontWeight: "700", margin: 0, textAlign: "left" }}>
+                      +90 (533) 730 80 53
+                    </p>
                   </div>
                   <div
                     style={{
@@ -4797,11 +4789,12 @@ const App = () => {
                         alignItems: "center",
                         justifyContent: "center",
                         color: "var(--color-primary)",
+                        flexShrink: 0,
                       }}
                     >
                       <Mail size={20} />
                     </div>
-                    <p style={{ fontWeight: "700" }}>
+                    <p style={{ fontWeight: "700", margin: 0, textAlign: "left", wordBreak: "break-all" }}>
                       avismailkaraca@gmail.com
                     </p>
                   </div>
@@ -4823,6 +4816,7 @@ const App = () => {
                         justifyContent: "center",
                         color: "var(--color-primary)",
                         flexShrink: 0,
+                        marginTop: "3px",
                       }}
                     >
                       <MapPin size={20} />
@@ -4832,6 +4826,8 @@ const App = () => {
                         fontWeight: "700",
                         lineHeight: "1.6",
                         textAlign: "left",
+                        margin: 0,
+                        wordBreak: "break-word",
                       }}
                     >
                       Çarşı Mah. Kazım Karabekir Cad.

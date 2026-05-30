@@ -287,6 +287,25 @@ h1, h2, h3, h4, h5, h6 {
   .practice-grid { grid-template-columns: 1fr; }
 }
 
+/* --- Contact Info Centering & Alignment --- */
+.contact-info-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 2rem;
+  text-align: left;
+}
+
+@media (max-width: 968px) {
+  .contact-info-container {
+    max-width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    align-items: flex-start;
+  }
+}
+
+
 /* --- Footer --- */
 footer {
   background: var(--color-bg-light);
