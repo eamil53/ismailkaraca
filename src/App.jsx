@@ -43,7 +43,34 @@ import {
   Clock,
   Search,
   Tag,
+  FileText,
+  Building2,
+  Scroll,
+  ShieldAlert,
+  Shield,
+  Home,
 } from "lucide-react";
+
+// Icon Helper for Dynamic Services
+const getIcon = (iconName, size = 28) => {
+  const iconMap = {
+    Gavel,
+    Briefcase,
+    Users,
+    MapPin,
+    Scale,
+    ShieldCheck,
+    Scroll,
+    Globe,
+    Building2,
+    ShieldAlert,
+    Shield,
+    Home,
+    FileText,
+  };
+  const IconComponent = iconMap[iconName] || Briefcase;
+  return <IconComponent size={size} />;
+};
 
 const StarryBackground = ({
   color = "rgba(255, 255, 255, 0.8)",
@@ -233,7 +260,7 @@ const DigitalBusinessCard = () => {
       "URL:https://rizeavukatkaraca.com",
       "ADR;TYPE=WORK,POSTAL,PARCEL:;;Çarşı Mah. Kazım Karabekir Cad. Kutlu Han Kat:3 No:407;Merkez;Rize;53100;Turkey",
       "NOTE:Karaca Hukuk & Danışmanlık Kurucu Avukatı",
-      "END:VCARD"
+      "END:VCARD",
     ].join("\r\n");
 
     const blob = new Blob([vcard], { type: "text/vcard;charset=utf-8;" });
@@ -482,18 +509,28 @@ const DigitalBusinessCard = () => {
         }
       `}</style>
 
-      <StarryBackground count={40} color="rgba(184, 145, 70, 0.15)" drift={true} />
+      <StarryBackground
+        count={40}
+        color="rgba(184, 145, 70, 0.15)"
+        drift={true}
+      />
 
       <div className="card-container">
         <img src={logoImage} alt="Karaca Hukuk Logo" className="logo-img" />
 
         <div className="avatar-wrapper">
-          <img src={ismailKaraca} alt="Av. İsmail Karaca" className="avatar-img" />
+          <img
+            src={ismailKaraca}
+            alt="Av. İsmail Karaca"
+            className="avatar-img"
+          />
         </div>
 
         <div>
           <h1 className="lawyer-name">Av. İsmail Karaca</h1>
-          <p className="lawyer-title" style={{ marginTop: "0.5rem" }}>Kurucu Avukat / Arabulucu</p>
+          <p className="lawyer-title" style={{ marginTop: "0.5rem" }}>
+            Kurucu Avukat / Arabulucu
+          </p>
         </div>
 
         <span className="bar-badge">Rize Barosu</span>
@@ -512,14 +549,32 @@ const DigitalBusinessCard = () => {
           </a>
 
           <a href="tel:+905337308053" className="btn-card btn-call">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg
+              viewBox="0 0 24 24"
+              width="20"
+              height="20"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
               <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
             </svg>
             Doğrudan Ara
           </a>
 
           <button onClick={handleSaveContact} className="btn-card btn-save">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg
+              viewBox="0 0 24 24"
+              width="20"
+              height="20"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
               <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
               <polyline points="17 21 17 13 7 13 7 21" />
               <polyline points="7 3 7 8 15 8" />
@@ -528,7 +583,16 @@ const DigitalBusinessCard = () => {
           </button>
 
           <a href="#home" className="btn-card btn-website">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg
+              viewBox="0 0 24 24"
+              width="20"
+              height="20"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
               <circle cx="12" cy="12" r="10" />
               <line x1="2" y1="12" x2="22" y2="12" />
               <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
@@ -538,12 +602,22 @@ const DigitalBusinessCard = () => {
         </div>
 
         <div className="address-box">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="var(--color-accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg
+            viewBox="0 0 24 24"
+            width="18"
+            height="18"
+            fill="none"
+            stroke="var(--color-accent)"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
             <circle cx="12" cy="10" r="3" />
           </svg>
           <p className="address-text">
-            Çarşı Mah. Kazım Karabekir Cad. Kuyumcular Sk. Kutlu Han K:3 No:407 Merkez/RİZE
+            Çarşı Mah. Kazım Karabekir Cad. Kuyumcular Sk. Kutlu Han K:3 No:407
+            Merkez/RİZE
           </p>
           <a
             href="https://www.google.com/maps/dir/?api=1&destination=41.02445836843119,40.518543870827614"
@@ -551,7 +625,8 @@ const DigitalBusinessCard = () => {
             rel="noopener noreferrer"
             className="btn-directions"
           >
-            Yol Tarifi Al <span style={{ fontSize: "1.1rem", lineHeight: "1" }}>→</span>
+            Yol Tarifi Al{" "}
+            <span style={{ fontSize: "1.1rem", lineHeight: "1" }}>→</span>
           </a>
         </div>
 
@@ -559,14 +634,14 @@ const DigitalBusinessCard = () => {
           <p className="areas-title">Çalışma Alanları</p>
           <div className="areas-grid">
             {practiceAreas.map((area, index) => (
-              <span key={index} className="area-pill">{area}</span>
+              <span key={index} className="area-pill">
+                {area}
+              </span>
             ))}
           </div>
         </div>
 
-        <div className="card-footer">
-          © 2026 Karaca Hukuk & Danışmanlık
-        </div>
+        <div className="card-footer">© 2026 Karaca Hukuk & Danışmanlık</div>
       </div>
     </div>
   );
@@ -2529,6 +2604,1067 @@ const AppointmentPage = () => {
   );
 };
 
+const ServicesPage = ({ dynamicServices = [] }) => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedGroup, setSelectedGroup] = useState("Tümü");
+  const [selectedService, setSelectedService] = useState(null);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  const staticFallbackServices = [
+    {
+      title: "Ceza Hukuku",
+      group: "Özel Hukuk",
+      icon: <Gavel size={32} />,
+      desc: "Soruşturma ve kovuşturma aşamalarında, sanık ve mağdur haklarının temsili.",
+      detail:
+        "Ceza hukuku, bireylerin özgürlük ve hak kısıtlamalarıyla en doğrudan karşılaştığı son derece hassas bir alandır. Karaca Hukuk, soruşturma aşamasından (ifade alım, kolluk ve savcılık işlemleri, sorgu hakimliğindeki tutuklama ve adli kontrol incelemeleri) kovuşturma aşamasına (Ağır Ceza Mahkemeleri, Asliye Ceza Mahkemeleri ve İcra Ceza Mahkemeleri) kadar müvekkillerine savunma haklarını en üst düzeyde kullanabilmeleri için etkin bir temsil sunar. Ayrıca istinaf ve temyiz (Yargıtay) başvuru süreçlerinde de titizlikle dosya takibi yaparak hak kayıplarını engellemektedir.",
+    },
+    {
+      title: "Aile Hukuku",
+      group: "Özel Hukuk",
+      icon: <Users size={32} />,
+      desc: "Boşanma, velayet, nafaka ve mal rejimi uyuşmazlıklarında çözüm odaklı yaklaşım.",
+      detail:
+        "Aile ve şahsın hukuku uyuşmazlıkları, taraflar açısından duygusal boyutu yüksek ve hassas süreçlerdir. Bu sebeple çalışmalarımız yüksek gizlilik, empati ve mesleki profesyonellik çerçevesinde yürütülmektedir. Anlaşmalı boşanma protokollerinin hazırlığı, çekişmeli boşanma davaları, velayet, nafaka talepleri, mal paylaşımı davaları, soybağının kurulması ve vesayet işlemleri gibi konularda yasal haklarınızı tam anlamıyla koruyacak etkin çözümler sunmaktayız.",
+    },
+    {
+      title: "Gayrimenkul ve Kira Hukuku",
+      group: "Özel Hukuk",
+      icon: <MapPin size={32} />,
+      desc: "Tapu iptal, tescil, ortaklığın giderilmesi ve kira uyuşmazlıkları danışmanlığı.",
+      detail:
+        "Gayrimenkul ve kira hukuku, taşınmazların mülkiyeti, yönetimi ve bunlardan doğan uyuşmazlıkları kapsar. Özellikle Tapu İptal ve Tescil davaları, ortaklığın giderilmesi (izale-i şuyu) davaları, kira bedeli tespiti ve tahliye davaları, kat karşılığı inşaat sözleşmeleri, kamulaştırma davalarında taşınmaz sahiplerine ve kiracılara profesyonel danışmanlık ve dava takibi sağlamaktayız.",
+    },
+    {
+      title: "İş ve Sosyal Güvenlik Hukuku",
+      group: "Özel Hukuk",
+      icon: <Briefcase size={32} />,
+      desc: "İşe iade, kıdem/ihbar tazminatları ve iş kazalarından doğan alacak davaları takibi.",
+      detail:
+        "İşçi ve işveren arasındaki ilişkilerin düzenlenmesi, hakların korunması ve uyuşmazlıkların çözümü temel uzmanlık alanlarımızdandır. İhbar ve kıdem tazminatı alacakları, fazla mesai, yıllık izin ücret alacakları, iş kazalarından kaynaklanan maddi ve manevi tazminat davaları ile SGK nezdinde hizmet tespiti davalarında müvekkillerimizi en iyi şekilde temsil ediyoruz. Ayrıca zorunlu iş arabuluculuğu süreçlerinde de aktif danışmanlık hizmeti sunmaktayız.",
+    },
+    {
+      title: "Tazminat Hukuku",
+      group: "Özel Hukuk",
+      icon: <Scale size={32} />,
+      desc: "Maddi ve manevi tazminat davalarında hak kayıplarını önleyen profesyonel süreç yönetimi.",
+      detail:
+        "Tazminat hukuku, haksız fiil, sözleşmeye aykırılık veya başka bir hukuka aykırı eylem sebebiyle uğranılan maddi ve manevi zararların tazmin edilmesini amaçlar. Trafik kazalarından doğan tazminat davaları, tıbbi uygulama hataları (malpraktis) davaları, iş kazalarından doğan tazminat talepleri, kişilik haklarına saldırı gibi nedenlerle açılan maddi ve manevi tazminat davalarında müvekkillerimizin kayıplarının telafisi için süreci büyük bir titizlikle yürütmekteyiz.",
+    },
+    {
+      title: "İcra ve İflas Hukuku",
+      group: "Özel Hukuk",
+      icon: <ShieldCheck size={32} />,
+      desc: "Alacak tahsili, icra takipleri ve borç ilişkilerinin hukuki zeminde yönetilmesi.",
+      detail:
+        "Alacakların hızlı, etkin ve hukuka uygun şekilde tahsili için icra-iflas mekanizmasının profesyonelce yönetilmesi gerekir. İlamsız, ilamlı ve kambiyo senedine dayalı icra takipleri, ihtiyati haciz kararlarının alınarak uygulanması, istihkak davaları, borca/imzaya itiraz davaları ile alacaklı veya borçlu konumdaki müvekkiller için borç tasfiyesi ve yapılandırma süreçlerinde hukuki destek sağlamaktayız.",
+    },
+    {
+      title: "Miras Hukuku",
+      group: "Özel Hukuk",
+      icon: <Scroll size={32} />,
+      desc: "Mirasçılık belgesi alınması, vasiyetname düzenleme ve ortaklık paylaşımları.",
+      detail:
+        "Miras hukuku, vefat eden bir kimsenin mal varlığının yasal ve atanmış mirasçılar arasında nasıl paylaştırılacağını düzenler. Veraset ilamı (mirasçılık belgesi) alınması, miras paylaşımları ve miras taksim sözleşmelerinin hazırlanması, vasiyetname ve mirasçı atama sözleşmelerinin yasal usullere uygun düzenlenmesi, tenkis ve muris muvazaası (mirastan mal kaçırma) davaları ile mirası reddetme (reddi miras) davalarında kapsamlı ve güvenilir danışmanlık hizmeti sunmaktayız.",
+    },
+    {
+      title: "İdare ve Vergi Hukuku",
+      group: "Kamu Hukuku",
+      icon: <Globe size={32} />,
+      desc: "İdari işlemlerin iptali, tam yargı davaları ve vergi cezaları uyuşmazlıkları.",
+      detail:
+        "Kamu kurumlarının yasalara aykırı eylem ve işlemlerine karşı bireylerin ve şirketlerin haklarını korumak hukuk devletinin gereğidir. İdari işlemlerin iptali davaları, idari para cezalarına karşı iptal başvuruları, tam yargı (tazminat) davaları, devlet memurları disiplin ve atama davaları ile haksız vergi tarhiyatı ve cezalarına karşı açılacak davalarda profesyonel dava takip hizmeti vermekteyiz.",
+    },
+    {
+      title: "Ticaret ve Şirketler Hukuku",
+      group: "Özel Hukuk",
+      icon: <Building2 size={32} />,
+      desc: "Şirket kuruluşu, ticari sözleşmeler, birleşmeler ve ticari alacak davaları.",
+      detail:
+        "Şirketlerin ticari faaliyetlerini güvenli bir hukuki zeminde sürdürebilmeleri için koruyucu hukuk ve danışmanlık hizmeti sunmaktayız. Şirket kuruluş işlemleri, genel kurul kararlarının hukuki denetimi, ticari sözleşmelerin hazırlanması ve analizi, şirket birleşme ve devralmaları, haksız rekabet davaları ve ticari alacak/tazminat davalarında profesyonel danışmanlık ve avukatlık hizmeti sağlamaktayız.",
+    },
+    {
+      title: "Tüketici Hukuku",
+      group: "Özel Hukuk",
+      icon: <ShieldAlert size={32} />,
+      desc: "Ayıplı mal ve hizmet uyuşmazlıkları, Tüketici Hakem Heyeti başvuruları.",
+      detail:
+        "Tüketicilerin ve satıcıların haklarının korunması, tüketici uyuşmazlıklarının çözümü için Tüketici Hakem Heyetleri ve Tüketici Mahkemeleri nezdinde temsil sağlıyoruz. Satın alınan ayıplı mal ve hizmetlerden doğan hak talepleri, tüketici sözleşmelerindeki haksız şartlar, konut ve tatil paketlerine dair tüketici davaları gibi konularda yasal haklarınızı koruyoruz.",
+    },
+  ];
+
+  const allServices =
+    dynamicServices.length > 0
+      ? dynamicServices.map((svc) => ({
+          ...svc,
+          icon: getIcon(svc.icon, 32),
+        }))
+      : staticFallbackServices;
+
+  const filteredServices = allServices.filter((service) => {
+    const matchesSearch =
+      service.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      service.desc.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      service.detail.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesGroup =
+      selectedGroup === "Tümü" || service.group === selectedGroup;
+    return matchesSearch && matchesGroup;
+  });
+
+  return (
+    <div
+      style={{
+        background: "#fcfcfc",
+        minHeight: "100vh",
+        paddingTop: "120px",
+        paddingBottom: "100px",
+        position: "relative",
+      }}
+    >
+      <StarryBackground
+        count={50}
+        color="rgba(184, 145, 70, 0.08)"
+        drift={true}
+      />
+
+      <div className="container">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          style={{
+            textAlign: "center",
+            marginBottom: "3.5rem",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <span className="section-tag">Hizmetlerimiz</span>
+          <h1
+            style={{
+              fontSize: "clamp(2.2rem, 5vw, 3.5rem)",
+              fontFamily: "'Playfair Display', serif",
+              color: "var(--color-primary)",
+              margin: 0,
+              fontWeight: 700,
+              letterSpacing: "1px",
+              lineHeight: "1.2",
+            }}
+          >
+            Çalışma Alanlarımız
+          </h1>
+          <p
+            style={{
+              color: "var(--color-text-muted)",
+              marginTop: "1rem",
+              maxWidth: "650px",
+              fontSize: "1.05rem",
+              lineHeight: "1.6",
+            }}
+          >
+            Karaca Hukuk & Danışmanlık olarak hukukun farklı disiplinlerinde
+            uzmanlaşmış yaklaşımlarla güvenilir ve çözüm odaklı avukatlık
+            hizmeti sunuyoruz.
+          </p>
+
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "100%",
+              maxWidth: "240px",
+              marginTop: "1.5rem",
+              gap: "12px",
+            }}
+          >
+            <div
+              style={{
+                flex: 1,
+                height: "1px",
+                background:
+                  "linear-gradient(to right, transparent, var(--color-accent))",
+              }}
+            ></div>
+            <div
+              style={{
+                width: "6px",
+                height: "6px",
+                borderRadius: "50%",
+                background: "var(--color-accent)",
+                boxShadow: "0 0 8px var(--color-accent)",
+              }}
+            ></div>
+            <div
+              style={{
+                flex: 1,
+                height: "1px",
+                background:
+                  "linear-gradient(to left, transparent, var(--color-accent))",
+              }}
+            ></div>
+          </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="services-filter-bar"
+        >
+          <div className="services-filter-tabs">
+            {["Tümü", "Özel Hukuk", "Kamu Hukuku"].map((group) => (
+              <button
+                key={group}
+                onClick={() => setSelectedGroup(group)}
+                style={{
+                  padding: "0.6rem 1.5rem",
+                  borderRadius: "30px",
+                  border: "1px solid",
+                  borderColor:
+                    selectedGroup === group
+                      ? "var(--color-accent)"
+                      : "var(--color-border)",
+                  background:
+                    selectedGroup === group
+                      ? "rgba(184, 145, 70, 0.08)"
+                      : "transparent",
+                  color:
+                    selectedGroup === group
+                      ? "var(--color-accent)"
+                      : "var(--color-text-muted)",
+                  fontWeight: selectedGroup === group ? "700" : "500",
+                  cursor: "pointer",
+                  fontSize: "0.85rem",
+                  transition: "all 0.3s ease",
+                }}
+              >
+                {group}
+              </button>
+            ))}
+          </div>
+
+          <div className="services-search-box">
+            <span
+              style={{
+                position: "absolute",
+                left: "1.2rem",
+                top: "50%",
+                transform: "translateY(-50%)",
+                color: "var(--color-text-muted)",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <Search size={18} />
+            </span>
+            <input
+              type="text"
+              placeholder="Çalışma alanlarında ara..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              style={{
+                width: "100%",
+                padding: "0.75rem 1rem 0.75rem 2.8rem",
+                borderRadius: "30px",
+                border: "1px solid var(--color-border)",
+                outline: "none",
+                fontSize: "0.9rem",
+                fontFamily: "inherit",
+                background: "#fafafa",
+                transition: "all 0.3s ease",
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = "var(--color-accent)";
+                e.target.style.background = "white";
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = "var(--color-border)";
+                e.target.style.background = "#fafafa";
+              }}
+            />
+          </div>
+        </motion.div>
+
+        {filteredServices.length === 0 ? (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            style={{
+              textAlign: "center",
+              padding: "4rem 2rem",
+              background: "white",
+              borderRadius: "24px",
+              border: "1px dashed var(--color-border)",
+              maxWidth: "600px",
+              margin: "2rem auto",
+            }}
+          >
+            <Search
+              size={40}
+              style={{
+                color: "var(--color-accent)",
+                opacity: 0.5,
+                marginBottom: "1rem",
+              }}
+            />
+            <h3
+              style={{
+                fontSize: "1.3rem",
+                color: "var(--color-primary)",
+                marginBottom: "0.5rem",
+              }}
+            >
+              Sonuç Bulunamadı
+            </h3>
+            <p
+              style={{ color: "var(--color-text-muted)", fontSize: "0.95rem" }}
+            >
+              Arama kriterlerinize uygun çalışma alanı bulunamadı. Lütfen
+              kelimeyi değiştirmeyi deneyin.
+            </p>
+            <button
+              onClick={() => {
+                setSearchTerm("");
+                setSelectedGroup("Tümü");
+              }}
+              className="btn btn-primary"
+              style={{
+                marginTop: "1.5rem",
+                padding: "0.6rem 1.5rem",
+                borderRadius: "30px",
+                fontSize: "0.85rem",
+              }}
+            >
+              Filtreleri Temizle
+            </button>
+          </motion.div>
+        ) : (
+          <div className="practice-grid">
+            <AnimatePresence>
+              {filteredServices.map((service, index) => (
+                <motion.div
+                  layout
+                  key={service.title}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.4, delay: index * 0.05 }}
+                  className="card"
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    height: "100%",
+                    background: "white",
+                    position: "relative",
+                    overflow: "hidden",
+                  }}
+                >
+                  <span
+                    style={{
+                      position: "absolute",
+                      top: "1rem",
+                      right: "1.5rem",
+                      fontSize: "0.7rem",
+                      fontWeight: 700,
+                      textTransform: "uppercase",
+                      color: "var(--color-accent)",
+                      background: "rgba(184, 145, 70, 0.08)",
+                      padding: "0.2rem 0.6rem",
+                      borderRadius: "10px",
+                    }}
+                  >
+                    {service.group}
+                  </span>
+
+                  <div>
+                    <div className="card-icon" style={{ marginTop: "0.5rem" }}>
+                      {service.icon}
+                    </div>
+                    <h3
+                      style={{
+                        fontSize: "1.4rem",
+                        color: "var(--color-primary)",
+                      }}
+                    >
+                      {service.title}
+                    </h3>
+                    <p
+                      style={{
+                        fontSize: "0.9rem",
+                        lineHeight: "1.6",
+                        color: "var(--color-text-muted)",
+                      }}
+                    >
+                      {service.desc}
+                    </p>
+                  </div>
+
+                  <button
+                    onClick={() => setSelectedService(service)}
+                    style={{
+                      marginTop: "2rem",
+                      alignSelf: "flex-start",
+                      background: "none",
+                      border: "none",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "0.5rem",
+                      color: "var(--color-accent)",
+                      fontWeight: "700",
+                      fontSize: "0.85rem",
+                      cursor: "pointer",
+                      padding: "0",
+                      fontFamily: "inherit",
+                      transition: "all 0.3s ease",
+                    }}
+                  >
+                    DETAYLI BİLGİ <ArrowUpRight size={16} />
+                  </button>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
+        )}
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          style={{
+            marginTop: "6rem",
+            background:
+              "linear-gradient(135deg, var(--color-primary) 0%, #153866 100%)",
+            padding: "4rem 2rem",
+            borderRadius: "32px",
+            color: "white",
+            textAlign: "center",
+            position: "relative",
+            overflow: "hidden",
+            border: "1px solid rgba(184, 145, 70, 0.2)",
+            boxShadow: "0 20px 50px rgba(10, 46, 92, 0.15)",
+          }}
+        >
+          <div
+            style={{
+              position: "absolute",
+              top: "-50px",
+              right: "-50px",
+              width: "150px",
+              height: "150px",
+              borderRadius: "50%",
+              background: "rgba(184, 145, 70, 0.05)",
+              pointerEvents: "none",
+            }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              bottom: "-50px",
+              left: "-50px",
+              width: "150px",
+              height: "150px",
+              borderRadius: "50%",
+              background: "rgba(255, 255, 255, 0.02)",
+              pointerEvents: "none",
+            }}
+          />
+
+          <h2
+            style={{ color: "white", fontSize: "2rem", marginBottom: "1rem" }}
+          >
+            Hukuki Danışmanlık ve Destek Alın
+          </h2>
+          <p
+            style={{
+              color: "rgba(255, 255, 255, 0.8)",
+              maxWidth: "600px",
+              margin: "0 auto 2.5rem",
+              fontSize: "1rem",
+              lineHeight: "1.6",
+            }}
+          >
+            Çalışma alanlarımızla ilgili daha fazla bilgi edinmek ya da
+            uyuşmazlığınızın çözümü için hemen randevu talebi
+            oluşturabilirsiniz.
+          </p>
+
+          <div className="services-cta-actions">
+            <button
+              onClick={() => (window.location.hash = "randevu")}
+              className="btn btn-accent"
+              style={{
+                padding: "1rem 2.5rem",
+                borderRadius: "30px",
+                fontWeight: "700",
+              }}
+            >
+              Hemen Randevu Al
+            </button>
+            <button
+              onClick={() => {
+                window.open(
+                  "https://api.whatsapp.com/send?phone=905337308053",
+                  "_blank",
+                );
+              }}
+              className="btn"
+              style={{
+                background: "#25D366",
+                borderColor: "#25D366",
+                color: "white",
+                padding: "1rem 2.5rem",
+                borderRadius: "30px",
+                fontWeight: "700",
+              }}
+            >
+              WhatsApp ile Sor
+            </button>
+          </div>
+        </motion.div>
+      </div>
+
+      <AnimatePresence>
+        {selectedService && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              background: "rgba(10, 46, 92, 0.7)",
+              backdropFilter: "blur(12px)",
+              zIndex: 9999,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "1.5rem",
+            }}
+            onClick={() => setSelectedService(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, y: 30, opacity: 0 }}
+              animate={{ scale: 1, y: 0, opacity: 1 }}
+              exit={{ scale: 0.9, y: 30, opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 250 }}
+              className="services-modal-body"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                onClick={() => setSelectedService(null)}
+                style={{
+                  position: "absolute",
+                  top: "1.25rem",
+                  right: "1.25rem",
+                  background: "none",
+                  border: "none",
+                  color: "var(--color-text-muted)",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "36px",
+                  height: "36px",
+                  borderRadius: "50%",
+                  backgroundColor: "#f5f7fa",
+                }}
+              >
+                <X size={20} />
+              </button>
+
+              <div className="services-modal-header">
+                <div
+                  style={{
+                    width: "56px",
+                    height: "56px",
+                    backgroundColor: "rgba(184, 145, 70, 0.1)",
+                    borderRadius: "14px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "var(--color-accent)",
+                    flexShrink: 0,
+                  }}
+                >
+                  {selectedService.icon}
+                </div>
+                <div>
+                  <span
+                    style={{
+                      fontSize: "0.75rem",
+                      fontWeight: 700,
+                      textTransform: "uppercase",
+                      color: "var(--color-accent)",
+                      letterSpacing: "1px",
+                    }}
+                  >
+                    {selectedService.group}
+                  </span>
+                  <h2
+                    style={{
+                      margin: "2px 0 0 0",
+                      fontSize: "1.6rem",
+                      color: "var(--color-primary)",
+                      fontFamily: "'Playfair Display', serif",
+                    }}
+                  >
+                    {selectedService.title}
+                  </h2>
+                </div>
+              </div>
+
+              <div
+                style={{
+                  borderTop: "1px solid var(--color-border)",
+                  borderBottom: "1px solid var(--color-border)",
+                  padding: "1.5rem 0",
+                  marginBottom: "2rem",
+                }}
+              >
+                <p
+                  style={{
+                    fontSize: "1rem",
+                    lineHeight: "1.8",
+                    color: "#334155",
+                    margin: 0,
+                  }}
+                >
+                  {selectedService.detail}
+                </p>
+              </div>
+
+              <div className="services-modal-actions">
+                <button
+                  onClick={() => {
+                    setSelectedService(null);
+                    window.location.hash = "randevu";
+                  }}
+                  className="btn btn-primary"
+                  style={{
+                    padding: "0.75rem 1.8rem",
+                    fontSize: "0.9rem",
+                    borderRadius: "30px",
+                    fontWeight: "600",
+                  }}
+                >
+                  Randevu Planla
+                </button>
+                <button
+                  onClick={() => {
+                    const waText = encodeURIComponent(
+                      `Merhaba, ${selectedService.title} konusuyla ilgili bilgi almak istiyorum.`,
+                    );
+                    window.open(
+                      `https://api.whatsapp.com/send?phone=905337308053&text=${waText}`,
+                      "_blank",
+                    );
+                  }}
+                  className="btn"
+                  style={{
+                    background: "#25D366",
+                    borderColor: "#25D366",
+                    color: "white",
+                    padding: "0.75rem 1.8rem",
+                    fontSize: "0.9rem",
+                    borderRadius: "30px",
+                    fontWeight: "600",
+                  }}
+                >
+                  WhatsApp'tan Yazın
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
+const ContactPage = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  return (
+    <div
+      style={{
+        background: "#fcfcfc",
+        minHeight: "100vh",
+        paddingTop: "120px",
+        paddingBottom: "100px",
+        position: "relative",
+      }}
+    >
+      <StarryBackground
+        count={45}
+        color="rgba(184, 145, 70, 0.08)"
+        drift={true}
+      />
+
+      <div className="container">
+        {/* Başlık */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          style={{ textAlign: "center", marginBottom: "3.5rem" }}
+        >
+          <h1
+            style={{
+              fontSize: "clamp(2.2rem, 5vw, 3.2rem)",
+              fontFamily: "'Playfair Display', serif",
+              color: "var(--color-primary)",
+              fontWeight: 700,
+            }}
+          >
+            İletişim
+          </h1>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "100%",
+              maxWidth: "240px",
+              // DEĞİŞEN KISIM BURASI: Üstten 1.5rem, sağ/soldan otomatik ortalama, alttan 0
+              margin: "1.5rem auto 0",
+              gap: "12px",
+            }}
+          >
+            <div
+              style={{
+                flex: 1,
+                height: "1px",
+                background:
+                  "linear-gradient(to right, transparent, var(--color-accent))",
+              }}
+            ></div>
+            <div
+              style={{
+                width: "6px",
+                height: "6px",
+                borderRadius: "50%",
+                background: "var(--color-accent)",
+                boxShadow: "0 0 8px var(--color-accent)",
+              }}
+            ></div>
+            <div
+              style={{
+                flex: 1,
+                height: "1px",
+                background:
+                  "linear-gradient(to left, transparent, var(--color-accent))",
+              }}
+            ></div>
+          </div>
+        </motion.div>
+
+        {/* İletişim Bilgileri ve Form Grid Yapısı */}
+        <div className="hero-grid">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <span className="section-tag">Bizimle İletişime Geçin</span>
+            <h2
+              className="section-title"
+              style={{ marginTop: "1rem", letterSpacing: "1.5px" }}
+            >
+              Rize Merkez Ofisimiz
+            </h2>
+            <div className="contact-info-container">
+              <div
+                style={{ display: "flex", gap: "1.5rem", alignItems: "center" }}
+              >
+                <div
+                  style={{
+                    width: "50px",
+                    height: "50px",
+                    background: "var(--color-bg-light)",
+                    borderRadius: "50%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "var(--color-primary)",
+                    flexShrink: 0,
+                  }}
+                >
+                  <Phone size={20} />
+                </div>
+                <p style={{ fontWeight: "700", margin: 0, textAlign: "left" }}>
+                  +90 (533) 730 80 53
+                </p>
+              </div>
+
+              <div
+                style={{ display: "flex", gap: "1.5rem", alignItems: "center" }}
+              >
+                <div
+                  style={{
+                    width: "50px",
+                    height: "50px",
+                    background: "var(--color-bg-light)",
+                    borderRadius: "50%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "var(--color-primary)",
+                    flexShrink: 0,
+                  }}
+                >
+                  <Mail size={20} />
+                </div>
+                <p
+                  style={{
+                    fontWeight: "700",
+                    margin: 0,
+                    textAlign: "left",
+                    wordBreak: "break-all",
+                  }}
+                >
+                  avismailkaraca@gmail.com
+                </p>
+              </div>
+
+              <div
+                style={{
+                  display: "flex",
+                  gap: "1.5rem",
+                  alignItems: "flex-start",
+                }}
+              >
+                <div
+                  style={{
+                    width: "50px",
+                    height: "50px",
+                    background: "var(--color-bg-light)",
+                    borderRadius: "50%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "var(--color-primary)",
+                    flexShrink: 0,
+                    marginTop: "3px",
+                  }}
+                >
+                  <MapPin size={20} />
+                </div>
+                <p
+                  style={{
+                    fontWeight: "700",
+                    lineHeight: "1.6",
+                    margin: 0,
+                    textAlign: "left",
+                    wordBreak: "break-word",
+                  }}
+                >
+                  Çarşı Mah. Kazım Karabekir Cad.
+                  <br />
+                  Kuyumcular Sk. Kutlu Han Kat:3 No:407
+                  <br />
+                  Merkez/RİZE
+                </p>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Form */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            style={{
+              background: "white",
+              padding: "3rem",
+              borderRadius: "20px",
+              border: "1px solid var(--color-border)",
+              boxShadow: "var(--shadow-soft)",
+            }}
+          >
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                const btn = e.target.querySelector("button");
+                const originalText = btn.innerText;
+                btn.innerText = "Gönderiliyor...";
+                btn.disabled = true;
+
+                const emailParams = {
+                  from_name: formData.get("user_name"),
+                  email: formData.get("user_email"),
+                  message: formData.get("message"),
+                  to_email: "avismailkaraca@gmail.com",
+                };
+
+                try {
+                  await emailjs.send(
+                    "service_dk86hrf",
+                    "template_38c07ft",
+                    emailParams,
+                    "7er87R9bTKtUt82Sb",
+                  );
+                  alert(
+                    "Mesajınız başarıyla iletildi. En kısa sürede dönüş yapılacaktır.",
+                  );
+                  e.target.reset();
+                } catch (err) {
+                  alert("Bir hata oluştu: " + err.message);
+                } finally {
+                  btn.innerText = originalText;
+                  btn.disabled = false;
+                }
+              }}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "1.5rem",
+              }}
+            >
+              <input
+                type="text"
+                name="user_name"
+                placeholder="Ad Soyad"
+                required
+                style={{
+                  padding: "1rem",
+                  borderRadius: "8px",
+                  border: "1px solid var(--color-border)",
+                  outline: "none",
+                  fontFamily: "inherit",
+                }}
+              />
+              <input
+                type="email"
+                name="user_email"
+                placeholder="E-Posta"
+                required
+                style={{
+                  padding: "1rem",
+                  borderRadius: "8px",
+                  border: "1px solid var(--color-border)",
+                  outline: "none",
+                  fontFamily: "inherit",
+                }}
+              />
+              <textarea
+                name="message"
+                placeholder="Mesajınız"
+                required
+                rows={5}
+                style={{
+                  padding: "1rem",
+                  borderRadius: "8px",
+                  border: "1px solid var(--color-border)",
+                  outline: "none",
+                  fontFamily: "inherit",
+                  resize: "none",
+                }}
+              ></textarea>
+              <button
+                type="submit"
+                className="btn btn-primary"
+                style={{ justifyContent: "center" }}
+              >
+                Gönder
+              </button>
+            </form>
+          </motion.div>
+        </div>
+
+        {/* Harita */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          style={{
+            width: "100%",
+            height: "450px",
+            marginTop: "5rem",
+            borderRadius: "24px",
+            overflow: "hidden",
+            boxShadow: "0 10px 30px rgba(0,0,0,0.1)",
+            border: "1px solid var(--color-border)",
+            position: "relative",
+            zIndex: 0,
+          }}
+        >
+          <MapContainer
+            center={[41.02445836843119, 40.518543870827614]}
+            zoom={16}
+            scrollWheelZoom={false}
+            style={{ height: "100%", width: "100%", zIndex: 1 }}
+          >
+            <TileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+              url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+            />
+            <Marker
+              position={[41.02445836843119, 40.518543870827614]}
+              icon={customIcon}
+            >
+              <Popup>
+                <div style={{ textAlign: "center", padding: "0.5rem" }}>
+                  <h3
+                    style={{
+                      fontFamily: "'Playfair Display', serif",
+                      color: "var(--color-primary)",
+                      margin: "0 0 0.5rem 0",
+                      fontSize: "1.1rem",
+                    }}
+                  >
+                    Karaca Hukuk & Danışmanlık
+                  </h3>
+                  <p
+                    style={{
+                      margin: "0 0 0.5rem 0",
+                      color: "var(--color-text-muted)",
+                      fontSize: "0.85rem",
+                      lineHeight: "1.4",
+                    }}
+                  >
+                    Çarşı Mah. Kazım Karabekir Cad. Kutlu Han K:3 N:407
+                    Merkez/RİZE
+                  </p>
+                  <a
+                    href="https://www.google.com/maps/dir/?api=1&destination=41.02445836843119,40.518543870827614"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: "inline-block",
+                      background: "var(--color-accent)",
+                      color: "white",
+                      padding: "0.5rem 1rem",
+                      borderRadius: "8px",
+                      textDecoration: "none",
+                      fontSize: "0.85rem",
+                      fontWeight: "600",
+                    }}
+                  >
+                    Yol Tarifi Al
+                  </a>
+                </div>
+              </Popup>
+            </Marker>
+          </MapContainer>
+        </motion.div>
+      </div>
+    </div>
+  );
+};
+
 const App = () => {
   const [currentHash, setCurrentHash] = useState(window.location.hash);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -2567,7 +3703,7 @@ const App = () => {
     // Hash to Section ID mapping for homepage scrolling
     const hashToId = {
       "#hizmetlerimiz": "services",
-      "#iletisim": "contact",
+      //"#iletisim": "contact",
       "#about": "about",
       "#home": "home",
     };
@@ -2583,7 +3719,33 @@ const App = () => {
     }
   }, [currentHash]);
 
-  const services = [
+  const [dynamicServices, setDynamicServices] = useState([]);
+  const [servicesLoading, setServicesLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchDynamicServices = async () => {
+      try {
+        setServicesLoading(true);
+        const { data, error } = await supabase
+          .from("services")
+          .select("*")
+          .order("order", { ascending: true });
+
+        if (error) {
+          console.error("Error fetching services:", error);
+        } else if (data && data.length > 0) {
+          setDynamicServices(data);
+        }
+      } catch (err) {
+        console.error("Failed to load services:", err);
+      } finally {
+        setServicesLoading(false);
+      }
+    };
+    fetchDynamicServices();
+  }, []);
+
+  const staticFallbackServices = [
     {
       title: "Ceza Hukuku",
       icon: <Gavel size={28} />,
@@ -2616,6 +3778,14 @@ const App = () => {
     },
   ];
 
+  const services =
+    dynamicServices.length > 0
+      ? dynamicServices.slice(0, 6).map((svc) => ({
+          ...svc,
+          icon: getIcon(svc.icon, 28),
+        }))
+      : staticFallbackServices;
+
   const fadeInUp = {
     initial: { opacity: 0, y: 60 },
     whileInView: { opacity: 1, y: 0 },
@@ -2625,6 +3795,188 @@ const App = () => {
 
   if (currentHash === "#randevu") {
     return <AppointmentPage />;
+  }
+
+  if (currentHash === "#calisma-alanlarimiz") {
+    return (
+      <>
+        <div className="app-container">
+          <nav className="navbar scrolled">
+            <div className="container nav-content">
+              <a
+                href="#home"
+                className="logo-container"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  textDecoration: "none",
+                }}
+              >
+                <div className="logo" style={{ lineHeight: "1" }}>
+                  KARACA <span>HUKUK</span>
+                </div>
+                <div
+                  style={{
+                    fontSize: "0.85rem",
+                    fontFamily: "'Playfair Display', serif",
+                    fontStyle: "italic",
+                    color: "var(--color-text-muted)",
+                    letterSpacing: "1.5px",
+                    marginTop: "5px",
+                  }}
+                >
+                  Av. İsmail Karaca
+                </div>
+              </a>
+              <div className="nav-links">
+                <a href="#home">Ana Sayfa</a>
+                <a href="#hakkimizda">Hakkımızda</a>
+                <a
+                  href="#calisma-alanlarimiz"
+                  style={{ color: "var(--color-accent)" }}
+                >
+                  Hizmetlerimiz
+                </a>
+                <a href="#blog">Blog</a>
+                <a href="#iletisim">İletişim</a>
+                <button
+                  className="btn btn-primary"
+                  style={{ padding: "0.6rem 1.5rem", fontSize: "0.85rem" }}
+                  onClick={() => (window.location.hash = "randevu")}
+                >
+                  Randevu Planla
+                </button>
+              </div>
+              <div
+                className="mobile-header-actions"
+                style={{ alignItems: "center", gap: "0.75rem" }}
+              >
+                <button
+                  className="btn btn-primary"
+                  style={{
+                    padding: "0.4rem 0.8rem",
+                    fontSize: "0.8rem",
+                    borderRadius: "6px",
+                  }}
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    window.location.hash = "randevu";
+                  }}
+                >
+                  Randevu
+                </button>
+                <button
+                  className="mobile-menu-btn"
+                  onClick={() => setIsMenuOpen(!isMenuOpen)}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+                </button>
+              </div>
+            </div>
+          </nav>
+
+          {/* Mobile Menu Overlay */}
+          <AnimatePresence>
+            {isMenuOpen && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                style={{
+                  position: "fixed",
+                  top: "65px",
+                  left: 0,
+                  width: "100%",
+                  background: "rgba(255, 255, 255, 0.98)",
+                  backdropFilter: "blur(10px)",
+                  zIndex: 999,
+                  boxShadow: "0 10px 20px rgba(0,0,0,0.05)",
+                  display: "flex",
+                  flexDirection: "column",
+                  overflow: "hidden",
+                  borderBottom: "1px solid var(--color-border)",
+                }}
+              >
+                <div
+                  style={{
+                    padding: "2rem 1.5rem",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "1.5rem",
+                  }}
+                >
+                  {[
+                    "Ana Sayfa",
+                    "Hakkımızda",
+                    "Hizmetlerimiz",
+                    "Blog",
+                    "İletişim",
+                  ].map((item) => (
+                    <a
+                      key={item}
+                      href={
+                        item === "Ana Sayfa"
+                          ? "#"
+                          : item === "Hizmetlerimiz"
+                            ? "#calisma-alanlarimiz"
+                            : item === "İletişim"
+                              ? "#iletisim"
+                              : `#${item.toLowerCase().replace(/ı/g, "i").replace(" ", "")}`
+                      }
+                      onClick={() => setIsMenuOpen(false)}
+                      style={{
+                        textDecoration: "none",
+                        color:
+                          item === "Hizmetlerimiz"
+                            ? "var(--color-accent)"
+                            : "var(--color-primary)",
+                        fontSize: "1.1rem",
+                        fontWeight: 600,
+                        borderBottom: "1px solid var(--color-border)",
+                        paddingBottom: "0.75rem",
+                      }}
+                    >
+                      {item}
+                    </a>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          <ServicesPage dynamicServices={dynamicServices} />
+
+          {/* Footer */}
+          <footer
+            style={{
+              background: "var(--color-primary)",
+              color: "white",
+              padding: "4rem 0 2rem",
+            }}
+          >
+            <div className="container">
+              <div
+                style={{
+                  borderTop: "1px solid rgba(255,255,255,0.1)",
+                  paddingTop: "2rem",
+                  textAlign: "center",
+                  fontSize: "0.85rem",
+                }}
+              >
+                © 2026 Karaca Hukuk & Danışmanlık | Tüm Hakları Saklıdır.
+              </div>
+            </div>
+          </footer>
+
+          <WhatsAppWidget />
+        </div>
+      </>
+    );
   }
 
   if (currentHash === "#hakkimizda") {
@@ -2663,7 +4015,7 @@ const App = () => {
                 <a href="#hakkimizda" style={{ color: "var(--color-accent)" }}>
                   Hakkımızda
                 </a>
-                <a href="#hizmetlerimiz">Hizmetlerimiz</a>
+                <a href="#calisma-alanlarimiz">Hizmetlerimiz</a>
                 <a href="#blog">Blog</a>
                 <a href="#iletisim">İletişim</a>
                 <button
@@ -2748,7 +4100,11 @@ const App = () => {
                       href={
                         item === "Ana Sayfa"
                           ? "#"
-                          : `#${item.toLowerCase().replace(/ı/g, "i").replace(" ", "")}`
+                          : item === "Hizmetlerimiz"
+                            ? "#calisma-alanlarimiz"
+                            : item === "İletişim"
+                              ? "#iletisim"
+                              : `#${item.toLowerCase().replace(/ı/g, "i").replace(" ", "")}`
                       }
                       onClick={() => setIsMenuOpen(false)}
                       style={{
@@ -2832,7 +4188,7 @@ const App = () => {
               <div className="nav-links">
                 <a href="#home">Ana Sayfa</a>
                 <a href="#hakkimizda">Hakkımızda</a>
-                <a href="#hizmetlerimiz">Hizmetlerimiz</a>
+                <a href="#calisma-alanlarimiz">Hizmetlerimiz</a>
                 <a href="#blog">Blog</a>
                 <a href="#iletisim">İletişim</a>
                 <button
@@ -2917,7 +4273,11 @@ const App = () => {
                       href={
                         item === "Ana Sayfa"
                           ? "#"
-                          : `#${item.toLowerCase().replace(/ı/g, "i").replace(" ", "")}`
+                          : item === "Hizmetlerimiz"
+                            ? "#calisma-alanlarimiz"
+                            : item === "İletişim"
+                              ? "#iletisim"
+                              : `#${item.toLowerCase().replace(/ı/g, "i").replace(" ", "")}`
                       }
                       onClick={() => setIsMenuOpen(false)}
                       style={{
@@ -2978,7 +4338,7 @@ const App = () => {
               <div className="nav-links">
                 <a href="#home">Ana Sayfa</a>
                 <a href="#hakkimizda">Hakkımızda</a>
-                <a href="#hizmetlerimiz">Hizmetlerimiz</a>
+                <a href="#calisma-alanlarimiz">Hizmetlerimiz</a>
                 <a href="#blog" style={{ color: "var(--color-accent)" }}>
                   Blog
                 </a>
@@ -3065,7 +4425,11 @@ const App = () => {
                       href={
                         item === "Ana Sayfa"
                           ? "#"
-                          : `#${item.toLowerCase().replace(/ı/g, "i").replace(" ", "")}`
+                          : item === "Hizmetlerimiz"
+                            ? "#calisma-alanlarimiz"
+                            : item === "İletişim"
+                              ? "#iletisim"
+                              : `#${item.toLowerCase().replace(/ı/g, "i").replace(" ", "")}`
                       }
                       onClick={() => setIsMenuOpen(false)}
                       style={{
@@ -3093,6 +4457,214 @@ const App = () => {
 
   if (currentHash === "#admin") {
     return <AdminApp />;
+  }
+
+  if (currentHash === "#iletisim") {
+    return (
+      <>
+        <div className="app-container">
+          <nav className="navbar scrolled">
+            <div className="container nav-content">
+              <a
+                href="#home"
+                className="logo-container"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  textDecoration: "none",
+                }}
+              >
+                <div className="logo" style={{ lineHeight: "1" }}>
+                  KARACA <span>HUKUK</span>
+                </div>
+                <div
+                  style={{
+                    fontSize: "0.85rem",
+                    fontFamily: "'Playfair Display', serif",
+                    fontStyle: "italic",
+                    color: "var(--color-text-muted)",
+                    letterSpacing: "1.5px",
+                    marginTop: "5px",
+                  }}
+                >
+                  Av. İsmail Karaca
+                </div>
+              </a>
+              <div className="nav-links">
+                <a href="#">Ana Sayfa</a>
+                <a href="#hakkimizda">Hakkımızda</a>
+                <a href="#calisma-alanlarimiz">Hizmetlerimiz</a>
+                <a href="#blog">Blog</a>
+                <a href="#iletisim" style={{ color: "var(--color-accent)" }}>
+                  İletişim
+                </a>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => (window.location.hash = "randevu")}
+                >
+                  Randevu Planla
+                </button>
+              </div>
+              {/* Mobil Menü Buton Alanı */}
+              <div
+                className="mobile-header-actions"
+                style={{ alignItems: "center", gap: "0.75rem" }}
+              >
+                <button
+                  className="btn btn-primary"
+                  style={{
+                    padding: "0.4rem 0.8rem",
+                    fontSize: "0.8rem",
+                    borderRadius: "6px",
+                  }}
+                  onClick={() => (window.location.hash = "randevu")}
+                >
+                  Randevu
+                </button>
+                <button
+                  className="mobile-menu-btn"
+                  onClick={() => setIsMenuOpen(!isMenuOpen)}
+                >
+                  {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+                </button>
+              </div>
+            </div>
+          </nav>
+
+          {/* Mobil Menü Açılır Penceresi */}
+          <AnimatePresence>
+            {isMenuOpen && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                style={{
+                  position: "fixed",
+                  top: "65px",
+                  left: 0,
+                  width: "100%",
+                  background: "rgba(255, 255, 255, 0.98)",
+                  backdropFilter: "blur(10px)",
+                  zIndex: 999,
+                  boxShadow: "0 10px 20px rgba(0,0,0,0.05)",
+                  display: "flex",
+                  flexDirection: "column",
+                  overflow: "hidden",
+                  borderBottom: "1px solid var(--color-border)",
+                }}
+              >
+                <div
+                  style={{
+                    padding: "2rem 1.5rem",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "1.5rem",
+                  }}
+                >
+                  <a
+                    href="#"
+                    onClick={() => setIsMenuOpen(false)}
+                    style={{
+                      textDecoration: "none",
+                      color: "var(--color-primary)",
+                      fontSize: "1.1rem",
+                      fontWeight: 600,
+                      borderBottom: "1px solid var(--color-border)",
+                      paddingBottom: "0.75rem",
+                    }}
+                  >
+                    Ana Sayfa
+                  </a>
+                  <a
+                    href="#hakkimizda"
+                    onClick={() => setIsMenuOpen(false)}
+                    style={{
+                      textDecoration: "none",
+                      color: "var(--color-primary)",
+                      fontSize: "1.1rem",
+                      fontWeight: 600,
+                      borderBottom: "1px solid var(--color-border)",
+                      paddingBottom: "0.75rem",
+                    }}
+                  >
+                    Hakkımızda
+                  </a>
+                  <a
+                    href="#calisma-alanlarimiz"
+                    onClick={() => setIsMenuOpen(false)}
+                    style={{
+                      textDecoration: "none",
+                      color: "var(--color-primary)",
+                      fontSize: "1.1rem",
+                      fontWeight: 600,
+                      borderBottom: "1px solid var(--color-border)",
+                      paddingBottom: "0.75rem",
+                    }}
+                  >
+                    Hizmetlerimiz
+                  </a>
+                  <a
+                    href="#blog"
+                    onClick={() => setIsMenuOpen(false)}
+                    style={{
+                      textDecoration: "none",
+                      color: "var(--color-primary)",
+                      fontSize: "1.1rem",
+                      fontWeight: 600,
+                      borderBottom: "1px solid var(--color-border)",
+                      paddingBottom: "0.75rem",
+                    }}
+                  >
+                    Blog
+                  </a>
+                  <a
+                    href="#iletisim"
+                    onClick={() => setIsMenuOpen(false)}
+                    style={{
+                      textDecoration: "none",
+                      color: "var(--color-accent)",
+                      fontSize: "1.1rem",
+                      fontWeight: 600,
+                      borderBottom: "1px solid var(--color-border)",
+                      paddingBottom: "0.75rem",
+                    }}
+                  >
+                    İletişim
+                  </a>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Yeni Sayfa Bileşeni */}
+          <ContactPage />
+
+          {/* Footer */}
+          <footer
+            style={{
+              background: "var(--color-primary)",
+              color: "white",
+              padding: "4rem 0 2rem",
+            }}
+          >
+            <div className="container">
+              <div
+                style={{
+                  borderTop: "1px solid rgba(255,255,255,0.1)",
+                  paddingTop: "2rem",
+                  textAlign: "center",
+                  fontSize: "0.85rem",
+                }}
+              >
+                © 2026 Karaca Hukuk & Danışmanlık | Tüm Hakları Saklıdır.
+              </div>
+            </div>
+          </footer>
+
+          <WhatsAppWidget />
+        </div>
+      </>
+    );
   }
 
   if (currentHash === "#kartvizit" || currentHash === "#qr") {
@@ -3160,7 +4732,11 @@ const App = () => {
                   href={
                     item === "Ana Sayfa"
                       ? "#"
-                      : `#${item.toLowerCase().replace(/ı/g, "i").replace(" ", "")}`
+                      : item === "Hizmetlerimiz"
+                        ? "#calisma-alanlarimiz"
+                        : item === "İletişim"
+                          ? "#iletisim"
+                          : `#${item.toLowerCase().replace(/ı/g, "i").replace(" ", "")}`
                   }
                 >
                   {item}
@@ -3254,7 +4830,11 @@ const App = () => {
                     href={
                       item === "Ana Sayfa"
                         ? "#"
-                        : `#${item.toLowerCase().replace(/ı/g, "i").replace(" ", "")}`
+                        : item === "Hizmetlerimiz"
+                          ? "#calisma-alanlarimiz"
+                          : item === "İletişim"
+                            ? "#iletisim"
+                            : `#${item.toLowerCase().replace(/ı/g, "i").replace(" ", "")}`
                     }
                     onClick={() => setIsMenuOpen(false)}
                     style={{
@@ -3314,6 +4894,9 @@ const App = () => {
                       border: "1px solid var(--color-border)",
                       color: "var(--color-primary)",
                     }}
+                    onClick={() =>
+                      (window.location.hash = "calisma-alanlarimiz")
+                    }
                   >
                     Hizmetlerimiz
                   </button>
@@ -3404,14 +4987,13 @@ const App = () => {
                   }}
                 >
                   Avukat İsmail Karaca tarafından kurulan Karaca Hukuk &
-                  Danışmanlık; ceza, aile, miras ve gayrimenkul başta olmak
-                  üzere hukukun çeşitli alanlarında profesyonel hizmet
-                  sunmaktadır.
+                  Danışmanlık, hukukun çeşitli alanlarında profesyonel avukatlık
+                  ve danışmanlık hizmeti sunmaktadır.
                 </p>
                 <div
                   style={{
                     display: "grid",
-                    gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+                    gridTemplateColumns: "repeat(2, 1fr)",
                     gap: "1.5rem",
                   }}
                 >
@@ -3482,7 +5064,7 @@ const App = () => {
                   <h3>{service.title}</h3>
                   <p>{service.desc}</p>
                   <a
-                    href="#"
+                    href="#calisma-alanlarimiz"
                     style={{
                       marginTop: "1.5rem",
                       display: "inline-flex",
@@ -3498,6 +5080,44 @@ const App = () => {
                   </a>
                 </motion.div>
               ))}
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: "4rem",
+              }}
+            >
+              <motion.button
+                whileHover={{ scale: 1.05, translateY: -2 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => (window.location.hash = "calisma-alanlarimiz")}
+                className="btn btn-primary"
+                style={{
+                  background:
+                    "linear-gradient(135deg, var(--color-primary) 0%, #173d73 100%)",
+                  borderColor: "var(--color-accent)",
+                  borderWidth: "1px",
+                  borderStyle: "solid",
+                  color: "white",
+                  padding: "1.1rem 3rem",
+                  borderRadius: "30px",
+                  fontSize: "1rem",
+                  fontWeight: "600",
+                  boxShadow: "0 10px 25px rgba(10, 46, 92, 0.15)",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "0.75rem",
+                  cursor: "pointer",
+                }}
+              >
+                Tüm Çalışma Alanlarımız{" "}
+                <ArrowUpRight
+                  size={18}
+                  style={{ color: "var(--color-accent)" }}
+                />
+              </motion.button>
             </div>
           </div>
         </section>
@@ -3528,12 +5148,17 @@ const App = () => {
                 Uzman ekibimizle görüşmek için randevu planlayın.
               </p>
             </div>
-            <button
+            <a
+              href="tel:+905337308053"
               className="btn"
-              style={{ background: "var(--color-primary)", color: "white" }}
+              style={{
+                background: "var(--color-primary)",
+                color: "white",
+                textDecoration: "none",
+              }}
             >
               <Phone size={18} /> +90 (533) 730 80 53
-            </button>
+            </a>
           </div>
         </motion.section>
 
@@ -3544,14 +5169,7 @@ const App = () => {
               <motion.div {...fadeInUp}>
                 <span className="section-tag">İletişime Geçin</span>
                 <h2 className="section-title">Biz Buradayız</h2>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "2rem",
-                    marginTop: "2rem",
-                  }}
-                >
+                <div className="contact-info-container">
                   <div
                     style={{
                       display: "flex",
@@ -3569,11 +5187,20 @@ const App = () => {
                         alignItems: "center",
                         justifyContent: "center",
                         color: "var(--color-primary)",
+                        flexShrink: 0,
                       }}
                     >
                       <Phone size={20} />
                     </div>
-                    <p style={{ fontWeight: "700" }}>+90 (533) 730 80 53</p>
+                    <p
+                      style={{
+                        fontWeight: "700",
+                        margin: 0,
+                        textAlign: "left",
+                      }}
+                    >
+                      +90 (533) 730 80 53
+                    </p>
                   </div>
                   <div
                     style={{
@@ -3592,11 +5219,19 @@ const App = () => {
                         alignItems: "center",
                         justifyContent: "center",
                         color: "var(--color-primary)",
+                        flexShrink: 0,
                       }}
                     >
                       <Mail size={20} />
                     </div>
-                    <p style={{ fontWeight: "700" }}>
+                    <p
+                      style={{
+                        fontWeight: "700",
+                        margin: 0,
+                        textAlign: "left",
+                        wordBreak: "break-all",
+                      }}
+                    >
                       avismailkaraca@gmail.com
                     </p>
                   </div>
@@ -3618,11 +5253,20 @@ const App = () => {
                         justifyContent: "center",
                         color: "var(--color-primary)",
                         flexShrink: 0,
+                        marginTop: "3px",
                       }}
                     >
                       <MapPin size={20} />
                     </div>
-                    <p style={{ fontWeight: "600", lineHeight: "1.6" }}>
+                    <p
+                      style={{
+                        fontWeight: "700",
+                        lineHeight: "1.6",
+                        textAlign: "left",
+                        margin: 0,
+                        wordBreak: "break-word",
+                      }}
+                    >
                       Çarşı Mah. Kazım Karabekir Cad.
                       <br />
                       Kuyumcular Sk. Kutlu Han Kat:3 No:407
@@ -3791,7 +5435,7 @@ const App = () => {
                     </h3>
                     <p
                       style={{
-                        margin: "0 0 1rem 0",
+                        margin: "0",
                         color: "var(--color-text-muted)",
                         fontSize: "0.85rem",
                         lineHeight: "1.4",

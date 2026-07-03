@@ -18,7 +18,16 @@ import {
   Laptop,
   MapPin,
   Eye,
-  RefreshCw
+  RefreshCw,
+  Briefcase,
+  Gavel,
+  Scale,
+  ShieldCheck,
+  Scroll,
+  Building2,
+  ShieldAlert,
+  Shield,
+  Home
 } from 'lucide-react';
 import { supabase } from '../supabaseClient';
 import { fetchAnalyticsStats } from '../utils/analytics';
@@ -60,6 +69,12 @@ const AdminDashboard = ({ onLogout }) => {
             <Calendar size={20} /> Randevular
           </button>
           <button 
+            onClick={() => setActiveTab('services')}
+            style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '1rem 1.2rem', background: activeTab === 'services' ? 'var(--color-accent)' : 'transparent', border: 'none', color: activeTab === 'services' ? 'white' : '#cbd5e1', borderRadius: '12px', cursor: 'pointer', textAlign: 'left', transition: '0.3s', fontWeight: activeTab === 'services' ? '600' : '400' }}
+          >
+            <Briefcase size={20} /> Çalışma Alanları
+          </button>
+          <button 
             onClick={() => setActiveTab('analytics')}
             style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '1rem 1.2rem', background: activeTab === 'analytics' ? 'var(--color-accent)' : 'transparent', border: 'none', color: activeTab === 'analytics' ? 'white' : '#cbd5e1', borderRadius: '12px', cursor: 'pointer', textAlign: 'left', transition: '0.3s', fontWeight: activeTab === 'analytics' ? '600' : '400' }}
           >
@@ -91,6 +106,7 @@ const AdminDashboard = ({ onLogout }) => {
         {activeTab === 'overview' && <Overview setActiveTab={setActiveTab} />}
         {activeTab === 'blog' && <BlogManager />}
         {activeTab === 'appointments' && <AppointmentManager />}
+        {activeTab === 'services' && <ServiceManager />}
         {activeTab === 'analytics' && <AnalyticsManager />}
       </div>
     </div>
@@ -315,17 +331,25 @@ const BlogManager = () => {
     
     if (editingPostId) {
       // Güncelleme Modu
-      const { error } = await supabase
+      const { data: updatedData, error } = await supabase
         .from('blogs')
         .update({ 
           title, 
           content, 
           category: finalCategory 
         })
-        .eq('id', editingPostId);
+        .eq('id', editingPostId)
+        .select();
         
       if (error) {
         alert('Güncelleme hatası: ' + error.message);
+      } else if (!updatedData || updatedData.length === 0) {
+        alert(
+          'Güncelleme veritabanına kaydedilemedi.\n\n' +
+          'Supabase panelinde "blogs" tablosuna UPDATE politikası eklemeniz gerekiyor.\n' +
+          'Aşağıdaki SQL\'i Supabase SQL Editor\'da çalıştırın:\n\n' +
+          'CREATE POLICY "Anon update blogs" ON public.blogs FOR UPDATE TO anon USING (true) WITH CHECK (true);'
+        );
       } else {
         resetForm();
         fetchPosts();
@@ -698,11 +722,19 @@ const AnalyticsManager = () => {
         }
 
         /* Chart tooltip */
+        .chart-bar-wrapper {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: stretch;
+          height: 100%;
+          min-width: 0;
+        }
         .chart-bar-container {
           flex: 1;
           display: flex;
           align-items: flex-end;
-          width: 100%;
+          height: 100%;
           position: relative;
           cursor: pointer;
         }
@@ -972,32 +1004,44 @@ const AnalyticsManager = () => {
         {currentChartData.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '4rem 0', color: 'var(--color-text-muted)' }}>Bu dönem için ziyaretçi datası bulunmuyor.</div>
         ) : (
-          <div style={{ display: 'flex', alignItems: 'flex-end', height: '260px', gap: '0.6rem', padding: '1.5rem 0 0.5rem 0', borderBottom: '1px solid var(--color-border)' }}>
-            {currentChartData.map((item, idx) => {
-              const heightPercent = maxChartVal > 0 ? (item.value / maxChartVal) * 90 + 5 : 5; // offset at least 5% so it's always visible
-              return (
-                <div key={idx} className="chart-bar-wrapper">
-                  <div className="chart-bar-container">
-                    <div className="chart-tooltip">
-                      <div style={{ fontSize: '0.7rem', color: '#94a3b8', marginBottom: '2px' }}>{item.name}</div>
-                      <div style={{ fontSize: '0.9rem', color: 'white', fontWeight: 'bold' }}>{item.value} Gösterim</div>
+          <>
+            <div style={{ display: 'flex', alignItems: 'flex-end', height: '240px', gap: '4px', borderBottom: '2px solid var(--color-border)', position: 'relative', overflow: 'visible' }}>
+              {currentChartData.map((item, idx) => {
+                const heightPx = maxChartVal > 0 ? Math.max((item.value / maxChartVal) * 220, item.value > 0 ? 8 : 2) : 2;
+                return (
+                  <div
+                    key={idx}
+                    className="chart-bar-wrapper"
+                    title={`${item.name}: ${item.value} Gösterim`}
+                  >
+                    <div className="chart-bar-container">
+                      <div className="chart-tooltip">
+                        <div style={{ fontSize: '0.7rem', color: '#94a3b8', marginBottom: '2px' }}>{item.name}</div>
+                        <div style={{ fontSize: '0.9rem', color: 'white', fontWeight: 'bold' }}>{item.value} Gösterim</div>
+                      </div>
+                      <div
+                        className="chart-bar"
+                        style={{ height: `${heightPx}px`, minHeight: item.value > 0 ? '4px' : '2px' }}
+                      />
                     </div>
-                    <div className="chart-bar" style={{ height: `${heightPercent}%` }}></div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
-        
-        {/* Chart X Labels */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.8rem 0.2rem 0 0.2rem', overflowX: 'auto', gap: '0.5rem' }}>
-          {currentChartData.map((item, idx) => (
-            <div key={idx} style={{ flex: 1, textAlign: 'center', fontSize: '0.75rem', color: 'var(--color-text-muted)', whiteSpace: 'nowrap' }}>
-              {item.name}
+                );
+              })}
             </div>
-          ))}
-        </div>
+            {/* Chart X Labels */}
+            <div style={{ display: 'flex', gap: '4px', padding: '0.6rem 0 0 0', overflowX: 'hidden' }}>
+              {currentChartData.map((item, idx) => (
+                <div
+                  key={idx}
+                  style={{ flex: 1, textAlign: 'center', fontSize: '0.7rem', color: 'var(--color-text-muted)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', minWidth: 0 }}
+                  title={item.name}
+                >
+                  {activeChartTab === 'hourly' ? item.name : item.name.split(' ')[0]}
+                </div>
+              ))}
+            </div>
+          </>
+        )}
       </div>
 
       {/* Distribution grids */}
@@ -1202,6 +1246,304 @@ const AnalyticsManager = () => {
                 })}
               </tbody>
             </table>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const ServiceManager = () => {
+  const [services, setServices] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [editingId, setEditingId] = useState(null);
+
+  // Form states
+  const [title, setTitle] = useState('');
+  const [group, setGroup] = useState('Özel Hukuk');
+  const [icon, setIcon] = useState('Briefcase');
+  const [desc, setDesc] = useState('');
+  const [detail, setDetail] = useState('');
+  const [order, setOrder] = useState(0);
+
+  const iconOptions = [
+    { name: 'Adalet / Yargı (Gavel)', value: 'Gavel', icon: Gavel },
+    { name: 'Ticaret / İş (Briefcase)', value: 'Briefcase', icon: Briefcase },
+    { name: 'Aile / İnsanlar (Users)', value: 'Users', icon: Users },
+    { name: 'Gayrimenkul / Konum (MapPin)', value: 'MapPin', icon: MapPin },
+    { name: 'Terazi / Tazminat (Scale)', value: 'Scale', icon: Scale },
+    { name: 'Güvenlik / Kalkan (ShieldCheck)', value: 'ShieldCheck', icon: ShieldCheck },
+    { name: 'Miras / Evrak (Scroll)', value: 'Scroll', icon: Scroll },
+    { name: 'Küresel / Kamu Hukuku (Globe)', value: 'Globe', icon: Globe },
+    { name: 'Şirketler / Bina (Building2)', value: 'Building2', icon: Building2 },
+    { name: 'Uyarı / Tüketici (ShieldAlert)', value: 'ShieldAlert', icon: ShieldAlert },
+    { name: 'Koruma / Güvenlik (Shield)', value: 'Shield', icon: Shield },
+    { name: 'Konut / Tapu (Home)', value: 'Home', icon: Home },
+    { name: 'Doküman / Sözleşme (FileText)', value: 'FileText', icon: FileText },
+  ];
+
+  const renderIconHelper = (iconName, size = 20) => {
+    const found = iconOptions.find(o => o.value === iconName);
+    if (found) {
+      const IconComp = found.icon;
+      return <IconComp size={size} />;
+    }
+    return <Briefcase size={size} />;
+  };
+
+  useEffect(() => {
+    fetchServices();
+  }, []);
+
+  const fetchServices = async () => {
+    setLoading(true);
+    const { data, error } = await supabase
+      .from('services')
+      .select('*')
+      .order('order', { ascending: true });
+    
+    if (error) {
+      console.error('Error fetching services:', error);
+    } else {
+      setServices(data || []);
+    }
+    setLoading(false);
+  };
+
+  const handleEditClick = (service) => {
+    setEditingId(service.id);
+    setTitle(service.title);
+    setGroup(service.group);
+    setIcon(service.icon);
+    setDesc(service.desc);
+    setDetail(service.detail);
+    setOrder(service.order || 0);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const resetForm = () => {
+    setTitle('');
+    setGroup('Özel Hukuk');
+    setIcon('Briefcase');
+    setDesc('');
+    setDetail('');
+    setOrder(0);
+    setEditingId(null);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!title || !desc || !detail) return alert('Lütfen tüm alanları doldurunuz.');
+
+    setIsSubmitting(true);
+    
+    const serviceData = {
+      title,
+      group,
+      icon,
+      desc,
+      detail,
+      order: parseInt(order) || 0
+    };
+
+    if (editingId) {
+      // Update
+      const { error } = await supabase
+        .from('services')
+        .update(serviceData)
+        .eq('id', editingId);
+        
+      if (error) {
+        alert('Güncelleme hatası: ' + error.message);
+      } else {
+        resetForm();
+        fetchServices();
+      }
+    } else {
+      // Insert
+      const { error } = await supabase
+        .from('services')
+        .insert([serviceData]);
+
+      if (error) {
+        alert('Ekleme hatası: ' + error.message);
+      } else {
+        resetForm();
+        fetchServices();
+      }
+    }
+    setIsSubmitting(false);
+  };
+
+  const handleDelete = async (id) => {
+    if(!window.confirm("Bu çalışma alanını silmek istediğinize emin misiniz?")) return;
+    const { error } = await supabase
+      .from('services')
+      .delete()
+      .eq('id', id);
+    
+    if (error) alert('Silme hatası: ' + error.message);
+    else fetchServices();
+  };
+
+  return (
+    <div style={{ maxWidth: '1000px', width: '100%', margin: '0 auto' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+        <h1 style={{ color: 'var(--color-primary)', margin: 0, fontSize: '2rem' }}>Çalışma Alanları Yönetimi</h1>
+      </div>
+      
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '2rem' }}>
+        {/* Form Section */}
+        <div style={{ background: 'white', padding: '2.5rem', borderRadius: '24px', boxShadow: '0 4px 20px rgba(0,0,0,0.03)', border: '1px solid var(--color-border)' }}>
+          <h3 style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--color-primary)' }}>
+            <Briefcase size={20} color="var(--color-accent)"/> {editingId ? 'Çalışma Alanını Düzenle' : 'Yeni Çalışma Alanı Ekle'}
+          </h3>
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                <label style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--color-primary)' }}>Hizmet Başlığı</label>
+                <input 
+                  type="text" 
+                  placeholder="Örn: Bilişim Hukuku" 
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  style={{ padding: '1rem', border: '1px solid var(--color-border)', borderRadius: '12px', fontFamily: 'inherit', fontSize: '0.95rem', background: '#f8fafc', transition: 'border 0.3s', outline: 'none' }}
+                  required
+                />
+              </div>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                <label style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--color-primary)' }}>Hukuk Dalı (Grup)</label>
+                <select 
+                  value={group}
+                  onChange={(e) => setGroup(e.target.value)}
+                  style={{ padding: '1rem', border: '1px solid var(--color-border)', borderRadius: '12px', background: '#f8fafc', fontFamily: 'inherit', outline: 'none', cursor: 'pointer' }}
+                >
+                  <option value="Özel Hukuk">Özel Hukuk</option>
+                  <option value="Kamu Hukuku">Kamu Hukuku</option>
+                </select>
+              </div>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                <label style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--color-primary)' }}>Temsili İkon</label>
+                <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                  <select 
+                    value={icon}
+                    onChange={(e) => setIcon(e.target.value)}
+                    style={{ padding: '1rem', border: '1px solid var(--color-border)', borderRadius: '12px', background: '#f8fafc', fontFamily: 'inherit', outline: 'none', cursor: 'pointer', flex: 1 }}
+                  >
+                    {iconOptions.map(opt => <option key={opt.value} value={opt.value}>{opt.name}</option>)}
+                  </select>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '48px', height: '48px', background: 'rgba(184, 145, 70, 0.1)', color: 'var(--color-accent)', borderRadius: '12px' }}>
+                    {renderIconHelper(icon, 24)}
+                  </div>
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                <label style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--color-primary)' }}>Görünüm Sırası (Order)</label>
+                <input 
+                  type="number" 
+                  value={order}
+                  onChange={(e) => setOrder(e.target.value)}
+                  style={{ padding: '1rem', border: '1px solid var(--color-border)', borderRadius: '12px', fontFamily: 'inherit', fontSize: '0.95rem', background: '#f8fafc', transition: 'border 0.3s', outline: 'none' }}
+                  required
+                />
+              </div>
+            </div>
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <label style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--color-primary)' }}>Kısa Açıklama (Kart İçeriği)</label>
+              <textarea 
+                placeholder="Kart üzerinde görünecek 1-2 cümlelik kısa özet..." 
+                rows={3}
+                value={desc}
+                onChange={(e) => setDesc(e.target.value)}
+                style={{ padding: '1.2rem', border: '1px solid var(--color-border)', borderRadius: '12px', fontFamily: 'inherit', fontSize: '0.95rem', resize: 'vertical', background: '#f8fafc', outline: 'none', lineHeight: '1.6' }}
+                required
+              />
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <label style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--color-primary)' }}>Detaylı Açıklama (Hizmet Detay Sayfası / Modal İçeriği)</label>
+              <textarea 
+                placeholder="Hizmetin kapsamını, mahkemeleri ve müvekkillere sunulan hizmetleri detaylıca anlatan metin..." 
+                rows={6}
+                value={detail}
+                onChange={(e) => setDetail(e.target.value)}
+                style={{ padding: '1.2rem', border: '1px solid var(--color-border)', borderRadius: '12px', fontFamily: 'inherit', fontSize: '0.95rem', resize: 'vertical', background: '#f8fafc', outline: 'none', lineHeight: '1.6' }}
+                required
+              />
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
+              {editingId && (
+                <button 
+                  type="button" 
+                  onClick={resetForm}
+                  style={{ padding: '1rem 2rem', background: '#f1f5f9', color: '#64748b', border: '1px solid var(--color-border)', borderRadius: '12px', cursor: 'pointer', fontWeight: 600 }}
+                >
+                  Vazgeç
+                </button>
+              )}
+              <button disabled={isSubmitting} type="submit" className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '1rem 2rem', opacity: isSubmitting ? 0.7 : 1 }}>
+                {isSubmitting ? <Loader2 size={18} className="spinner" style={{ width: '18px', height: '18px', borderLeftColor: 'white' }}/> : <Plus size={18} />} 
+                {isSubmitting ? 'Kaydediliyor...' : (editingId ? 'Değişiklikleri Kaydet' : 'Hizmeti Kaydet ve Yayımla')}
+              </button>
+            </div>
+          </form>
+        </div>
+
+        {/* List Section */}
+        <div>
+          <h3 style={{ marginBottom: '1.5rem', color: 'var(--color-primary)' }}>Kayıtlı Çalışma Alanları ({services.length})</h3>
+          
+          {loading ? (
+            <div style={{ textAlign: 'center', padding: '3rem' }}><Loader2 className="spinner" size={30} color="var(--color-accent)"/></div>
+          ) : services.length === 0 ? (
+            <div style={{ background: 'white', padding: '4rem 2rem', borderRadius: '24px', border: '1px dashed var(--color-border)', textAlign: 'center' }}>
+              <Briefcase size={48} color="var(--color-border)" style={{ margin: '0 auto 1rem' }} />
+              <p style={{ color: 'var(--color-text-muted)' }}>Henüz herhangi bir çalışma alanı tanımlamadınız.</p>
+            </div>
+          ) : (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1.5rem' }}>
+              {services.map(svc => (
+                <div key={svc.id} style={{ background: 'white', padding: '1.5rem', borderRadius: '20px', border: '1px solid var(--color-border)', display: 'flex', flexDirection: 'column', gap: '1rem', transition: '0.3s', boxShadow: '0 4px 15px rgba(0,0,0,0.02)' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                    <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                      <span style={{ fontSize: '0.75rem', background: 'rgba(184, 145, 70, 0.1)', color: 'var(--color-accent)', padding: '0.3rem 0.8rem', borderRadius: '20px', fontWeight: 600 }}>{svc.group}</span>
+                      <span style={{ fontSize: '0.75rem', background: '#f1f5f9', color: '#64748b', padding: '0.3rem 0.6rem', borderRadius: '20px', fontWeight: 600 }}>Sıra: {svc.order}</span>
+                    </div>
+                    <div style={{ display: 'flex', gap: '0.5rem' }}>
+                      <button 
+                        onClick={() => handleEditClick(svc)}
+                        style={{ background: '#f1f5f9', color: '#3b82f6', border: 'none', padding: '0.5rem', borderRadius: '8px', cursor: 'pointer', transition: 'background 0.2s' }}
+                        title="Düzenle"
+                      >
+                        <PenTool size={16} />
+                      </button>
+                      <button 
+                        onClick={() => handleDelete(svc.id)}
+                        style={{ background: '#fee2e2', color: '#ef4444', border: 'none', padding: '0.5rem', borderRadius: '8px', cursor: 'pointer', transition: 'background 0.2s' }}
+                        title="Sil"
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
+                  </div>
+                  <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '40px', height: '40px', background: 'rgba(184, 145, 70, 0.08)', color: 'var(--color-accent)', borderRadius: '10px' }}>
+                      {renderIconHelper(svc.icon, 20)}
+                    </div>
+                    <h4 style={{ fontSize: '1.1rem', margin: 0, color: 'var(--color-primary)', lineHeight: '1.4' }}>{svc.title}</h4>
+                  </div>
+                  <p style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)', margin: 0, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden', lineHeight: '1.5' }}>
+                    {svc.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
           )}
         </div>
       </div>
